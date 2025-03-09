@@ -17,6 +17,7 @@ The 3D model is made with coloured triangles.
 The program is open source.
 So, the program can be modified.
 The program can also be used for making games by changing the code.
+Good for about 100 triangles.
 
 Notepad Controls-
 
@@ -29,7 +30,7 @@ Put the colour value for the triangle which is in the form of red value, green v
 The values for this are between 0.0 and 1.0. Example value- 0.15
 Put the transparency value of the triangle which is in the form of alpha value in the file alpha.txt.
 The values for this are between 0.0 and 1.0. Example value- 1.0 for no transparency. The lesser the value then the triangle is more transparent.
-Example value-0.15
+Example value-0.15. Save all the text files. Values for the triangle should be greater than 1.
 After doing all this click on the program Rajneet Singh Ghuman Game Development to make it the current program being used and press the Enter key to show the result which
 is a triangle with the provided values.
 Click on the notepad program again to provide the values for the next triangle to make the 3D model.
