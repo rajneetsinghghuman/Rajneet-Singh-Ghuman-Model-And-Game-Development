@@ -3,6 +3,8 @@ Rajneet Singh Ghuman Model And Game Development
 Rajneet Singh Ghuman Model And Game Development is a set of programs made for 
 making 3D and 2D models for games and also making games using them.
 
+The program is available at https://github.com/rajneetsinghghuman/Rajneet-Singh-Ghuman-Model-And-Game-Development
+
 RAJNEET SINGH GHUMAN MODEL AND GAME DEVELOPMENT
 
 Rajneet Singh Ghuman Game Development.exe
