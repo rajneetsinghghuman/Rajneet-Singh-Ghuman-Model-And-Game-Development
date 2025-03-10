@@ -662,6 +662,8 @@ void draw2() {
         }
         p3d = 0;
             glRotatef(angle3d, ax, ay, az);
+            glEnable(GL_BLEND);
+            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
             glBegin(GL_TRIANGLES);
             while (p3d < 2000) {
                 glColor4f(red3d[p3d], green3d[p3d], blue3d[p3d], alpha3d[p3d]);
@@ -673,6 +675,7 @@ void draw2() {
                 p3d = p3d + 1;
             }
             glEnd();
+            glDisable(GL_BLEND);
         glPopMatrix();
         SwapBuffers(hdc);
     }
@@ -912,6 +915,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         case 0x41://a rotate
             //move = 1;
             //rotate = 1;
+            if (selecttriangle == 3) {
+                selecttriangle = 4;
+            }
             break;
         case 0x50://p
             break;
@@ -960,11 +966,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                 move = 1;
                 rotate = 1;
                 selecttriangle = 1;
-            }
-            if (selecttriangle == 2) {
-                selecttriangle = 0;
-            }
-            */
+            }*/
             move = 1;
             rotate = 1;
             selecttriangle = 2;
