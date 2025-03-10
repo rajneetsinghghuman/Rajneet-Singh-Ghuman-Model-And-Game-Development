@@ -61,6 +61,7 @@ In the selection mode the file triangledata.txt can be opened and used which is 
 This file gives the data of the selected triangle.
 Close the file triangledata.txt before selecting a new triangle.
 Then the file triangledata.txt can be opened again after selecting a new triangle.
+Press the A key to get out of the triangle selection mode.
 Press the L key to load the 3D model at the start.
 Press the S key to save the 3D model in the end.
 
