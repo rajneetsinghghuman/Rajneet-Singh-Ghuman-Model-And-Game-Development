@@ -101,7 +101,7 @@ void draw2() {
         mode = 5;
     }
     if (mode == 2) {
-        gluOrtho2D(0, 1536, 564, 0);
+        gluOrtho2D(0, 1536, 614, 0);
         glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
         mode = 4;
@@ -788,7 +788,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
     hInst = hInstance; // Store instance handle in our global variable
 
     HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_POPUP,
-        0, 0, 1536, 564, nullptr, nullptr, hInstance, nullptr); //x=1536 and y=864 will give fullscreen
+        0, 0, 1536, 614, nullptr, nullptr, hInstance, nullptr); //x=1536 and y=864 will give fullscreen
     // Get the device context
     //hdc = GetDC(hWnd);
     // Set up the pixel format
@@ -810,7 +810,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
         wglMakeCurrent(hdc, hrc);
         // Initialize OpenGL
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-        glViewport(0, 0, 1536, 564); //x=1536 and y=864 will give fullscreen
+        glViewport(0, 0, 1536, 614); //x=1536 and y=864 will give fullscreen
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
         mode = 3;
@@ -865,6 +865,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             if (rotate == 2) {
                 up = 2;
             }
+            if (rotate == 2 && point == 1) {
+                ay = 0.0f;
+            }
+            if (rotate == 2 && point == 2) {
+                ax = 0.0f;
+            }
             if (point == 2 && move == 2 && rotate == 1) {
                 up = 2;
             }
@@ -876,6 +882,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             if (rotate == 2) {
                 down = 2;
             }
+            if (rotate == 2 && point == 1) {
+                ay = 0.0f;
+            }
+            if (rotate == 2 && point == 2) {
+                ax = 0.0f;
+            }
             if (point == 2 && move == 2 && rotate == 1) {
                 down = 2;
             }
@@ -886,6 +898,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             }
             if (rotate == 2) {
                 right = 2;
+            }
+            if (rotate == 2 && point == 1) {
+                ay = 0.0f;
+            }
+            if (rotate == 2 && point == 2) {
+                ax = 0.0f;
             }
             if (point == 2 && move == 2 && rotate == 1) {
                 right = 2;
@@ -901,6 +919,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             }
             if (rotate == 2) {
                 left = 2;
+            }
+            if (rotate == 2 && point == 1) {
+                ay = 0.0f;
+            }
+            if (rotate == 2 && point==2) {
+                ax = 0.0f;
             }
             if (point == 2 && move == 2 && rotate == 1) {
                 left = 2;
@@ -944,8 +968,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             }
             break;
         case 0x4E://n zoom
-            originm = 2;
-            mode = 2;
+            //originm = 2;
+            //mode = 2;
             break;
         case 0x53://s
             savemodel3d = 1;
@@ -967,12 +991,17 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                 rotate = 1;
                 selecttriangle = 1;
             }*/
+            if (selecttriangle != 3) {
+                selecttriangle = 2;
+            }
+            if (selecttriangle == 3) {
+                selecttriangle = 4;
+            }
             move = 1;
             rotate = 1;
-            selecttriangle = 2;
             break;
         case 0x48://h
-            mode = 3;
+            //mode = 3;
             break;
         case 0x42://b
             break;
