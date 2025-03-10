@@ -39,6 +39,7 @@ In the selection mode the file triangledata.txt can be opened and used which is 
 This file gives the data of the selected triangle.
 Close the file triangledata.txt before selecting a new triangle.
 Then the file triangledata.txt can be opened again after selecting a new triangle.
+Do not intersect the triangles.
 
 
 Rajneet Singh Ghuman Game Development.exe Controls-
