@@ -163,10 +163,10 @@ void draw2() {
         //glEnable(GL_CULL_FACE);
         //glCullFace(GL_BACK);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        //glMatrixMode(GL_MODELVIEW);
-        //glLoadIdentity();
-        glPushMatrix();
-        glTranslatef(0.0f, 0.0f, -30.0f);
+        glMatrixMode(GL_MODELVIEW);
+        glLoadIdentity();
+        //glPushMatrix();
+        //glTranslatef(0.0f, 0.0f, -30.0f);
         p3d = 0;
         if (array3d == 0) {
             p3d2 = 0; loadmodel3d = 0;
@@ -687,28 +687,37 @@ void draw2() {
             savemodel3d = 2;
         }
         p3d = 0;
-            glRotatef(angle3d, ax, ay, az);
-            glEnable(GL_BLEND);
-            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-            glDepthMask(GL_FALSE);
-            glBegin(GL_TRIANGLES);
-            while (p3d < 2000) {
+            //glRotatef(angle3d, ax, ay, az);
+            //glEnable(GL_BLEND);
+            //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+            //glDepthMask(GL_FALSE);
+            //glBegin(GL_TRIANGLES);
+        glTranslatef(0.0f, 0.0f, -30.0f);
+        //glPushMatrix();
+        glRotatef(angle3d, ax, ay, az);
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glDepthMask(GL_TRUE);
+        while (p3d < 2000) {
+            glPushMatrix();
                 glColor4f(red3d[p3d], green3d[p3d], blue3d[p3d], alpha3d[p3d]);
-                //glPushMatrix();
+                glBegin(GL_TRIANGLES);
                 glVertex3f(x3d1[p3d], y3d1[p3d], z3d1[p3d]);
                 glVertex3f(x3d2[p3d], y3d2[p3d], z3d2[p3d]);
                 glVertex3f(x3d3[p3d], y3d3[p3d], z3d3[p3d]);
+                glEnd();
+                glPopMatrix();
                 //glPopMatrix();
                 p3d = p3d + 1;
             }
-            glEnd();
+            //glEnd();
             glDisable(GL_BLEND);
-            glDepthMask(GL_TRUE);
+            //glDepthMask(GL_TRUE);
             //glDisable(GL_CULL_FACE);
             //glDisable(GL_LIGHT0);
             //glDisable(GL_LIGHTING);
             glDisable(GL_DEPTH_TEST);
-        glPopMatrix();
+        //glPopMatrix();
         SwapBuffers(hdc);
     }
     SendMessage(hWnd, WM_NULL, 0, 0);
@@ -833,7 +842,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
         pfd.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;;
         pfd.iPixelType = PFD_TYPE_RGBA;
         pfd.cColorBits = 24;
-        pfd.cDepthBits = 16;
+        pfd.cDepthBits = 32;
         pfd.iLayerType = PFD_MAIN_PLANE;
         int pf = ChoosePixelFormat(hdc, &pfd);
         SetPixelFormat(hdc, pf, &pfd);
