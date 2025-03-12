@@ -49,6 +49,12 @@ std::string filec34 = "0"; std::string filec64 = "0"; std::string filec35 = "0";
 std::string filec37 = "0"; std::string filec67 = "0"; std::string filec38 = "0"; std::string filec68 = "0"; std::string filec39 = "0"; std::string filec69 = "0";
 std::string filec310 = "0"; std::string filec610 = "0"; std::string filec311 = "0"; std::string filec611 = "0"; std::string filec312 = "0"; std::string filec612 = "0";
 std::string filec313 = "0"; std::string filec613 = "0";
+//GLfloat ambient[] = { 1.0f,1.0f,1.0f,1.0f };
+//GLfloat light_position[] = { 80.0f,80.0f,80.0f,0.0f };
+//GLfloat mat_ambient[] = { 0.01f,0.01f,0.01f,1.0f };
+//GLfloat mat_diffuse[] = { 1.0f,1.0f,1.0f,1.0f };
+//GLfloat mat_specular[] = { 1.0f,1.0f,1.0f,1.0f };
+//GLfloat mat_shininess = 0.0f;
 //2d
 float red[5184]; float green[5184]; float blue[5184]; float alpha[5184];
 int screenwidth = 1; int screenheight = 1; int p = 0; int p2 = 0; int screenmultiplier = 16; int screenwidth2 = 0; int screenheight2 = 0;
@@ -136,7 +142,27 @@ void draw2() {
         SwapBuffers(hdc);
     }
     if (mode == 5) {
-        glClear(GL_COLOR_BUFFER_BIT);
+        glEnable(GL_DEPTH_TEST);
+        glDepthFunc(GL_LEQUAL);
+        //Lighting
+        //glEnable(GL_LIGHTING);
+        //GLfloat light_position[] = { 0.0f,0.0f,1.0f,0.0f };
+        //glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+        //glLightfv(GL_LIGHT0, GL_AMBIENT, ambient);
+        //glEnable(GL_LIGHT0);
+        //glLightfv(GL_LIGHT0, GL_AMBIENT,ambient);
+        //glEnable(GL_LIGHT0);
+        //ambient material propperties
+        //GLfloat mat_ambient[] = { 0.2f,0.2f,2.0f,1.0f };
+        //glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
+        //glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_diffuse);
+        //glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+        //glMaterialf(GL_FRONT, GL_SHININESS, mat_shininess);
+        glDepthRange(0.1f,100.0f);
+        glClearDepth(1.0f);
+        //glEnable(GL_CULL_FACE);
+        //glCullFace(GL_BACK);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         //glMatrixMode(GL_MODELVIEW);
         //glLoadIdentity();
         glPushMatrix();
@@ -664,6 +690,7 @@ void draw2() {
             glRotatef(angle3d, ax, ay, az);
             glEnable(GL_BLEND);
             glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+            glDepthMask(GL_FALSE);
             glBegin(GL_TRIANGLES);
             while (p3d < 2000) {
                 glColor4f(red3d[p3d], green3d[p3d], blue3d[p3d], alpha3d[p3d]);
@@ -676,6 +703,11 @@ void draw2() {
             }
             glEnd();
             glDisable(GL_BLEND);
+            glDepthMask(GL_TRUE);
+            //glDisable(GL_CULL_FACE);
+            //glDisable(GL_LIGHT0);
+            //glDisable(GL_LIGHTING);
+            glDisable(GL_DEPTH_TEST);
         glPopMatrix();
         SwapBuffers(hdc);
     }
