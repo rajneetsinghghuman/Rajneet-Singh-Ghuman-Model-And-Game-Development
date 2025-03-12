@@ -407,11 +407,10 @@ void draw2() {
                 loadmodel3d = 2;
             }
         }
-        if (openeditor == 15) {
+        if (openeditor == 1) {
             //std::ofstream c3d2("3D Model Complete\\control.txt", std::ios::out);
             //c3d2 << "1";
-            p3dnumber = p3dnumber - 1;
-            openeditor = 16;
+            openeditor = 2;
         }
         if (openeditor == 2) {
             /*
@@ -488,11 +487,6 @@ void draw2() {
                 loadmodel3d = 2;
                 openeditor = 3;
             }
-        }
-        if (openeditor == 1) {
-            //std::ofstream c3d2("3D Model Complete\\control.txt", std::ios::out);
-            //c3d2 << "1";
-            openeditor = 2;
         }
         if (selecttriangle == 2 && move != 2 && rotate != 2) {
             if (right == 2) {
@@ -633,7 +627,7 @@ void draw2() {
             x3d2[movet] = 0.0f; y3d2[movet] = -1000000.0f + y3di; z3d2[movet] = -0.8f;
             x3d3[movet] = 0.0001f; y3d3[movet] = -1000000.0f + y3di; z3d3[movet] = -0.8f;
             red3d[movet] = 0.0f; green3d[movet] = 0.0f; blue3d[movet] = 0.0f; alpha3d[movet] = 0.0f; //Use background colour
-
+            p3dnumber = p3dnumber - 1;
             deletetriangle = 2;
         }
         if (array3d == 2) {
@@ -648,19 +642,19 @@ void draw2() {
             array3d = 3;
         }
         if (savemodel3d == 1) {
-            std::ofstream x3d11("3D Model Complete\\x3d1.txt", std::ios::app);
-            std::ofstream x3d21("3D Model Complete\\x3d2.txt", std::ios::app);
-            std::ofstream x3d31("3D Model Complete\\x3d3.txt", std::ios::app);
-            std::ofstream y3d11("3D Model Complete\\y3d1.txt", std::ios::app);
-            std::ofstream y3d21("3D Model Complete\\y3d2.txt", std::ios::app);
-            std::ofstream y3d31("3D Model Complete\\y3d3.txt", std::ios::app);
-            std::ofstream z3d11("3D Model Complete\\z3d1.txt", std::ios::app);
-            std::ofstream z3d21("3D Model Complete\\z3d2.txt", std::ios::app);
-            std::ofstream z3d31("3D Model Complete\\z3d3.txt", std::ios::app);
-            std::ofstream red3d1("3D Model Complete\\red3d.txt", std::ios::app);
-            std::ofstream green3d1("3D Model Complete\\green3d.txt", std::ios::app);
-            std::ofstream blue3d1("3D Model Complete\\blue3d.txt", std::ios::app);
-            std::ofstream alpha3d1("3D Model Complete\\alpha3d.txt", std::ios::app);
+            std::ofstream x3d11("3D Model Complete\\x3d1.txt", std::ios::out);
+            std::ofstream x3d21("3D Model Complete\\x3d2.txt", std::ios::out);
+            std::ofstream x3d31("3D Model Complete\\x3d3.txt", std::ios::out);
+            std::ofstream y3d11("3D Model Complete\\y3d1.txt", std::ios::out);
+            std::ofstream y3d21("3D Model Complete\\y3d2.txt", std::ios::out);
+            std::ofstream y3d31("3D Model Complete\\y3d3.txt", std::ios::out);
+            std::ofstream z3d11("3D Model Complete\\z3d1.txt", std::ios::out);
+            std::ofstream z3d21("3D Model Complete\\z3d2.txt", std::ios::out);
+            std::ofstream z3d31("3D Model Complete\\z3d3.txt", std::ios::out);
+            std::ofstream red3d1("3D Model Complete\\red3d.txt", std::ios::out);
+            std::ofstream green3d1("3D Model Complete\\green3d.txt", std::ios::out);
+            std::ofstream blue3d1("3D Model Complete\\blue3d.txt", std::ios::out);
+            std::ofstream alpha3d1("3D Model Complete\\alpha3d.txt", std::ios::out);
             p3d = 0;
             while (p3d < 2000){
                 x3d11 << x3d1[p3d]; x3d11 << ",";
@@ -679,7 +673,7 @@ void draw2() {
                 p3d = p3d + 1;
             }
             std::ofstream fnot("3D Model\\numberoftriangles.txt", std::ios::out);
-            fnot << p3dnumber-1;
+            fnot << p3dnumber;
             fnot.close();
             x3d11.close(); x3d21.close(); x3d31.close(); y3d11.close(); y3d21.close(); y3d31.close();
             z3d11.close(); z3d21.close(); z3d31.close(); red3d1.close(); green3d1.close(); blue3d1.close();
@@ -1058,6 +1052,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         case VK_ESCAPE:
             a = false;
             d = 1;
+            wglMakeCurrent(NULL, NULL);
             wglDeleteContext(hrc);
             ReleaseDC(hWnd, hdc);
             DestroyWindow(hWnd);
