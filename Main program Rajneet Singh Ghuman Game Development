@@ -41,7 +41,7 @@ float red13d = 0.92f; float green13d = 0.23f; float blue13d = 0.23f; float alpha
 float z3dix = 0.0f; int p3dnumber=0; int selecttriangle = 0; int movet = 0; int deletetriangle = 0;
 float ax = 0.0f; float ay = 0.0f; float az = 0.0f; float filec2 = 0.0f; float p3dnumberb = 0.0f;
 std::string filec = "0"; std::string filect = "0";  std::string filec3 = "0"; std::string filec6 = "0"; std::string filech = "0";
-int openeditor = 0; int loadmodel3d = 0; int savemodel3d = 0; 
+int openeditor = 0; int loadmodel3d = 0; int savemodel3d = 0; int e = 0; int l = 0;
 int numt1 = 0; int numt2 = 0; int numt3 = 0; int numt4 = 0; int numt5 = 0; int numt6 = 0; int numt7 = 0; int numt8 = 0; int numt9 = 0; int numt10 = 0;
 int numt11 = 0; int numt12 = 0; int numt13 = 0;
 std::string filec31 = "0"; std::string filec61 = "0"; std::string filec32 = "0"; std::string filec62 = "0"; std::string filec33 = "0"; std::string filec63 = "0";
@@ -49,12 +49,13 @@ std::string filec34 = "0"; std::string filec64 = "0"; std::string filec35 = "0";
 std::string filec37 = "0"; std::string filec67 = "0"; std::string filec38 = "0"; std::string filec68 = "0"; std::string filec39 = "0"; std::string filec69 = "0";
 std::string filec310 = "0"; std::string filec610 = "0"; std::string filec311 = "0"; std::string filec611 = "0"; std::string filec312 = "0"; std::string filec612 = "0";
 std::string filec313 = "0"; std::string filec613 = "0";
-//GLfloat ambient[] = { 1.0f,1.0f,1.0f,1.0f };
-//GLfloat light_position[] = { 80.0f,80.0f,80.0f,0.0f };
-//GLfloat mat_ambient[] = { 0.01f,0.01f,0.01f,1.0f };
-//GLfloat mat_diffuse[] = { 1.0f,1.0f,1.0f,1.0f };
-//GLfloat mat_specular[] = { 1.0f,1.0f,1.0f,1.0f };
-//GLfloat mat_shininess = 0.0f;
+GLfloat ambient[] = { 0.2f,0.2f,0.2f,1.0f };
+GLfloat diffuse[] = { 0.8f,0.8f,0.8f,1.0f };
+GLfloat light_position[] = { 110.0f,110.0f,110.0f,0.0f };
+//GLfloat mat_ambient[] = { 0.5f,0.5f,0.5f,1.0f };
+//GLfloat mat_diffuse[] = { 0.5f,0.5f,0.5f,1.0f };
+//GLfloat mat_specular[] = { 0.5f,0.5f,0.5f,1.0f };
+//GLfloat mat_shininess = 100.0f;
 //2d
 float red[5184]; float green[5184]; float blue[5184]; float alpha[5184];
 int screenwidth = 1; int screenheight = 1; int p = 0; int p2 = 0; int screenmultiplier = 16; int screenwidth2 = 0; int screenheight2 = 0;
@@ -145,26 +146,35 @@ void draw2() {
         glEnable(GL_DEPTH_TEST);
         glDepthFunc(GL_LEQUAL);
         //Lighting
-        //glEnable(GL_LIGHTING);
         //GLfloat light_position[] = { 0.0f,0.0f,1.0f,0.0f };
         //glLightfv(GL_LIGHT0, GL_POSITION, light_position);
         //glLightfv(GL_LIGHT0, GL_AMBIENT, ambient);
         //glEnable(GL_LIGHT0);
         //glLightfv(GL_LIGHT0, GL_AMBIENT,ambient);
-        //glEnable(GL_LIGHT0);
         //ambient material propperties
         //GLfloat mat_ambient[] = { 0.2f,0.2f,2.0f,1.0f };
         //glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
         //glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_diffuse);
         //glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
         //glMaterialf(GL_FRONT, GL_SHININESS, mat_shininess);
-        glDepthRange(0.1f,100.0f);
+        glDepthRange(0.1f, 100.0f);
         glClearDepth(1.0f);
         //glEnable(GL_CULL_FACE);
         //glCullFace(GL_BACK);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
+        if (e == 1) {
+        glEnable(GL_LIGHTING);
+        glEnable(GL_LIGHT0);
+        glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+        glLightfv(GL_LIGHT0, GL_AMBIENT, ambient);
+        glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuse);
+        }
+        //glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, mat_ambient);
+        //glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, mat_diffuse);
+        //glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, mat_specular);
+        //glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, mat_shininess);
         //glPushMatrix();
         //glTranslatef(0.0f, 0.0f, -30.0f);
         p3d = 0;
@@ -548,6 +558,12 @@ void draw2() {
             }
             //array3d = 2;
         }
+        if (angle3d >= 360.0f) {
+            angle3d = 0.0f;
+        }
+        if (angle3d <= -360.0f) {
+            angle3d = 0.0f;
+        }
         if (rotate == 2) {
             if (right == 2 && point == 1) {
                 angle3d = angle3d + 1.0f;
@@ -687,13 +703,18 @@ void draw2() {
             //glDepthMask(GL_FALSE);
             //glBegin(GL_TRIANGLES);
         glTranslatef(0.0f, 0.0f, -30.0f);
-        //glPushMatrix();
         glRotatef(angle3d, ax, ay, az);
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glDepthMask(GL_TRUE);
+        if (e == 1) {
+            glEnable(GL_COLOR_MATERIAL);
+        }
         while (p3d < 2000) {
             glPushMatrix();
+            if (e == 1) {
+                glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
+            }
                 glColor4f(red3d[p3d], green3d[p3d], blue3d[p3d], alpha3d[p3d]);
                 glBegin(GL_TRIANGLES);
                 glVertex3f(x3d1[p3d], y3d1[p3d], z3d1[p3d]);
@@ -701,17 +722,15 @@ void draw2() {
                 glVertex3f(x3d3[p3d], y3d3[p3d], z3d3[p3d]);
                 glEnd();
                 glPopMatrix();
-                //glPopMatrix();
                 p3d = p3d + 1;
             }
-            //glEnd();
+        if (e == 1) {
+            glDisable(GL_COLOR_MATERIAL);
+            glDisable(GL_LIGHT0);
+            glDisable(GL_LIGHTING);
+        }
             glDisable(GL_BLEND);
-            //glDepthMask(GL_TRUE);
-            //glDisable(GL_CULL_FACE);
-            //glDisable(GL_LIGHT0);
-            //glDisable(GL_LIGHTING);
             glDisable(GL_DEPTH_TEST);
-        //glPopMatrix();
         SwapBuffers(hdc);
     }
     SendMessage(hWnd, WM_NULL, 0, 0);
@@ -833,7 +852,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
         memset(&pfd, 0, sizeof(pfd));
         pfd.nSize = sizeof(pfd);
         pfd.nVersion = 1;
-        pfd.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;;
+        pfd.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
         pfd.iPixelType = PFD_TYPE_RGBA;
         pfd.cColorBits = 24;
         pfd.cDepthBits = 32;
@@ -1036,6 +1055,17 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             rotate = 1;
             break;
         case 0x48://h
+            if (e == 2 && l == 0) {
+                e = 0;
+            }
+            if (e == 1 && l==1) {
+                l = 0;
+                e = 2;
+            }
+            if (e == 0 && l==0) {
+                e = 1;
+                l = 1;
+            }
             //mode = 3;
             break;
         case 0x42://b
