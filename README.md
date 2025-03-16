@@ -9,7 +9,7 @@ RAJNEET SINGH GHUMAN MODEL AND GAME DEVELOPMENT
 
 Rajneet Singh Ghuman L Game Development.exe
 
-Rajneet Singh Ghuman Game Development.exe is a program made for Microsoft Windows 11 with Microsoft Visual Studio 2022.
+Rajneet Singh Ghuman Game L Development.exe is a program made for Microsoft Windows 11 with Microsoft Visual Studio 2022.
 The program is made for the screen resolution 1920 x 1080 pixels and minimum 60 fps.
 This is the minimum screen resolution required for the program.
 This program is used for making 3D models and viewing them.
@@ -29,7 +29,7 @@ Put the colour value for the triangle which is in the form of red value, green v
 The values for this are between 0.0 and 1.0. Example value- 0.15
 Put the transparency value of the triangle which is in the form of alpha value in the file alpha.txt.
 The values for this are between 0.0 and 1.0. Example value- 1.0 for no transparency. The lesser the value then the triangle is more transparent.
-Example value-0.15
+Example value-0.15. Save all the text files.
 After doing all this click on the program Rajneet Singh Ghuman L Game Development to make it the current program being used and press the Enter key to show the result which
 is a triangle with the provided values.
 Click on the notepad program again to provide the values for the next triangle to make the 3D model.
