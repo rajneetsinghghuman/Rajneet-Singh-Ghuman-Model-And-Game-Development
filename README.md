@@ -7,7 +7,7 @@ The program is available at https://github.com/rajneetsinghghuman/Rajneet-Singh-
 
 RAJNEET SINGH GHUMAN MODEL AND GAME DEVELOPMENT
 
-Rajneet Singh Ghuman Game Development.exe
+Rajneet Singh Ghuman L Game Development.exe
 
 Rajneet Singh Ghuman Game Development.exe is a program made for Microsoft Windows 11 with Microsoft Visual Studio 2022.
 The program is made for the screen resolution 1920 x 1080 pixels and minimum 60 fps.
@@ -17,7 +17,6 @@ The 3D model is made with coloured triangles.
 The program is open source.
 So, the program can be modified.
 The program can also be used for making games by changing the code.
-Good for about 100 triangles.
 
 Notepad Controls-
 
@@ -30,8 +29,8 @@ Put the colour value for the triangle which is in the form of red value, green v
 The values for this are between 0.0 and 1.0. Example value- 0.15
 Put the transparency value of the triangle which is in the form of alpha value in the file alpha.txt.
 The values for this are between 0.0 and 1.0. Example value- 1.0 for no transparency. The lesser the value then the triangle is more transparent.
-Example value-0.15. Save all the text files. Values for the triangle should be greater than 1.
-After doing all this click on the program Rajneet Singh Ghuman Game Development to make it the current program being used and press the Enter key to show the result which
+Example value-0.15
+After doing all this click on the program Rajneet Singh Ghuman L Game Development to make it the current program being used and press the Enter key to show the result which
 is a triangle with the provided values.
 Click on the notepad program again to provide the values for the next triangle to make the 3D model.
 Resize and position the notepad window make it work with the program Rajneet Singh Ghuman Game Development.
@@ -39,10 +38,9 @@ In the selection mode the file triangledata.txt can be opened and used which is 
 This file gives the data of the selected triangle.
 Close the file triangledata.txt before selecting a new triangle.
 Then the file triangledata.txt can be opened again after selecting a new triangle.
-Do not intersect the triangles.
 
 
-Rajneet Singh Ghuman Game Development.exe Controls-
+Rajneet Singh Ghuman L Game Development.exe Controls-
 
 Press the M key to move the 3D model after pressing X key or Y key.
 After pressing the M key and the X key, press the Left arrow key or Right arrow key to move the 3D model in the direction of the X axis. This is X mode.
@@ -61,7 +59,11 @@ In the selection mode the file triangledata.txt can be opened and used which is 
 This file gives the data of the selected triangle.
 Close the file triangledata.txt before selecting a new triangle.
 Then the file triangledata.txt can be opened again after selecting a new triangle.
-Press the A key to get out of the triangle selection mode.
+Press the B key to open a dialog box having the data of the selected triangle.
+This is for faster use. Close the dialog box using OK or Cancel button.
+Click on the 3D model window to make it the current window being used.
+Press the G key to go in and out of the triangle selection mode.
+Press the H key to go in and out of light mode.
 Press the L key to load the 3D model at the start.
 Press the S key to save the 3D model in the end.
 
