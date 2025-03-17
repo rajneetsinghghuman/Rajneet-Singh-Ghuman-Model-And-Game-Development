@@ -9,7 +9,7 @@ RAJNEET SINGH GHUMAN MODEL AND GAME DEVELOPMENT
 
 Rajneet Singh Ghuman L Game Development.exe
 
-Rajneet Singh Ghuman Game L Development.exe is a program made for Microsoft Windows 11 with Microsoft Visual Studio 2022.
+Rajneet Singh Ghuman Game Development.exe is a program made for Microsoft Windows 11 with Microsoft Visual Studio 2022.
 The program is made for the screen resolution 1920 x 1080 pixels and minimum 60 fps.
 This is the minimum screen resolution required for the program.
 This program is used for making 3D models and viewing them.
@@ -17,6 +17,7 @@ The 3D model is made with coloured triangles.
 The program is open source.
 So, the program can be modified.
 The program can also be used for making games by changing the code.
+2000 triangles can be made.
 
 Notepad Controls-
 
@@ -29,7 +30,7 @@ Put the colour value for the triangle which is in the form of red value, green v
 The values for this are between 0.0 and 1.0. Example value- 0.15
 Put the transparency value of the triangle which is in the form of alpha value in the file alpha.txt.
 The values for this are between 0.0 and 1.0. Example value- 1.0 for no transparency. The lesser the value then the triangle is more transparent.
-Example value-0.15. Save all the text files.
+Example value-0.15. Save all the text files. Go out of triangle selection mode which can be done with the G key.
 After doing all this click on the program Rajneet Singh Ghuman L Game Development to make it the current program being used and press the Enter key to show the result which
 is a triangle with the provided values.
 Click on the notepad program again to provide the values for the next triangle to make the 3D model.
@@ -38,7 +39,6 @@ In the selection mode the file triangledata.txt can be opened and used which is 
 This file gives the data of the selected triangle.
 Close the file triangledata.txt before selecting a new triangle.
 Then the file triangledata.txt can be opened again after selecting a new triangle.
-Do not intersect the triangles.
 
 
 Rajneet Singh Ghuman L Game Development.exe Controls-
@@ -74,5 +74,8 @@ When making a new 3D model always put 0 as the value in numberoftriangles.txt wh
 The value in numberoftriangles.txt should be 0 or always positive.
 The saved 3D model will be in the 3D model complete folder in the from of text files.
 The folder can be renamed to save the 3D model for future use.
+To start a new project put 0 in numberoftriangles.txt file and delete deletedtriangles.txt file.
+Do not intersect the triangles. The deleted triangles are also counted in the triangle selection mode, so, the red
+triangle will not be shown in all the moves. Load the 3d Model only one time after the program has started.
 
 Thank you.
