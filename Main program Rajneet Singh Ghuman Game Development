@@ -56,7 +56,7 @@ float ax = 0.0f; float ay = 0.0f; float az = 0.0f; float filec2 = 0.0f; float p3
 std::string filec = "0"; std::string filect = "0";  std::string filec3 = "0"; std::string filec6 = "0"; std::string filech = "0";
 int openeditor = 0; int loadmodel3d = 0; int savemodel3d = 0; int e = 0; int l = 0;
 int numt1 = 0; int numt2 = 0; int numt3 = 0; int numt4 = 0; int numt5 = 0; int numt6 = 0; int numt7 = 0; int numt8 = 0; int numt9 = 0; int numt10 = 0;
-int numt11 = 0; int numt12 = 0; int numt13 = 0;
+int numt11 = 0; int numt12 = 0; int numt13 = 0; std::string filec31t = "0"; std::string filec61t = "0"; int numt1t = 0;
 std::string filec31 = "0"; std::string filec61 = "0"; std::string filec32 = "0"; std::string filec62 = "0"; std::string filec33 = "0"; std::string filec63 = "0";
 std::string filec34 = "0"; std::string filec64 = "0"; std::string filec35 = "0"; std::string filec65 = "0"; std::string filec36 = "0"; std::string filec66 = "0";
 std::string filec37 = "0"; std::string filec67 = "0"; std::string filec38 = "0"; std::string filec68 = "0"; std::string filec39 = "0"; std::string filec69 = "0";
@@ -101,6 +101,7 @@ std::wstring tvaluealpha = L"0";
 LPCTSTR tvalue2alpha = L"0";
 //HWND hWndDialog = DialogBoxW(hInst, MAKEINTRESOURCE(IDD_DIALOG1), hWnd, tdata);
 //HWND hWndDialog = CreateDialogW(hInst, MAKEINTRESOURCE(IDD_DIALOG1), hWnd, tdata);
+int deletetriangle2 = 0; int p3dnumber2 = -2; int p3dnumber3 = 0; int deletedpoints[2000];
 //Variables 2D
 float red[5184]; float green[5184]; float blue[5184]; float alpha[5184];
 int screenwidth = 1; int screenheight = 1; int p = 0; int p2 = 0; int screenmultiplier = 16; int screenwidth2 = 0; int screenheight2 = 0;
@@ -251,7 +252,7 @@ if (mode == 5) {
     //glTranslatef(0.0f, 0.0f, -30.0f);
     p3d = 0;
     if (array3d == 0) {
-        p3d2 = 0; loadmodel3d = 0;
+        p3d2 = 0; loadmodel3d = 0; deletetriangle2 = 0; p3dnumber2 = -2; p3dnumber3 = 0;
         numt1 = 0; numt2 = 0; numt3 = 0; numt4 = 0; numt5 = 0; numt6 = 0; numt7 = 0; numt8 = 0; numt9 = 0; numt10 = 0;
         numt11 = 0; numt12 = 0; numt13 = 0;
         filec31 = ""; filec61 = "";  filec32 = "";  filec62 = "";  filec33 = "";  filec63 = "";
@@ -259,7 +260,9 @@ if (mode == 5) {
         filec37 = ""; filec67 = ""; filec38 = "";  filec68 = ""; filec39 = ""; filec69 = "";
         filec310 = ""; filec610 = "";  filec311 = "";  filec611 = "";  filec312 = ""; filec612 = "";
         filec313 = ""; filec613 = "";
+        filec31t = ""; filec61t = ""; numt1t = 0;
         while (p3d < 2000) {
+            deletedpoints[p3d] = -15;
             red3d[p3d] = 0.0f; green3d[p3d] = 0.0f; blue3d[p3d] = 0.0f; alpha3d[p3d] = 0.0f;
             x3d1[p3d] = -0.0001f; y3d1[p3d] = -1000000.0f; z3d1[p3d] = -0.8f;
             x3d2[p3d] = 0.0000f; y3d2[p3d] = -1000000.1f; z3d2[p3d] = -0.8f;
@@ -284,12 +287,34 @@ if (mode == 5) {
         filec310 = ""; filec610 = "";  filec311 = "";  filec611 = "";  filec312 = ""; filec612 = "";
         filec313 = ""; filec613 = "";
     }
-    while (loadmodel3d == 1 && p3d2 < 2000) {
+    //while(loadmodel3d == 1 && p3d2 < 2000) 
+    if (loadmodel3d == 1) {
+        std::ifstream x3d18t("3D Model Complete\\deletedtriangles.txt", std::ios::in);
+        getline(x3d18t, filect);
+        filec31t = filect;
+        //p3d = 0; numt = 0;
+        //while (p3d < 30000 || numt < 2000) {
+        p3d2 = 0;
+        while (p3d2 < (sizeof(filec31t) / sizeof(filec31t[0]))) {
+            filech = filec31t[p3d2];
+            if (filech == ",") {
+                x3d1[numt1t] = std::stof(filec61t);
+                filec61 = "";
+                numt1t = numt1t + 1;
+            }
+            if (filech != ",") {
+                filec61t += filec31t[p3d2];
+            }
+            p3d2 = p3d2 + 1;
+        }
+        x3d18t.close();
         std::ifstream x3d18("3D Model Complete\\x3d1.txt", std::ios::in);
         getline(x3d18, filect);
         filec31 = filect;
         //p3d = 0; numt = 0;
         //while (p3d < 30000 || numt < 2000) {
+        p3d2 = 0;
+        while (p3d2 < (sizeof(filec31) / sizeof(filec31[0]))) {
         filech = filec31[p3d2];
         if (filech == ",") {
             x3d1[numt1] = std::stof(filec61);
@@ -299,15 +324,16 @@ if (mode == 5) {
         if (filech != ",") {
             filec61 += filec31[p3d2];
         }
-        //p3d = p3d + 1;
-    //}
-    //p3d = 0;
+        p3d2 = p3d2 + 1;
+        }
         x3d18.close();
         std::ifstream x3d28("3D Model Complete\\x3d2.txt", std::ios::in);
         getline(x3d28, filect);
         filec32 = filect;
         //p3d = 0; numt2 = 0;
         //while (p3d < 30000 || numt < 2000) {
+        p3d2 = 0;
+        while (p3d2 < (sizeof(filec32) / sizeof(filec32[0]))) {
         filech = filec32[p3d2];
         if (filech == ",") {
             x3d2[numt2] = std::stof(filec62);
@@ -317,13 +343,14 @@ if (mode == 5) {
         if (filech != ",") {
             filec62 += filec32[p3d2];
         }
-        //p3d = p3d + 1;
-    //}
-    //p3d = 0;
+        p3d2 = p3d2 + 1;
+        }
         x3d28.close();
         std::ifstream x3d38("3D Model Complete\\x3d3.txt", std::ios::in);
         getline(x3d38, filect);
         filec33 = filect;
+        p3d2 = 0;
+        while (p3d2 < (sizeof(filec33) / sizeof(filec33[0]))) {
         filech = filec33[p3d2];
         if (filech == ",") {
             x3d3[numt3] = std::stof(filec63);
@@ -333,11 +360,14 @@ if (mode == 5) {
         if (filech != ",") {
             filec63 += filec33[p3d2];
         }
+        p3d2 = p3d2 + 1;
+        }
         x3d38.close();
         std::ifstream y3d18("3D Model Complete\\y3d1.txt", std::ios::in);
         getline(y3d18, filect);
         filec34 = filect;
-
+        p3d2 = 0;
+        while (p3d2 < (sizeof(filec34) / sizeof(filec34[0]))) {
         filech = filec34[p3d2];
         if (filech == ",") {
             y3d1[numt4] = std::stof(filec64);
@@ -347,12 +377,14 @@ if (mode == 5) {
         if (filech != ",") {
             filec64 += filec34[p3d2];
         }
-
+        p3d2 = p3d2 + 1;
+        }
         y3d18.close();
         std::ifstream y3d28("3D Model Complete\\y3d2.txt", std::ios::in);
         getline(y3d28, filect);
         filec35 = filect;
-
+        p3d2 = 0;
+        while (p3d2 < (sizeof(filec35) / sizeof(filec35[0]))) {
         filech = filec35[p3d2];
         if (filech == ",") {
             y3d2[numt5] = std::stof(filec65);
@@ -362,12 +394,14 @@ if (mode == 5) {
         if (filech != ",") {
             filec65 += filec35[p3d2];
         }
-
+        p3d2 = p3d2 + 1;
+        }
         y3d28.close();
         std::ifstream y3d38("3D Model Complete\\y3d3.txt", std::ios::in);
         getline(y3d38, filect);
         filec36 = filect;
-
+        p3d2 = 0;
+        while (p3d2 < (sizeof(filec36) / sizeof(filec36[0]))) {
         filech = filec36[p3d2];
         if (filech == ",") {
             y3d3[numt6] = std::stof(filec66);
@@ -377,12 +411,14 @@ if (mode == 5) {
         if (filech != ",") {
             filec66 += filec36[p3d2];
         }
-
+        p3d2 = p3d2 + 1;
+        }
         y3d38.close();
         std::ifstream z3d18("3D Model Complete\\z3d1.txt", std::ios::in);
         getline(z3d18, filect);
         filec37 = filect;
-
+        p3d2 = 0;
+        while (p3d2 < (sizeof(filec37) / sizeof(filec37[0]))) {
         filech = filec37[p3d2];
         if (filech == ",") {
             z3d1[numt7] = std::stof(filec67);
@@ -392,12 +428,14 @@ if (mode == 5) {
         if (filech != ",") {
             filec67 += filec37[p3d2];
         }
-
+        p3d2 = p3d2 + 1;
+        }
         z3d18.close();
         std::ifstream z3d28("3D Model Complete\\z3d2.txt", std::ios::in);
         getline(z3d28, filect);
         filec38 = filect;
-
+        p3d2 = 0;
+        while (p3d2 < (sizeof(filec38) / sizeof(filec38[0]))) {
         filech = filec38[p3d2];
         if (filech == ",") {
             z3d2[numt8] = std::stof(filec68);
@@ -407,12 +445,14 @@ if (mode == 5) {
         if (filech != ",") {
             filec68 += filec38[p3d2];
         }
-
+        p3d2 = p3d2 + 1;
+        }
         z3d28.close();
         std::ifstream z3d38("3D Model Complete\\z3d3.txt", std::ios::in);
         getline(z3d38, filect);
         filec39 = filect;
-
+        p3d2 = 0;
+        while (p3d2 < (sizeof(filec39) / sizeof(filec39[0]))) {
         filech = filec39[p3d2];
         if (filech == ",") {
             z3d3[numt9] = std::stof(filec69);
@@ -422,12 +462,14 @@ if (mode == 5) {
         if (filech != ",") {
             filec69 += filec39[p3d2];
         }
-
+        p3d2 = p3d2 + 1;
+        }
         z3d38.close();
         std::ifstream red3d8("3D Model Complete\\red3d.txt", std::ios::in);
         getline(red3d8, filect);
         filec310 = filect;
-
+        p3d2 = 0;
+        while (p3d2 < (sizeof(filec310) / sizeof(filec310[0]))) {
         filech = filec310[p3d2];
         if (filech == ",") {
             red3d[numt10] = std::stof(filec610);
@@ -437,12 +479,14 @@ if (mode == 5) {
         if (filech != ",") {
             filec610 += filec310[p3d2];
         }
-
+        p3d2 = p3d2 + 1;
+        }
         red3d8.close();
         std::ifstream green3d8("3D Model Complete\\green3d.txt", std::ios::in);
         getline(green3d8, filect);
         filec311 = filect;
-
+        p3d2 = 0;
+        while (p3d2 < (sizeof(filec311) / sizeof(filec311[0]))) {
         filech = filec311[p3d2];
         if (filech == ",") {
             green3d[numt11] = std::stof(filec611);
@@ -452,12 +496,14 @@ if (mode == 5) {
         if (filech != ",") {
             filec611 += filec311[p3d2];
         }
-
+        p3d2 = p3d2 + 1;
+        }
         green3d8.close();
         std::ifstream blue3d8("3D Model Complete\\blue3d.txt", std::ios::in);
         getline(blue3d8, filect);
         filec312 = filect;
-
+        p3d2 = 0;
+        while (p3d2 < (sizeof(filec312) / sizeof(filec312[0]))) {
         filech = filec312[p3d2];
         if (filech == ",") {
             blue3d[numt12] = std::stof(filec612);
@@ -467,27 +513,33 @@ if (mode == 5) {
         if (filech != ",") {
             filec612 += filec312[p3d2];
         }
-
+        p3d2 = p3d2 + 1;
+        }
         blue3d8.close();
         std::ifstream alpha3d8("3D Model Complete\\alpha3d.txt", std::ios::in);
         getline(alpha3d8, filect);
         filec313 = filect;
-
-        filech = filec313[p3d2];
-        if (filech == ",") {
-            alpha3d[numt13] = std::stof(filec613);
-            filec613 = "";
-            numt13 = numt13 + 1;
+        p3d2 = 0;
+        while (p3d2 < (sizeof(filec313) / sizeof(filec313[0]))) {
+            filech = filec313[p3d2];
+            if (filech == ",") {
+                alpha3d[numt13] = std::stof(filec613);
+                filec613 = "";
+                numt13 = numt13 + 1;
+            }
+            if (filech != ",") {
+                filec613 += filec313[p3d2];
+            }
+            p3d2 = p3d2 + 1;
         }
-        if (filech != ",") {
-            filec613 += filec313[p3d2];
-        }
-
         alpha3d8.close();
+        /*
         p3d2 = p3d2 + 1;
         if (p3d2 >= 1995) {
             loadmodel3d = 2;
         }
+        */
+        loadmodel3d = 2;
     }
     if (openeditor == 1) {
         //std::ofstream c3d2("3D Model Complete\\control.txt", std::ios::out);
@@ -508,7 +560,74 @@ if (mode == 5) {
             numberf.close();
         }
         */
-        if (p3dnumber >= 0) {
+        if (p3dnumber >= 2000) {
+            p3dnumber2 = 0;
+        }
+        if (p3dnumber2 >= 0) {
+            p3dnumber = deletedpoints[p3dnumber2];
+            p3dnumber2 = p3dnumber2 + 1;
+        }
+        if (p3dnumber >= 0 && p3dnumber2 >=0) {
+            std::ifstream filex1("3D Model\\x1.txt", std::ios::in);
+            getline(filex1, filec);
+            x3d1[p3dnumber] = std::stof(filec);
+            filex1.close();
+            std::ifstream filex2("3D Model\\x2.txt", std::ios::in);
+            getline(filex2, filec);
+            x3d2[p3dnumber] = std::stof(filec);
+            filex2.close();
+            std::ifstream filex3("3D Model\\x3.txt", std::ios::in);
+            getline(filex3, filec);
+            x3d3[p3dnumber] = std::stof(filec);
+            filex3.close();
+            std::ifstream filey1("3D Model\\y1.txt", std::ios::in);
+            getline(filey1, filec);
+            y3d1[p3dnumber] = std::stof(filec);
+            filey1.close();
+            std::ifstream filey2("3D Model\\y2.txt", std::ios::in);
+            getline(filey2, filec);
+            y3d2[p3dnumber] = std::stof(filec);
+            filey2.close();
+            std::ifstream filey3("3D Model\\y3.txt", std::ios::in);
+            getline(filey3, filec);
+            y3d3[p3dnumber] = std::stof(filec);
+            filey3.close();
+            std::ifstream filez1("3D Model\\z1.txt", std::ios::in);
+            getline(filez1, filec);
+            z3d1[p3dnumber] = std::stof(filec);
+            std::ifstream filez2("3D Model\\z2.txt", std::ios::in);
+            filez1.close();
+            getline(filez2, filec);
+            z3d2[p3dnumber] = std::stof(filec);
+            filez2.close();
+            std::ifstream filez3("3D Model\\z3.txt", std::ios::in);
+            getline(filez3, filec);
+            z3d3[p3dnumber] = std::stof(filec);
+            filez3.close();
+            std::ifstream filer("3D Model\\red.txt", std::ios::in);
+            getline(filer, filec);
+            red3d[p3dnumber] = std::stof(filec);
+            filer.close();
+            std::ifstream fileg("3D Model\\green.txt", std::ios::in);
+            getline(fileg, filec);
+            green3d[p3dnumber] = std::stof(filec);
+            fileg.close();
+            std::ifstream fileb("3D Model\\blue.txt", std::ios::in);
+            getline(fileb, filec);
+            blue3d[p3dnumber] = std::stof(filec);
+            fileb.close();
+            std::ifstream filea("3D Model\\alpha.txt", std::ios::in);
+            getline(filea, filec);
+            alpha3d[p3dnumber] = std::stof(filec);
+            filea.close();
+            /*
+            std::ofstream numberf2("3D Model\\tnumber.txt", std::ios::out);
+            numberf2 << "1";
+            numberf2.close();*/
+            loadmodel3d = 2;
+            openeditor = 3;
+        }
+        if (p3dnumber >= 0 && p3dnumber2 ==-2) {
             std::ifstream filex1("3D Model\\x1.txt", std::ios::in);
             getline(filex1, filec);
             x3d1[p3dnumber] = std::stof(filec);
@@ -566,6 +685,7 @@ if (mode == 5) {
             numberf2 << "1";
             numberf2.close();*/
             p3dnumber = p3dnumber + 1;
+            //movet = p3dnumber;
             loadmodel3d = 2;
             openeditor = 3;
         }
@@ -574,15 +694,16 @@ if (mode == 5) {
         if (right == 2) {
             //red13d = red3d[movet]; green13d = green3d[movet]; blue13d = blue3d[movet]; alpha13d = alpha3d[movet];
             //red3d[movet] = red13d; green3d[movet] = green13d; blue3d[movet] = blue13d; alpha3d[movet] = 1.0f;
+            //red13d = red3d[movet]; green13d = green3d[movet]; blue13d = blue3d[movet]; alpha13d = alpha3d[movet];
             movet = movet + 1;
-            red3d[movet - 1] = red13d; green3d[movet - 1] = green13d; blue3d[movet - 1] = blue13d; alpha3d[movet - 1] = alpha13d;
+            red3d[movet-1] = red13d; green3d[movet-1] = green13d; blue3d[movet-1] = blue13d; alpha3d[movet-1] = alpha13d;
             right = 3;
         }
         if (left == 2 && movet > 0) {
             //red13d = red3d[movet]; green13d = green3d[movet]; blue13d = blue3d[movet]; alpha13d = alpha3d[movet];
             //red3d[movet] = red13d; green3d[movet] = green13d; blue3d[movet] = blue13d; alpha3d[movet] = 1.0f;
             movet = movet - 1;
-            red3d[movet + 1] = red13d; green3d[movet + 1] = green13d; blue3d[movet + 1] = blue13d; alpha3d[movet + 1] = alpha13d;
+            red3d[movet+1] = red13d; green3d[movet+1] = green13d; blue3d[movet+1] = blue13d; alpha3d[movet+1] = alpha13d;
             left = 3;
         }
     }
@@ -699,6 +820,17 @@ if (mode == 5) {
         }
     }
     */
+    if (array3d == 2) {
+        p3d = 0;
+        while (p3d < 2000) {
+            red3d[p3d] = red3d[p3d]; green3d[p3d] = green3d[p3d]; blue3d[p3d] = blue3d[p3d]; alpha3d[p3d] = alpha3d[p3d];
+            x3d1[p3d] = x3d1[p3d] + x3di; y3d1[p3d] = y3d1[p3d] + y3di; z3d1[p3d] = z3d1[p3d] + z3di;
+            x3d2[p3d] = x3d2[p3d] + x3di; y3d2[p3d] = y3d2[p3d] + y3di; z3d2[p3d] = z3d2[p3d] + z3di;
+            x3d3[p3d] = x3d3[p3d] + x3di; y3d3[p3d] = y3d3[p3d] + y3di; z3d3[p3d] = z3d3[p3d] + z3di;
+            p3d = p3d + 1;
+        }
+        array3d = 3;
+    }
     if (selecttriangle == 2) {
         red13d = red3d[movet]; green13d = green3d[movet]; blue13d = blue3d[movet]; alpha13d = alpha3d[movet];
         red3d[movet] = 0.92f; green3d[movet] = 0.23f; blue3d[movet] = 0.23f; alpha3d[movet] = 1.0f;
@@ -741,21 +873,31 @@ if (mode == 5) {
         x3d2[movet] = 0.0f; y3d2[movet] = -1000000.0f + y3di; z3d2[movet] = -0.8f;
         x3d3[movet] = 0.0001f; y3d3[movet] = -1000000.0f + y3di; z3d3[movet] = -0.8f;
         red3d[movet] = 0.0f; green3d[movet] = 0.0f; blue3d[movet] = 0.0f; alpha3d[movet] = 0.0f; //Use background colour
-        p3dnumber = p3dnumber - 1;
-        deletetriangle = 2;
-    }
-    if (array3d == 2) {
-        p3d = 0;
-        while (p3d < 2000) {
-            red3d[p3d] = red3d[p3d]; green3d[p3d] = green3d[p3d]; blue3d[p3d] = blue3d[p3d]; alpha3d[p3d] = alpha3d[p3d];
-            x3d1[p3d] = x3d1[p3d] + x3di; y3d1[p3d] = y3d1[p3d] + y3di; z3d1[p3d] = z3d1[p3d] + z3di;
-            x3d2[p3d] = x3d2[p3d] + x3di; y3d2[p3d] = y3d2[p3d] + y3di; z3d2[p3d] = z3d2[p3d] + z3di;
-            x3d3[p3d] = x3d3[p3d] + x3di; y3d3[p3d] = y3d3[p3d] + y3di; z3d3[p3d] = z3d3[p3d] + z3di;
+        /*
+        p3d = movet;
+        while (p3d < 1999) {
+            red3d[p3d] = red3d[p3d + 1]; green3d[p3d] = green3d[p3d + 1]; blue3d[p3d] = blue3d[p3d + 1]; alpha3d[p3d] = alpha3d[p3d + 1];
+            x3d1[p3d] = x3d1[p3d + 1]; y3d1[p3d] = y3d1[p3d + 1]; z3d1[p3d] = z3d1[p3d + 1];
+            x3d2[p3d] = x3d2[p3d + 1]; y3d2[p3d] = y3d2[p3d + 1]; z3d2[p3d] = z3d2[p3d + 1];
+            x3d3[p3d] = x3d3[p3d + 1]; y3d3[p3d] = y3d3[p3d + 1]; z3d3[p3d] = z3d3[p3d + 1];
             p3d = p3d + 1;
         }
-        array3d = 3;
+        p3d = 0;
+        */
+        //p3dnumber2 = p3dnumber2 - 1;
+        //deletetriangle2 = 1;
+        if (deletedpoints[p3dnumber3 - 1] != movet && p3dnumber3>0) {
+            p3dnumber3 = p3dnumber3 + 1;
+            deletedpoints[p3dnumber3] = movet;
+        }
+        if (p3dnumber3 <= 0) {
+            p3dnumber3 = p3dnumber3 + 1;
+            deletedpoints[p3dnumber3] = movet;
+        }
+        deletetriangle = 2;
     }
     if (savemodel3d == 1) {
+        std::ofstream x3d11t("3D Model Complete\\deletedtriangles.txt", std::ios::out);
         std::ofstream x3d11("3D Model Complete\\x3d1.txt", std::ios::out);
         std::ofstream x3d21("3D Model Complete\\x3d2.txt", std::ios::out);
         std::ofstream x3d31("3D Model Complete\\x3d3.txt", std::ios::out);
@@ -771,6 +913,7 @@ if (mode == 5) {
         std::ofstream alpha3d1("3D Model Complete\\alpha3d.txt", std::ios::out);
         p3d = 0;
         while (p3d < 2000) {
+            x3d11t << deletedpoints[p3d]; x3d11t << ",";
             x3d11 << x3d1[p3d]; x3d11 << ",";
             x3d21 << x3d2[p3d]; x3d21 << ",";
             x3d31 << x3d3[p3d]; x3d31 << ",";
@@ -959,7 +1102,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
        wglMakeCurrent(hdc, hrc);
        // Initialize OpenGL
        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-       glViewport(0, 0, 1536, 614); //x=1536 and y=864 will give fullscreen
+       glViewport(0, 0, 1536, 614); //x=1536 and y=864 will give fullscreen glFrustum(-1.825, 1.825,-0.763,0.763,1.0,1000.0)
        glMatrixMode(GL_PROJECTION);
        glLoadIdentity();
        mode = 3;
@@ -1215,10 +1358,14 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             }
             break;
         case 0x44://d
-            deletetriangle = 1;
+            if (selecttriangle == 3) {
+                deletetriangle = 1;
+            }
             break;
         case VK_RETURN:
-            openeditor = 1;
+            if (selecttriangle == 0 || selecttriangle == 4) {
+                openeditor = 1;
+            }
             break;
         case VK_BACK:
             //openeditor = 15;
