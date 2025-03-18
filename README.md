@@ -30,7 +30,8 @@ Put the colour value for the triangle which is in the form of red value, green v
 The values for this are between 0.0 and 1.0. Example value- 0.15
 Put the transparency value of the triangle which is in the form of alpha value in the file alpha.txt.
 The values for this are between 0.0 and 1.0. Example value- 1.0 for no transparency. The lesser the value then the triangle is more transparent.
-Example value-0.15. Save all the text files. Go out of triangle selection mode which can be done with the G key.
+Example value-0.15. Save all the text files. Go in the triangle selection mode by pressing the G key.
+Always move by one on the right side after making a triangle.
 After doing all this click on the program Rajneet Singh Ghuman L Game Development to make it the current program being used and press the Enter key to show the result which
 is a triangle with the provided values.
 Click on the notepad program again to provide the values for the next triangle to make the 3D model.
@@ -74,8 +75,8 @@ When making a new 3D model always put 0 as the value in numberoftriangles.txt wh
 The value in numberoftriangles.txt should be 0 or always positive.
 The saved 3D model will be in the 3D model complete folder in the from of text files.
 The folder can be renamed to save the 3D model for future use.
-To start a new project put 0 in numberoftriangles.txt file and delete deletedtriangles.txt file.
+To start a new project put 0 in numberoftriangles.txt file for knowing the number of triangles made.
 Do not intersect the triangles. The deleted triangles are also counted in the triangle selection mode, so, the red
-triangle will not be shown in all the moves. Load the 3d Model only one time after the program has started.
+triangle will not be shown in all the moves.
 
 Thank you.
