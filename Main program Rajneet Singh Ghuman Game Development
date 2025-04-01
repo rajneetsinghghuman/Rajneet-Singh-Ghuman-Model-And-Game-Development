@@ -28,7 +28,6 @@ WCHAR szWindowClass[MAX_LOADSTRING];            // the main window class name
 HDC hdc;
 HGLRC hrc;
 HWND hWnd;
-
 //global variables
 bool a = true;
 int b = 1;
@@ -1086,7 +1085,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
    hInst = hInstance; // Store instance handle in our global variable
 
-   HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_POPUP,
+   hWnd = CreateWindowW(szWindowClass, szTitle, WS_POPUP,
       0, 0, 1536, 614, nullptr, nullptr, hInstance, nullptr);
    // Get the device context
     //hdc = GetDC(hWnd);
