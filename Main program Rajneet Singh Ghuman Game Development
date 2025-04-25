@@ -33,7 +33,7 @@ bool a = true;
 int b = 1;
 int c = 0;
 int d = 0;
-int mode = 0;
+int mode = 0; int closeprogram2 = 1;
 auto starttime = std::chrono::steady_clock::now();
 auto endtime = std::chrono::steady_clock::now();
 /*
@@ -1380,19 +1380,24 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             //openeditor = 15;
             break;
         case VK_ESCAPE:
-            a = false;
-            d = 1;
-            if (hWndDialog != NULL) {
-                EndDialog(hWndDialog, 0);
+            if (closeprogram2 == 1) {
+                closeprogram2 = 2;
+                a = false;
+                d = 1;
+                if (hWndDialog != NULL) {
+                    EndDialog(hWndDialog, 0);
+                }
+                ReleaseDC(hWnd, hdc);
+                wglMakeCurrent(NULL, NULL);
+                wglDeleteContext(hrc);
+                DestroyWindow(hWnd);
             }
-            ReleaseDC(hWnd, hdc);
-            wglMakeCurrent(NULL, NULL);
-            wglDeleteContext(hrc);
-            DestroyWindow(hWnd);
             break;
         default:
-            return DefWindowProc(hWnd, message, wParam, lParam);
+            //return DefWindowProc(hWnd, message, wParam, lParam);
+            break;
         }
+        break;
     }
         /*
     case WM_COMMAND:
@@ -1423,6 +1428,21 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         }
         break;
     */
+    case WM_CLOSE:
+        // Handle window close button click
+        if (closeprogram2 == 1) {
+            closeprogram2 = 2;
+            a = false;
+            d = 1;
+            if (hWndDialog != NULL) {
+                EndDialog(hWndDialog, 0);
+            }
+            ReleaseDC(hWnd, hdc);
+            wglMakeCurrent(NULL, NULL);
+            wglDeleteContext(hrc);
+            DestroyWindow(hWnd);
+        }
+        break;
     case WM_DESTROY:
         PostQuitMessage(0);
         break;
