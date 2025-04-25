@@ -1,0 +1,284 @@
+// Start.cpp : This file contains the 'main' function. Program execution begins and ends there.
+//
+
+#include <iostream>
+#include <fstream>
+#include <string>
+using namespace std;
+int loop1 = 0; string com3 = "enter"; string com2 = "enter"; int array3d = 0; int p3d = 0;
+string red3dd[2000]; string green3dd[2000]; string blue3dd[2000]; string alpha3dd[2000];
+string x3d11[2000]; string y3d11[2000]; string z3d11[2000]; string x3d22[2000]; string y3d22[2000]; string z3d22[2000];
+string x3d33[2000]; string y3d33[2000]; string z3d33[2000]; int tnumber = 0; string tnumber2 = "-1";
+float tn = 0.0f;
+std::string filec = "0"; std::string filect = "0";  std::string filec3 = "0"; std::string filec6 = "0"; std::string filech = "0";
+std::string filec31 = "0"; int p3d2 = 0; std::string filec61 = "0"; int numt1 = 0; float x3d1[2000];
+int numt2 = 0; int numt3 = 0; std::string filec32 = "0"; std::string filec62 = "0"; std::string filec33 = "0"; std::string filec63 = "0";
+float x3d2[2000]; float x3d3[2000]; float xvalue = 0.0f; int a = 0;
+float x1[2000]; float x2[2000]; float x3[2000]; string close2 = "enter";
+
+int main()
+{
+    /*
+    ifstream numberf("3D Model\\tnumber.txt", std::ios::in);
+    getline(numberf, tnumber2);
+    numberf.close();
+    if (tnumber2 == "1" || tnumber2 == "0") {
+        ofstream x3d1("3D Model\\x3d1.txt", std::ios::out);
+        ofstream x3d2("3D Model\\x3d2.txt", std::ios::out);
+        ofstream x3d3("3D Model\\x3d3.txt", std::ios::out);
+        ofstream y3d1("3D Model\\y3d1.txt", std::ios::out);
+        ofstream y3d2("3D Model\\y3d2.txt", std::ios::out);
+        ofstream y3d3("3D Model\\y3d3.txt", std::ios::out);
+        ofstream z3d1("3D Model\\z3d1.txt", std::ios::out);
+        ofstream z3d2("3D Model\\z3d2.txt", std::ios::out);
+        ofstream z3d3("3D Model\\z3d3.txt", std::ios::out);
+        ofstream red3d("3D Model\\red3d.txt", std::ios::out);
+        ofstream green3d("3D Model\\green3d.txt", std::ios::out);
+        ofstream blue3d("3D Model\\blue3d.txt", std::ios::out);
+        ofstream alpha3d("3D Model\\alpha3d.txt", std::ios::out);
+        ofstream trianglenumber("3D Model\\number.txt", std::ios::out);
+        trianglenumber << tnumber2;
+        if (array3d == 0) {
+            while (p3d < 2000) {
+                red3dd[p3d] = 0.5f; green3dd[p3d] = 0.5f; blue3dd[p3d] = 0.5f; alpha3dd[p3d] = 1.0f;
+                x3d11[p3d] = -0.0001f; y3d11[p3d] = 0.0000f; z3d11[p3d] = -0.8f;
+                x3d22[p3d] = 0.0000f; y3d22[p3d] = 0.0001f; z3d22[p3d] = -0.8f;
+                x3d33[p3d] = 0.0001f; y3d33[p3d] = 0.0000f; z3d33[p3d] = -0.8f;
+                p3d = p3d + 1;
+            }
+            array3d = 1;
+        }
+        */
+        system("cls");
+        std::cout << "RAJNEET SINGH GHUMAN 3D MODEL MAKER MIRROR PROGRAM\n";
+        cout << "Enter load to load the model X co-ordinates to mirror the created 3D model.\n";
+        cin >> com2;
+        if (com2 != "load") {
+            cout<< "Close the program.";
+        }
+        if (com2 == "load") {
+            std::ifstream x3d18("3D Model Complete\\x3d1.txt", std::ios::in);
+            getline(x3d18, filect);
+            filec31 = filect;
+            p3d2 = 0;
+            while (p3d2 < (sizeof(filec31) / sizeof(filec31[0]))) {
+                filech = filec31[p3d2];
+                if (filech == ",") {
+                    x3d1[numt1] = std::stof(filec61);
+                    filec61 = "";
+                    numt1 = numt1 + 1;
+                }
+                if (filech != ",") {
+                    filec61 += filec31[p3d2];
+                }
+                p3d2 = p3d2 + 1;
+            }
+            x3d18.close();
+            std::ifstream x3d28("3D Model Complete\\x3d2.txt", std::ios::in);
+            getline(x3d28, filect);
+            filec32 = filect;
+            //p3d = 0; numt2 = 0;
+            //while (p3d < 30000 || numt < 2000) {
+            p3d2 = 0;
+            while (p3d2 < (sizeof(filec32) / sizeof(filec32[0]))) {
+                filech = filec32[p3d2];
+                if (filech == ",") {
+                    x3d2[numt2] = std::stof(filec62);
+                    filec62 = "";
+                    numt2 = numt2 + 1;
+                }
+                if (filech != ",") {
+                    filec62 += filec32[p3d2];
+                }
+                p3d2 = p3d2 + 1;
+            }
+            x3d28.close();
+            std::ifstream x3d38("3D Model Complete\\x3d3.txt", std::ios::in);
+            getline(x3d38, filect);
+            filec33 = filect;
+            p3d2 = 0;
+            while (p3d2 < (sizeof(filec33) / sizeof(filec33[0]))) {
+                filech = filec33[p3d2];
+                if (filech == ",") {
+                    x3d3[numt3] = std::stof(filec63);
+                    filec63 = "";
+                    numt3 = numt3 + 1;
+                }
+                if (filech != ",") {
+                    filec63 += filec33[p3d2];
+                }
+                p3d2 = p3d2 + 1;
+            }
+            x3d38.close();
+
+        }
+        //cout << "Enter the model X co-ordinates to mirror the created 3D model.\n";
+        //cin >> xvalue;
+        cout << "\nValue for x3d1:";
+        a = 0;
+        while (a < 2000) {
+            x1[a] = x3d1[a] - (2 * x3d1[a]);
+            cout << x1[a] << ",";
+            a = a + 1;
+        }
+        cout << "\nValue for x3d2:";
+        a = 0;
+        while (a < 2000) {
+            x2[a] = x3d2[a] - (2 * x3d2[a]);
+            cout << x2[a] << ",";
+            a = a + 1;
+        }
+        cout <<"\nValue for x3d3:";
+        a = 0;
+        while (a < 2000) {
+            x3[a] = x3d3[a] - (2 * x3d3[a]);
+            cout << x3[a]<<",";
+            a = a + 1;
+        }
+        cout << "\nEnter close to close the program:";
+        cin >> close2;
+        /*
+        while (loop1 < 2000) {
+            if (loop1 == 80) {
+                system("cls");
+            }
+            cout << "Enter the value and press the Enter key.\n";
+            cout << "Point 1\n";
+            cout << "X1:\n";
+            cin >> x3d11[loop1];
+            x3d1 << x3d11[loop1];
+            //x3d1.close();
+            cout << "Y1:\n";
+            cin >> y3d11[loop1];
+            y3d1 << y3d11[loop1];
+            //y3d1.close();
+            cout << "Z1:\n";
+            cin >> z3d11[loop1];
+            z3d1 << z3d11[loop1];
+            //z3d1.close();
+            cout << "Point 2\n";
+            cout << "X2:\n";
+            cin >> x3d22[loop1];
+            x3d2 << x3d22[loop1];
+            //x3d2.close();
+            cout << "Y2:\n";
+            cin >> y3d22[loop1];
+            y3d2 << y3d22[loop1];
+            //y3d2.close();
+            cout << "Z2:\n";
+            cin >> z3d22[loop1];
+            z3d2 << z3d22[loop1];
+            //z3d2.close();
+            cout << "Point 3\n";
+            cout << "X3:\n";
+            cin >> x3d33[loop1];
+            x3d3 << x3d33[loop1];
+            //x3d3.close();
+            cout << "Y3:\n";
+            cin >> y3d33[loop1];
+            y3d3 << y3d33[loop1];
+            //y3d3.close();
+            cout << "Z3:\n";
+            cin >> z3d33[loop1];
+            z3d3 << z3d33[loop1];
+            //z3d3.close();
+            cout << "Triangle colour\n";
+            cout << "Red value between 0.0 to 1.0:\n";
+            cin >> red3dd[loop1];
+            red3d << red3dd[loop1];
+            cout << "Green value between 0.0 to 1.0:\n";
+            cin >> green3dd[loop1];
+            green3d << green3dd[loop1];
+            cout << "Blue value between 0.0 to 1.0:\n";
+            cin >> blue3dd[loop1];
+            blue3d << blue3dd[loop1];
+            cout << "Transparency value between 0.0 to 1.0:\n";
+            cin >> alpha3dd[loop1];
+            alpha3d << alpha3dd[loop1];
+            tn = std::stof(red3dd[loop1]);
+            if (tn < 0.0f || tn>1.0f) {
+                cout << "Red value between 0.0 to 1.0:\n";
+                cin >> red3dd[loop1];
+            }
+            tn = std::stof(green3dd[loop1]);
+            if (tn < 0.0f || tn>1.0f) {
+                cout << "Green value between 0.0 to 1.0:\n";
+                cin >> green3dd[loop1];
+            }
+            tn = std::stof(blue3dd[loop1]);
+            if (tn < 0.0f || tn>1.0f) {
+                cout << "Blue value between 0.0 to 1.0:\n";
+                cin >> blue3dd[loop1];
+            }
+            tn = std::stof(alpha3dd[loop1]);
+            if (tn < 0.0f || tn>1.0f) {
+                cout << "Transparency value between 0.0 to 1.0:\n";
+                cin >> alpha3dd[loop1];
+            }
+            cout << "Enter n or enter save to save the model and finish.\n";
+            cin >> com3;
+            if (com3 != "save") {
+                loop1 = loop1 + 1;
+                tnumber = tnumber + 1;
+                tnumber2 = to_string(tnumber);
+                trianglenumber << tnumber2;
+                ofstream numberf("3D Model\\tnumber.txt", std::ios::out);
+                numberf << "2";
+                numberf.close();
+            }
+            if (com3 == "save") {
+                loop1 = 2310;
+                ofstream numberf("3D Model\\tnumber.txt", std::ios::out);
+                numberf << "2";
+                numberf.close();
+            }
+            //red3d.close();
+            //green3d.close();
+            //blue3d.close();
+            //alpha3d.close();
+            //trianglenumber.close();
+        }
+        if (loop1 >= 2310) {
+            x3d1<<x3d11;
+            x3d2<<x3d22;
+            x3d3<<x3d33;
+            y3d1 << y3d11;
+            y3d2 << y3d22;
+            y3d3 << y3d33;
+            z3d1 << z3d11;
+            z3d2 << z3d22;
+            z3d3 << z3d33;
+            red3d << red3dd;
+            green3d<<green3dd;
+            blue3d<<blue3dd;
+            alpha3d<<alpha3dd;
+        }
+        x3d1.close();
+        x3d2.close();
+        x3d3.close();
+        y3d1.close();
+        y3d2.close();
+        y3d3.close();
+        z3d1.close();
+        z3d2.close();
+        z3d3.close();
+        red3d.close();
+        green3d.close();
+        blue3d.close();
+        alpha3d.close();
+        trianglenumber.close();
+    }
+    */
+    return 0;
+}
+
+// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
+// Debug program: F5 or Debug > Start Debugging menu
+
+// Tips for Getting Started: 
+//   1. Use the Solution Explorer window to add/manage files
+//   2. Use the Team Explorer window to connect to source control
+//   3. Use the Output window to see build output and other messages
+//   4. Use the Error List window to view errors
+//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
+//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
