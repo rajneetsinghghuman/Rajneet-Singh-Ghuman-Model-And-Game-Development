@@ -1,3 +1,15 @@
+/*
+Make a dialog from resource option after right clicking on the project.
+Go to project properties and then go to the linker option and then go to the input option.
+Now in Additional dependencies copy and paste this -
+
+opengl32.lib
+glu32.lib
+winmm.lib
+shell32.lib
+*/
+
+
 // Rajneet 3D Model Maker.cpp : Defines the entry point for the application.
 //
 
@@ -14,8 +26,9 @@
 #include "iostream"
 #include "shellapi.h"
 #include "Windows.h"
-#include "atlstr.h"
 #include "resource.h"
+#include "cstdlib"
+#include "mmsystem.h"
 
 #define MAX_LOADSTRING 100
 
@@ -33,9 +46,7 @@ bool a = true;
 int b = 1;
 int c = 0;
 int d = 0;
-int mode = 0; int closeprogram2 = 1;
-auto starttime = std::chrono::steady_clock::now();
-auto endtime = std::chrono::steady_clock::now();
+int mode = 0; int closeprogram2 = 1; int t2controlg = 2; int movet2 = 0;
 /*
 //2D
 float red[5184]; float green[5184]; float blue[5184]; float alpha[5184];
@@ -45,10 +56,11 @@ int move = 0; int rotate = 0; int arrayfull = 0; int x8 = 0; int point = 0; floa
 int x5 = 0; int y5 = 0; int z5 = 0; float angle2 = 0.0f;
 int ax2[5000]; int ay2[5000]; int az2[5000]; int cr2[5000]; int cg2[5000]; int cb2[5000]; int ca2[5000];
 */
+
 //3D
-int p3d = 0; int p3d2 = 0; float angle3d = 0.0f; float red3d[2000]; float green3d[2000]; float blue3d[2000]; float alpha3d[2000];
-float x3d1[2000]; float y3d1[2000]; float z3d1[2000]; float x3d2[2000]; float y3d2[2000]; float z3d2[2000];
-float x3d3[2000]; float y3d3[2000]; float z3d3[2000]; int array3d = 0; float x3di = 0.0f; float y3di = 0.0f; float z3di = 0.0f;
+int p3d = 0; int p3d2 = 0; float angle3d = 0.0f; float red3d[20000]; float green3d[20000]; float blue3d[20000]; float alpha3d[20000];
+float x3d1[20000]; float y3d1[20000]; float z3d1[20000]; float x3d2[20000]; float y3d2[20000]; float z3d2[20000];
+float x3d3[20000]; float y3d3[20000]; float z3d3[20000]; int array3d = 0; float x3di = 0.0f; float y3di = 0.0f; float z3di = 0.0f;
 float red13d = 0.92f; float green13d = 0.23f; float blue13d = 0.23f; float alpha13d = 1.0f; //red colour
 float z3dix = 0.0f; int p3dnumber = 0; int selecttriangle = 0; int movet = 0; int deletetriangle = 0;
 float ax = 0.0f; float ay = 0.0f; float az = 0.0f; float filec2 = 0.0f; float p3dnumberb = 0.0f;
@@ -100,7 +112,7 @@ std::wstring tvaluealpha = L"0";
 LPCTSTR tvalue2alpha = L"0";
 //HWND hWndDialog = DialogBoxW(hInst, MAKEINTRESOURCE(IDD_DIALOG1), hWnd, tdata);
 //HWND hWndDialog = CreateDialogW(hInst, MAKEINTRESOURCE(IDD_DIALOG1), hWnd, tdata);
-int deletetriangle2 = 0; int p3dnumber2 = -2; int p3dnumber3 = 0; int deletedpoints[2000];
+int deletetriangle2 = 0; int p3dnumber2 = -2; int p3dnumber3 = 0; int deletedpoints[20000];
 //Variables 2D
 float red[5184]; float green[5184]; float blue[5184]; float alpha[5184];
 int screenwidth = 1; int screenheight = 1; int p = 0; int p2 = 0; int screenmultiplier = 16; int screenwidth2 = 0; int screenheight2 = 0;
@@ -132,859 +144,1409 @@ int x12 = 46; int y12 = 26; int xspeed = 1; int yspeed = 1; int xorigin = 0; int
 int x11 = 0; int y11 = 0; int xyloop = 0; int tempx = 0; int tempy = 0; int temparray = 0; int temparray2 = 1;
 int tempxy = 0; int yd = 0; int xd = 0; int originm = 1; int x13 = 0; int y13 = 0; int z11 = 0;
 int loopz = 0; int angle2 = 2; float y14 = 0.0f; int angle3 = 0; float y15 = 0.0f; int extramove = 1; int x20 = 0;
+int t2menu = 0; int t2window = 0; float ta2 = 0.0f; float modelx = 1.0f; float modely = 0.0f; float carrotate = 0.0f;
+int hidemodel = 0; float hidex = 0.0f; float ahide = 0.0f; int createmode = 0; int snap = 0;
+float tx1 = 0.0f; float tx2 = 0.0f; float tx3 = 0.0f; float ty1 = 0.0f; float ty2 = 0.0f; float ty3 = 0.0f;
+float tz1 = 0.0f; float tz2 = 0.0f; float tz3 = 0.0f; float tred = 1.0f; float tgreen = 0.0f; float tblue = 0.0f; float talpha = 1.0f;
+int drawpoint = 0; int left2 = 30; int right2 = 30; int up2 = 330; int down2 = 30; int tpoint = 0;
+int ix = 0; int ox = 0; int px = 0; int rx2 = 0; int lines = 0; int colouroftriangles = 0; float pointsize = 0.0f;
+int movet33 = 0;
+
 //program
 void draw2() {
-    if (b == 1) {
-        auto starttime = std::chrono::steady_clock::now();
-        b = 2;
-    }
-    if (mode == 2) {
-        gluOrtho2D(0.0, 1536.0, 614.0, 0.0);  //double format is example 8.0 and not 8
-        glMatrixMode(GL_MODELVIEW);
-        glLoadIdentity();
-        mode = 4;
-    }
-    if (mode == 3) {
-        glFrustum(-1.695, 1.695, -0.763, 0.763, 1.0, 1000.0);
-        glMatrixMode(GL_MODELVIEW);
-        glLoadIdentity();
-        mode = 5;
-    }
-    /*
-    if (mode == 4) {
-        glClear(GL_COLOR_BUFFER_BIT);
-        glMatrixMode(GL_MODELVIEW);
-        glLoadIdentity();
-        glEnable(GL_BLEND);
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        p = 0; p2 = 0; screenwidth = 1; screenheight = 1; screenmultiplier = 16; screenwidth2 = 0; screenheight2 = 0;
-        while (p2 < 5184) {
-            red[p2] = 0.24f; green[p2] = 0.91f; blue[p2] = 0.94f; alpha[p2] = 1.0f;
-            p2 = p2 + 1;
+    if (t2controlg == 2) {
+        if (b == 1) {
+            auto starttime = std::chrono::steady_clock::now();
+            b = 2;
         }
-        if (arrayfull == 0) {
-            x8 = 0;
-            while (x8 < 5000) {
-                ax2[x8] = 1;
-                ay2[x8] = 1;
-                az2[x8] = 1;
-                cr2[x8] = 0.5f;
-                cg2[x8] = 0.5f;
-                cb2[x8] = 0.5f;
-                ca2[x8] = 0.0f;
-            }
-            arrayfull = 1;
+        if (mode == 3) {
+            glFrustum(-1.0264, 1.0264, -0.57735, 0.57735, 1.0, 1000.0);
+            glMatrixMode(GL_MODELVIEW);
+            glLoadIdentity();
+            mode = 5;
         }
-        if (point == 1) {
-            ax2[x5] = xa2;
-            x5 = x5 + 1;
-        }
-        if (point == 2) {
-            ay2[y5] = ya2;
-            y5 = y5 + 1;
-        }
-        if (point == 3) {
-            az2[z5] = za2;
-            z5 = z5 + 1;
-        }
-        //red[97] = cred; green[97] = cgreen; blue[97] = cblue; alpha[97] = 1.0f;
-        while (screenwidth < 1536 - 2 && screenheight < 864 - 2 && p < 5184) {
-            glPushMatrix();
-            glColor4f(red[p], green[p], blue[p], alpha[p]);
-            glBegin(GL_QUADS);
-            glVertex2i(screenwidth, screenheight);
-            glVertex2i(screenwidth + screenmultiplier, screenheight);
-            glVertex2i(screenwidth + screenmultiplier, screenheight + screenmultiplier);
-            glVertex2i(screenwidth, screenheight + screenmultiplier);
-            glEnd();
-            if (screenwidth < 1536 - 2) {
-                screenwidth2 = screenwidth2 + 1;
-                screenwidth = screenwidth2 * screenmultiplier;
+        if (mode == 5) {
+            glEnable(GL_DEPTH_TEST);
+            glDepthFunc(GL_LEQUAL);
+            //Lighting
+            //GLfloat light_position[] = { 0.0f,0.0f,1.0f,0.0f };
+            //glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+            //glLightfv(GL_LIGHT0, GL_AMBIENT, ambient);
+            //glEnable(GL_LIGHT0);
+            //glLightfv(GL_LIGHT0, GL_AMBIENT,ambient);
+            //ambient material propperties
+            //GLfloat mat_ambient[] = { 0.2f,0.2f,2.0f,1.0f };
+            //glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
+            //glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_diffuse);
+            //glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+            //glMaterialf(GL_FRONT, GL_SHININESS, mat_shininess);
+            glDepthRange(0.1, 100.0);
+            glClearDepth(1.0);
+            //glEnable(GL_CULL_FACE);
+            //glCullFace(GL_BACK);
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+            glMatrixMode(GL_MODELVIEW);
+            glLoadIdentity();
+            if (e == 1) {
+                glEnable(GL_LIGHTING);
+                glEnable(GL_LIGHT0);
+                glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+                glLightfv(GL_LIGHT0, GL_AMBIENT, ambient);
+                glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuse);
             }
-            if (screenwidth >= 1536 - 2 && screenheight < 864 - 2) {
-                screenwidth2 = 0;
-                screenwidth = 0;
-                screenheight2 = screenheight2 + 1;
-                screenheight = screenheight2 * screenmultiplier;
+            //glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, mat_ambient);
+            //glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, mat_diffuse);
+            //glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, mat_specular);
+            //glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, mat_shininess);
+            //glPushMatrix();
+            //glTranslatef(0.0f, 0.0f, -30.0f);
+            if (up2 == 30) {
+                if (hidemodel == 1) {
+                    up = 2;
+                }
+                if (createmode == 2) {
+                    createmode = 1;
+                }
+                if (point == 1 && move == 2 && rotate == 1) {
+                    up = 2;
+                }
+                if (rotate == 2) {
+                    up = 2;
+                }
+                if (rotate == 2 && point == 1) {
+                    ay = 0.0f;
+                }
+                if (rotate == 2 && point == 2) {
+                    ax = 0.0f;
+                }
+                if (point == 2 && move == 2 && rotate == 1) {
+                    up = 2;
+                }
+                up2 = 31;
             }
-            p = p + 1;
-            glPopMatrix();
-        }
-        glDisable(GL_BLEND);
-        SwapBuffers(hdc);
-    }
-    */
-    if (mode == 5) {
-        glEnable(GL_DEPTH_TEST);
-        glDepthFunc(GL_LEQUAL);
-        //Lighting
-        //GLfloat light_position[] = { 0.0f,0.0f,1.0f,0.0f };
-        //glLightfv(GL_LIGHT0, GL_POSITION, light_position);
-        //glLightfv(GL_LIGHT0, GL_AMBIENT, ambient);
-        //glEnable(GL_LIGHT0);
-        //glLightfv(GL_LIGHT0, GL_AMBIENT,ambient);
-        //ambient material propperties
-        //GLfloat mat_ambient[] = { 0.2f,0.2f,2.0f,1.0f };
-        //glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
-        //glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_diffuse);
-        //glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
-        //glMaterialf(GL_FRONT, GL_SHININESS, mat_shininess);
-        glDepthRange(0.1, 100.0);
-        glClearDepth(1.0);
-        //glEnable(GL_CULL_FACE);
-        //glCullFace(GL_BACK);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        glMatrixMode(GL_MODELVIEW);
-        glLoadIdentity();
-        if (e == 1) {
-            glEnable(GL_LIGHTING);
-            glEnable(GL_LIGHT0);
-            glLightfv(GL_LIGHT0, GL_POSITION, light_position);
-            glLightfv(GL_LIGHT0, GL_AMBIENT, ambient);
-            glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuse);
-        }
-        //glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, mat_ambient);
-        //glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, mat_diffuse);
-        //glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, mat_specular);
-        //glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, mat_shininess);
-        //glPushMatrix();
-        //glTranslatef(0.0f, 0.0f, -30.0f);
-        p3d = 0;
-        if (array3d == 0) {
-            p3d2 = 0; loadmodel3d = 0; deletetriangle2 = 0; p3dnumber2 = -2; p3dnumber3 = 0;
-            numt1 = 0; numt2 = 0; numt3 = 0; numt4 = 0; numt5 = 0; numt6 = 0; numt7 = 0; numt8 = 0; numt9 = 0; numt10 = 0;
-            numt11 = 0; numt12 = 0; numt13 = 0;
-            filec31 = ""; filec61 = "";  filec32 = "";  filec62 = "";  filec33 = "";  filec63 = "";
-            filec34 = ""; filec64 = ""; filec35 = ""; filec65 = ""; filec36 = ""; filec66 = "";
-            filec37 = ""; filec67 = ""; filec38 = "";  filec68 = ""; filec39 = ""; filec69 = "";
-            filec310 = ""; filec610 = "";  filec311 = "";  filec611 = "";  filec312 = ""; filec612 = "";
-            filec313 = ""; filec613 = "";
-            filec31t = ""; filec61t = ""; numt1t = 0;
-            while (p3d < 2000) {
-                deletedpoints[p3d] = -15;
-                red3d[p3d] = 0.0f; green3d[p3d] = 0.0f; blue3d[p3d] = 0.0f; alpha3d[p3d] = 0.0f;
-                x3d1[p3d] = -0.0001f; y3d1[p3d] = -1000.0f; z3d1[p3d] = -0.8f;
-                x3d2[p3d] = 0.0000f; y3d2[p3d] = -1000.1f; z3d2[p3d] = -0.8f;
-                x3d3[p3d] = 0.0001f; y3d3[p3d] = -1000.0f; z3d3[p3d] = -0.8f;
-                p3d = p3d + 1;
+            if (down2 == 30) {
+                if (hidemodel == 1) {
+                    down = 2;
+                }
+                if (createmode == 2) {
+                    createmode = 1;
+                }
+                if (point == 1 && move == 2 && rotate == 1) {
+                    down = 2;
+                }
+                if (rotate == 2) {
+                    down = 2;
+                }
+                if (rotate == 2 && point == 1) {
+                    ay = 0.0f;
+                }
+                if (rotate == 2 && point == 2) {
+                    ax = 0.0f;
+                }
+                if (point == 2 && move == 2 && rotate == 1) {
+                    down = 2;
+                }
+                down2 = 31;
             }
-            p3dnumber = 0;
-            std::ifstream filenot("3D Model\\numberoftriangles.txt", std::ios::in);
-            getline(filenot, filec);
-            p3dnumber = std::stof(filec);
-            x3di = 0.0f; y3di = 0.0f; z3di = 0.0f;
-            array3d = 2;
-        }
-        p3d = 0;
-        if (loadmodel3d == 2) {
-            p3d2 = 0;
-            numt1 = 0; numt2 = 0; numt3 = 0; numt4 = 0; numt5 = 0; numt6 = 0; numt7 = 0; numt8 = 0; numt9 = 0; numt10 = 0;
-            numt11 = 0; numt12 = 0; numt13 = 0;
-            filec31 = ""; filec61 = "";  filec32 = "";  filec62 = "";  filec33 = "";  filec63 = "";
-            filec34 = ""; filec64 = ""; filec35 = ""; filec65 = ""; filec36 = ""; filec66 = "";
-            filec37 = ""; filec67 = ""; filec38 = "";  filec68 = ""; filec39 = ""; filec69 = "";
-            filec310 = ""; filec610 = "";  filec311 = "";  filec611 = "";  filec312 = ""; filec612 = "";
-            filec313 = ""; filec613 = "";
-            loadmodel3d = 15;
-        }
-        //while(loadmodel3d == 1 && p3d2 < 2000) 
-        if (loadmodel3d == 1) {
-            /*
-            std::ifstream x3d18t("3D Model Complete\\deletedtriangles.txt", std::ios::in);
-            getline(x3d18t, filect);
-            filec31t = filect;
-            //p3d = 0; numt = 0;
-            //while (p3d < 30000 || numt < 2000) {
-            p3d2 = 0;
-            while (p3d2 < (sizeof(filec31t) / sizeof(filec31t[0]))) {
-                filech = filec31t[p3d2];
-                if (filech == ",") {
-                    x3d1[numt1t] = std::stof(filec61t);
-                    filec61 = "";
-                    numt1t = numt1t + 1;
+            if (right2 == 30) {
+                if (point == 1 && move == 2 && rotate == 1) {
+                    right = 2;
                 }
-                if (filech != ",") {
-                    filec61t += filec31t[p3d2];
+                if (rotate == 2) {
+                    right = 2;
                 }
-                p3d2 = p3d2 + 1;
+                if (rotate == 2 && point == 1) {
+                    ay = 0.0f;
+                }
+                if (rotate == 2 && point == 2) {
+                    ax = 0.0f;
+                }
+                if (point == 2 && move == 2 && rotate == 1) {
+                    right = 2;
+                }
+                if (selecttriangle == 2 || selecttriangle == 3) {
+                    if (movet < 19999) {
+                        right = 2;
+                        selecttriangle = 2;
+                    }
+                }
+                if (hidemodel == 1) {
+                    right = 2;
+                }
+                right2 = 31;
             }
-            x3d18t.close();
-            */
-            std::ifstream x3d18("3D Model Complete\\x3d1.txt", std::ios::in);
-            getline(x3d18, filect);
-            filec31 = filect;
-            //p3d = 0; numt = 0;
-            //while (p3d < 30000 || numt < 2000) {
-            p3d2 = 0;
-            while (p3d2 < filec31.length()) {
-                filech = filec31[p3d2];
-                if (filech == ",") {
-                    x3d1[numt1] = std::stof(filec61);
-                    filec61 = "";
-                    numt1 = numt1 + 1;
+            if (left2 == 30) {
+                if (point == 1 && move == 2 && rotate == 1) {
+                    left = 2;
                 }
-                if (filech != ",") {
-                    filec61 += filec31[p3d2];
+                if (rotate == 2) {
+                    left = 2;
                 }
-                p3d2 = p3d2 + 1;
+                if (rotate == 2 && point == 1) {
+                    ay = 0.0f;
+                }
+                if (rotate == 2 && point == 2) {
+                    ax = 0.0f;
+                }
+                if (point == 2 && move == 2 && rotate == 1) {
+                    left = 2;
+                }
+                if (movet > 0) {
+                    if (selecttriangle == 2 || selecttriangle == 3) {
+                        left = 2;
+                        selecttriangle = 2;
+                    }
+                }
+                if (hidemodel == 1) {
+                    left = 2;
+                }
+                left2 = 31;
             }
-            x3d18.close();
-            std::ifstream x3d28("3D Model Complete\\x3d2.txt", std::ios::in);
-            getline(x3d28, filect);
-            filec32 = filect;
-            //p3d = 0; numt2 = 0;
-            //while (p3d < 30000 || numt < 2000) {
-            p3d2 = 0;
-            while (p3d2 < filec32.length()) {
-                filech = filec32[p3d2];
-                if (filech == ",") {
-                    x3d2[numt2] = std::stof(filec62);
-                    filec62 = "";
-                    numt2 = numt2 + 1;
+            p3d = 0;
+            if (array3d == 0) {
+                p3d2 = 0;  deletetriangle2 = 0; p3dnumber2 = -2; p3dnumber3 = 0;
+                numt1 = 0; numt2 = 0; numt3 = 0; numt4 = 0; numt5 = 0; numt6 = 0; numt7 = 0; numt8 = 0; numt9 = 0; numt10 = 0;
+                numt11 = 0; numt12 = 0; numt13 = 0;
+                filec31 = ""; filec61 = "";  filec32 = "";  filec62 = "";  filec33 = "";  filec63 = "";
+                filec34 = ""; filec64 = ""; filec35 = ""; filec65 = ""; filec36 = ""; filec66 = "";
+                filec37 = ""; filec67 = ""; filec38 = "";  filec68 = ""; filec39 = ""; filec69 = "";
+                filec310 = ""; filec610 = "";  filec311 = "";  filec611 = "";  filec312 = ""; filec612 = "";
+                filec313 = ""; filec613 = "";
+                filec31t = ""; filec61t = ""; numt1t = 0;
+                while (p3d < 20000) {
+                    deletedpoints[p3d] = -15;
+                    red3d[p3d] = 0.0f; green3d[p3d] = 0.0f; blue3d[p3d] = 0.0f; alpha3d[p3d] = 0.0f;
+                    x3d1[p3d] = -0.0001f; y3d1[p3d] = -1000.0f; z3d1[p3d] = -0.8f;
+                    x3d2[p3d] = 0.0000f; y3d2[p3d] = -1000.1f; z3d2[p3d] = -0.8f;
+                    x3d3[p3d] = 0.0001f; y3d3[p3d] = -1000.0f; z3d3[p3d] = -0.8f;
+                    p3d = p3d + 1;
                 }
-                if (filech != ",") {
-                    filec62 += filec32[p3d2];
-                }
-                p3d2 = p3d2 + 1;
+                p3dnumber = 0;
+                //std::ifstream filenot("3D Model\\numberoftriangles.txt", std::ios::in);
+                //getline(filenot, filec);
+                //p3dnumber = std::stof(filec);
+                x3di = 0.0f; y3di = 0.0f; z3di = 0.0f;
+                //movet = 0; drawpoint = 0;
+                array3d = 2;
             }
-            x3d28.close();
-            std::ifstream x3d38("3D Model Complete\\x3d3.txt", std::ios::in);
-            getline(x3d38, filect);
-            filec33 = filect;
-            p3d2 = 0;
-            while (p3d2 < filec33.length()) {
-                filech = filec33[p3d2];
-                if (filech == ",") {
-                    x3d3[numt3] = std::stof(filec63);
-                    filec63 = "";
-                    numt3 = numt3 + 1;
-                }
-                if (filech != ",") {
-                    filec63 += filec33[p3d2];
-                }
-                p3d2 = p3d2 + 1;
-            }
-            x3d38.close();
-            std::ifstream y3d18("3D Model Complete\\y3d1.txt", std::ios::in);
-            getline(y3d18, filect);
-            filec34 = filect;
-            p3d2 = 0;
-            while (p3d2 < filec34.length()) {
-                filech = filec34[p3d2];
-                if (filech == ",") {
-                    y3d1[numt4] = std::stof(filec64);
-                    filec64 = "";
-                    numt4 = numt4 + 1;
-                }
-                if (filech != ",") {
-                    filec64 += filec34[p3d2];
-                }
-                p3d2 = p3d2 + 1;
-            }
-            y3d18.close();
-            std::ifstream y3d28("3D Model Complete\\y3d2.txt", std::ios::in);
-            getline(y3d28, filect);
-            filec35 = filect;
-            p3d2 = 0;
-            while (p3d2 < filec35.length()) {
-                filech = filec35[p3d2];
-                if (filech == ",") {
-                    y3d2[numt5] = std::stof(filec65);
-                    filec65 = "";
-                    numt5 = numt5 + 1;
-                }
-                if (filech != ",") {
-                    filec65 += filec35[p3d2];
-                }
-                p3d2 = p3d2 + 1;
-            }
-            y3d28.close();
-            std::ifstream y3d38("3D Model Complete\\y3d3.txt", std::ios::in);
-            getline(y3d38, filect);
-            filec36 = filect;
-            p3d2 = 0;
-            while (p3d2 < filec36.length()) {
-                filech = filec36[p3d2];
-                if (filech == ",") {
-                    y3d3[numt6] = std::stof(filec66);
-                    filec66 = "";
-                    numt6 = numt6 + 1;
-                }
-                if (filech != ",") {
-                    filec66 += filec36[p3d2];
-                }
-                p3d2 = p3d2 + 1;
-            }
-            y3d38.close();
-            std::ifstream z3d18("3D Model Complete\\z3d1.txt", std::ios::in);
-            getline(z3d18, filect);
-            filec37 = filect;
-            p3d2 = 0;
-            while (p3d2 < filec37.length()) {
-                filech = filec37[p3d2];
-                if (filech == ",") {
-                    z3d1[numt7] = std::stof(filec67);
-                    filec67 = "";
-                    numt7 = numt7 + 1;
-                }
-                if (filech != ",") {
-                    filec67 += filec37[p3d2];
-                }
-                p3d2 = p3d2 + 1;
-            }
-            z3d18.close();
-            std::ifstream z3d28("3D Model Complete\\z3d2.txt", std::ios::in);
-            getline(z3d28, filect);
-            filec38 = filect;
-            p3d2 = 0;
-            while (p3d2 < filec38.length()) {
-                filech = filec38[p3d2];
-                if (filech == ",") {
-                    z3d2[numt8] = std::stof(filec68);
-                    filec68 = "";
-                    numt8 = numt8 + 1;
-                }
-                if (filech != ",") {
-                    filec68 += filec38[p3d2];
-                }
-                p3d2 = p3d2 + 1;
-            }
-            z3d28.close();
-            std::ifstream z3d38("3D Model Complete\\z3d3.txt", std::ios::in);
-            getline(z3d38, filect);
-            filec39 = filect;
-            p3d2 = 0;
-            while (p3d2 < filec39.length()) {
-                filech = filec39[p3d2];
-                if (filech == ",") {
-                    z3d3[numt9] = std::stof(filec69);
-                    filec69 = "";
-                    numt9 = numt9 + 1;
-                }
-                if (filech != ",") {
-                    filec69 += filec39[p3d2];
-                }
-                p3d2 = p3d2 + 1;
-            }
-            z3d38.close();
-            std::ifstream red3d8("3D Model Complete\\red3d.txt", std::ios::in);
-            getline(red3d8, filect);
-            filec310 = filect;
-            p3d2 = 0;
-            while (p3d2 < filec310.length()) {
-                filech = filec310[p3d2];
-                if (filech == ",") {
-                    red3d[numt10] = std::stof(filec610);
-                    filec610 = "";
-                    numt10 = numt10 + 1;
-                }
-                if (filech != ",") {
-                    filec610 += filec310[p3d2];
-                }
-                p3d2 = p3d2 + 1;
-            }
-            red3d8.close();
-            std::ifstream green3d8("3D Model Complete\\green3d.txt", std::ios::in);
-            getline(green3d8, filect);
-            filec311 = filect;
-            p3d2 = 0;
-            while (p3d2 < filec311.length()) {
-                filech = filec311[p3d2];
-                if (filech == ",") {
-                    green3d[numt11] = std::stof(filec611);
-                    filec611 = "";
-                    numt11 = numt11 + 1;
-                }
-                if (filech != ",") {
-                    filec611 += filec311[p3d2];
-                }
-                p3d2 = p3d2 + 1;
-            }
-            green3d8.close();
-            std::ifstream blue3d8("3D Model Complete\\blue3d.txt", std::ios::in);
-            getline(blue3d8, filect);
-            filec312 = filect;
-            p3d2 = 0;
-            while (p3d2 < filec312.length()) {
-                filech = filec312[p3d2];
-                if (filech == ",") {
-                    blue3d[numt12] = std::stof(filec612);
-                    filec612 = "";
-                    numt12 = numt12 + 1;
-                }
-                if (filech != ",") {
-                    filec612 += filec312[p3d2];
-                }
-                p3d2 = p3d2 + 1;
-            }
-            blue3d8.close();
-            std::ifstream alpha3d8("3D Model Complete\\alpha3d.txt", std::ios::in);
-            getline(alpha3d8, filect);
-            filec313 = filect;
-            p3d2 = 0;
-            while (p3d2 < filec313.length()) {
-                filech = filec313[p3d2];
-                if (filech == ",") {
-                    alpha3d[numt13] = std::stof(filec613);
-                    filec613 = "";
-                    numt13 = numt13 + 1;
-                }
-                if (filech != ",") {
-                    filec613 += filec313[p3d2];
-                }
-                p3d2 = p3d2 + 1;
-            }
-            alpha3d8.close();
-            /*
-            p3d2 = p3d2 + 1;
-            if (p3d2 >= 1995) {
-                loadmodel3d = 2;
-            }
-            */
-            loadmodel3d = 2;
-        }
-        if (openeditor == 1) {
-            //std::ofstream c3d2("3D Model Complete\\control.txt", std::ios::out);
-            //c3d2 << "1";
-            openeditor = 2;
-        }
-        if (openeditor == 2) {
-            /*
-            std::ifstream numberf2("3D Model\\tnumber.txt");
-            getline(numberf2, filect);
-            filec3 = filect;
-            numberf2.close();
-            if (filec3 == "2") {
-                std::ifstream numberf("3D Model\\number.txt", std::ios::in);
-                getline(numberf, filec);
-                p3dnumberb = std::stof(filec);
-                p3dnumber = std::floor(p3dnumberb);
-                numberf.close();
-            }
-            if (p3dnumber >= 2000) {
-                p3dnumber2 = 0;
-            }
-            if (p3dnumber2 >= 0) {
-                p3dnumber = deletedpoints[p3dnumber2];
-                p3dnumber2 = p3dnumber2 + 1;
-            }
-            if (p3dnumber >= 0 && p3dnumber2 >=0) {
-                std::ifstream filex1("3D Model\\x1.txt", std::ios::in);
-                getline(filex1, filec);
-                x3d1[p3dnumber] = std::stof(filec);
-                filex1.close();
-                std::ifstream filex2("3D Model\\x2.txt", std::ios::in);
-                getline(filex2, filec);
-                x3d2[p3dnumber] = std::stof(filec);
-                filex2.close();
-                std::ifstream filex3("3D Model\\x3.txt", std::ios::in);
-                getline(filex3, filec);
-                x3d3[p3dnumber] = std::stof(filec);
-                filex3.close();
-                std::ifstream filey1("3D Model\\y1.txt", std::ios::in);
-                getline(filey1, filec);
-                y3d1[p3dnumber] = std::stof(filec);
-                filey1.close();
-                std::ifstream filey2("3D Model\\y2.txt", std::ios::in);
-                getline(filey2, filec);
-                y3d2[p3dnumber] = std::stof(filec);
-                filey2.close();
-                std::ifstream filey3("3D Model\\y3.txt", std::ios::in);
-                getline(filey3, filec);
-                y3d3[p3dnumber] = std::stof(filec);
-                filey3.close();
-                std::ifstream filez1("3D Model\\z1.txt", std::ios::in);
-                getline(filez1, filec);
-                z3d1[p3dnumber] = std::stof(filec);
-                std::ifstream filez2("3D Model\\z2.txt", std::ios::in);
-                filez1.close();
-                getline(filez2, filec);
-                z3d2[p3dnumber] = std::stof(filec);
-                filez2.close();
-                std::ifstream filez3("3D Model\\z3.txt", std::ios::in);
-                getline(filez3, filec);
-                z3d3[p3dnumber] = std::stof(filec);
-                filez3.close();
-                std::ifstream filer("3D Model\\red.txt", std::ios::in);
-                getline(filer, filec);
-                red3d[p3dnumber] = std::stof(filec);
-                filer.close();
-                std::ifstream fileg("3D Model\\green.txt", std::ios::in);
-                getline(fileg, filec);
-                green3d[p3dnumber] = std::stof(filec);
-                fileg.close();
-                std::ifstream fileb("3D Model\\blue.txt", std::ios::in);
-                getline(fileb, filec);
-                blue3d[p3dnumber] = std::stof(filec);
-                fileb.close();
-                std::ifstream filea("3D Model\\alpha.txt", std::ios::in);
-                getline(filea, filec);
-                alpha3d[p3dnumber] = std::stof(filec);
-                filea.close();
+            p3d = 0;
+            if (loadmodel3d == 2) {
                 /*
-                std::ofstream numberf2("3D Model\\tnumber.txt", std::ios::out);
-                numberf2 << "1";
-                numberf2.close();
+                p3d2 = 0; loadmodel3d = 0; deletetriangle2 = 0; p3dnumber2 = -2; p3dnumber3 = 0;
+                p3d = 0;  angle3d = 0.0f; numt1t = 0;
+                x3di = 0.0f; y3di = 0.0f; z3di = 0.0f;
+                //red colour
+                z3dix = 0.0f; p3dnumber = 0;  selecttriangle = 2; movet = 0; deletetriangle = 0;
+                ax = 0.0f; ay = 0.0f;  az = 0.0f; filec2 = 0.0f; p3dnumberb = 0.0f;
+                openeditor = 0;   savemodel3d = 0;  l = 0;*/
+                //array3d = 2;
+                p3d2 = 0;
+                numt1 = 0; numt2 = 0; numt3 = 0; numt4 = 0; numt5 = 0; numt6 = 0; numt7 = 0; numt8 = 0; numt9 = 0; numt10 = 0;
+                numt11 = 0; numt12 = 0; numt13 = 0;
+                filec31 = ""; filec61 = "";  filec32 = "";  filec62 = "";  filec33 = "";  filec63 = "";
+                filec34 = ""; filec64 = ""; filec35 = ""; filec65 = ""; filec36 = ""; filec66 = "";
+                filec37 = ""; filec67 = ""; filec38 = "";  filec68 = ""; filec39 = ""; filec69 = "";
+                filec310 = ""; filec610 = "";  filec311 = "";  filec611 = "";  filec312 = ""; filec612 = "";
+                filec313 = ""; filec613 = "";
+                //hidemodel = 1; 
+                drawpoint = 0;
+                loadmodel3d = 15; movet = 0;
+            }
+            //while(loadmodel3d == 1 && p3d2 < 2000) 
+            if (loadmodel3d == 1) {
+                /*
+                std::ifstream x3d18t("3D Model Complete\\deletedtriangles.txt", std::ios::in);
+                getline(x3d18t, filect);
+                filec31t = filect;
+                //p3d = 0; numt = 0;
+                //while (p3d < 30000 || numt < 2000) {
+                p3d2 = 0;
+                while (p3d2 < (sizeof(filec31t) / sizeof(filec31t[0]))) {
+                    filech = filec31t[p3d2];
+                    if (filech == ",") {
+                        x3d1[numt1t] = std::stof(filec61t);
+                        filec61 = "";
+                        numt1t = numt1t + 1;
+                    }
+                    if (filech != ",") {
+                        filec61t += filec31t[p3d2];
+                    }
+                    p3d2 = p3d2 + 1;
+                }
+                x3d18t.close();
+                */
+                std::ifstream x3d18("3D Model Complete\\x3d1.txt", std::ios::in);
+                getline(x3d18, filect);
+                filec31 = filect;
+                //p3d = 0; numt = 0;
+                //while (p3d < 30000 || numt < 2000) {
+                p3d2 = 0;
+                while (p3d2 < filec31.length()) {
+                    filech = filec31[p3d2];
+                    if (filech == ",") {
+                        x3d1[numt1] = std::stof(filec61);
+                        filec61 = "";
+                        numt1 = numt1 + 1;
+                    }
+                    if (filech != ",") {
+                        filec61 += filec31[p3d2];
+                    }
+                    p3d2 = p3d2 + 1;
+                }
+                x3d18.close();
+                std::ifstream x3d28("3D Model Complete\\x3d2.txt", std::ios::in);
+                getline(x3d28, filect);
+                filec32 = filect;
+                //p3d = 0; numt2 = 0;
+                //while (p3d < 30000 || numt < 2000) {
+                p3d2 = 0;
+                while (p3d2 < filec32.length()) {
+                    filech = filec32[p3d2];
+                    if (filech == ",") {
+                        x3d2[numt2] = std::stof(filec62);
+                        filec62 = "";
+                        numt2 = numt2 + 1;
+                    }
+                    if (filech != ",") {
+                        filec62 += filec32[p3d2];
+                    }
+                    p3d2 = p3d2 + 1;
+                }
+                x3d28.close();
+                std::ifstream x3d38("3D Model Complete\\x3d3.txt", std::ios::in);
+                getline(x3d38, filect);
+                filec33 = filect;
+                p3d2 = 0;
+                while (p3d2 < filec33.length()) {
+                    filech = filec33[p3d2];
+                    if (filech == ",") {
+                        x3d3[numt3] = std::stof(filec63);
+                        filec63 = "";
+                        numt3 = numt3 + 1;
+                    }
+                    if (filech != ",") {
+                        filec63 += filec33[p3d2];
+                    }
+                    p3d2 = p3d2 + 1;
+                }
+                x3d38.close();
+                std::ifstream y3d18("3D Model Complete\\y3d1.txt", std::ios::in);
+                getline(y3d18, filect);
+                filec34 = filect;
+                p3d2 = 0;
+                while (p3d2 < filec34.length()) {
+                    filech = filec34[p3d2];
+                    if (filech == ",") {
+                        y3d1[numt4] = std::stof(filec64);
+                        filec64 = "";
+                        numt4 = numt4 + 1;
+                    }
+                    if (filech != ",") {
+                        filec64 += filec34[p3d2];
+                    }
+                    p3d2 = p3d2 + 1;
+                }
+                y3d18.close();
+                std::ifstream y3d28("3D Model Complete\\y3d2.txt", std::ios::in);
+                getline(y3d28, filect);
+                filec35 = filect;
+                p3d2 = 0;
+                while (p3d2 < filec35.length()) {
+                    filech = filec35[p3d2];
+                    if (filech == ",") {
+                        y3d2[numt5] = std::stof(filec65);
+                        filec65 = "";
+                        numt5 = numt5 + 1;
+                    }
+                    if (filech != ",") {
+                        filec65 += filec35[p3d2];
+                    }
+                    p3d2 = p3d2 + 1;
+                }
+                /*
+                p3d2 = 0;
+                while (p3d2 <= numt5) {
+                    if (y3d2[p3d2] <= -1000) {
+                        movet2 = y3d2[p3d2];
+                        p3d2 = p3d2 + numt5;
+                    }
+                    p3d2 = p3d2 +1;
+                }
+                p3d2 = 0;
+                */
+                y3d28.close();
+                std::ifstream y3d38("3D Model Complete\\y3d3.txt", std::ios::in);
+                getline(y3d38, filect);
+                filec36 = filect;
+                p3d2 = 0;
+                while (p3d2 < filec36.length()) {
+                    filech = filec36[p3d2];
+                    if (filech == ",") {
+                        y3d3[numt6] = std::stof(filec66);
+                        filec66 = "";
+                        numt6 = numt6 + 1;
+                    }
+                    if (filech != ",") {
+                        filec66 += filec36[p3d2];
+                    }
+                    p3d2 = p3d2 + 1;
+                }
+                y3d38.close();
+                std::ifstream z3d18("3D Model Complete\\z3d1.txt", std::ios::in);
+                getline(z3d18, filect);
+                filec37 = filect;
+                p3d2 = 0;
+                while (p3d2 < filec37.length()) {
+                    filech = filec37[p3d2];
+                    if (filech == ",") {
+                        z3d1[numt7] = std::stof(filec67);
+                        filec67 = "";
+                        numt7 = numt7 + 1;
+                    }
+                    if (filech != ",") {
+                        filec67 += filec37[p3d2];
+                    }
+                    p3d2 = p3d2 + 1;
+                }
+                z3d18.close();
+                std::ifstream z3d28("3D Model Complete\\z3d2.txt", std::ios::in);
+                getline(z3d28, filect);
+                filec38 = filect;
+                p3d2 = 0;
+                while (p3d2 < filec38.length()) {
+                    filech = filec38[p3d2];
+                    if (filech == ",") {
+                        z3d2[numt8] = std::stof(filec68);
+                        filec68 = "";
+                        numt8 = numt8 + 1;
+                    }
+                    if (filech != ",") {
+                        filec68 += filec38[p3d2];
+                    }
+                    p3d2 = p3d2 + 1;
+                }
+                z3d28.close();
+                std::ifstream z3d38("3D Model Complete\\z3d3.txt", std::ios::in);
+                getline(z3d38, filect);
+                filec39 = filect;
+                p3d2 = 0;
+                while (p3d2 < filec39.length()) {
+                    filech = filec39[p3d2];
+                    if (filech == ",") {
+                        z3d3[numt9] = std::stof(filec69);
+                        filec69 = "";
+                        numt9 = numt9 + 1;
+                    }
+                    if (filech != ",") {
+                        filec69 += filec39[p3d2];
+                    }
+                    p3d2 = p3d2 + 1;
+                }
+                z3d38.close();
+                std::ifstream red3d8("3D Model Complete\\red3d.txt", std::ios::in);
+                getline(red3d8, filect);
+                filec310 = filect;
+                p3d2 = 0;
+                while (p3d2 < filec310.length()) {
+                    filech = filec310[p3d2];
+                    if (filech == ",") {
+                        red3d[numt10] = std::stof(filec610);
+                        filec610 = "";
+                        numt10 = numt10 + 1;
+                    }
+                    if (filech != ",") {
+                        filec610 += filec310[p3d2];
+                    }
+                    p3d2 = p3d2 + 1;
+                }
+                red3d8.close();
+                std::ifstream green3d8("3D Model Complete\\green3d.txt", std::ios::in);
+                getline(green3d8, filect);
+                filec311 = filect;
+                p3d2 = 0;
+                while (p3d2 < filec311.length()) {
+                    filech = filec311[p3d2];
+                    if (filech == ",") {
+                        green3d[numt11] = std::stof(filec611);
+                        filec611 = "";
+                        numt11 = numt11 + 1;
+                    }
+                    if (filech != ",") {
+                        filec611 += filec311[p3d2];
+                    }
+                    p3d2 = p3d2 + 1;
+                }
+                green3d8.close();
+                std::ifstream blue3d8("3D Model Complete\\blue3d.txt", std::ios::in);
+                getline(blue3d8, filect);
+                filec312 = filect;
+                p3d2 = 0;
+                while (p3d2 < filec312.length()) {
+                    filech = filec312[p3d2];
+                    if (filech == ",") {
+                        blue3d[numt12] = std::stof(filec612);
+                        filec612 = "";
+                        numt12 = numt12 + 1;
+                    }
+                    if (filech != ",") {
+                        filec612 += filec312[p3d2];
+                    }
+                    p3d2 = p3d2 + 1;
+                }
+                blue3d8.close();
+                std::ifstream alpha3d8("3D Model Complete\\alpha3d.txt", std::ios::in);
+                getline(alpha3d8, filect);
+                filec313 = filect;
+                p3d2 = 0;
+                while (p3d2 < filec313.length()) {
+                    filech = filec313[p3d2];
+                    if (filech == ",") {
+                        alpha3d[numt13] = std::stof(filec613);
+                        filec613 = "";
+                        numt13 = numt13 + 1;
+                    }
+                    if (filech != ",") {
+                        filec613 += filec313[p3d2];
+                    }
+                    p3d2 = p3d2 + 1;
+                }
+                alpha3d8.close();
+                /*
+                p3d2 = p3d2 + 1;
+                if (p3d2 >= 1995) {
+                    loadmodel3d = 2;
+                }
+                */
                 loadmodel3d = 2;
+            }
+            if (openeditor == 1) {
+                //std::ofstream c3d2("3D Model Complete\\control.txt", std::ios::out);
+                //c3d2 << "1";
+                openeditor = 2;
+            }
+            if (openeditor == 2) {
+                /*
+                std::ifstream numberf2("3D Model\\tnumber.txt");
+                getline(numberf2, filect);
+                filec3 = filect;
+                numberf2.close();
+                if (filec3 == "2") {
+                    std::ifstream numberf("3D Model\\number.txt", std::ios::in);
+                    getline(numberf, filec);
+                    p3dnumberb = std::stof(filec);
+                    p3dnumber = std::floor(p3dnumberb);
+                    numberf.close();
+                }
+                if (p3dnumber >= 2000) {
+                    p3dnumber2 = 0;
+                }
+                if (p3dnumber2 >= 0) {
+                    p3dnumber = deletedpoints[p3dnumber2];
+                    p3dnumber2 = p3dnumber2 + 1;
+                }
+                if (p3dnumber >= 0 && p3dnumber2 >=0) {
+                    std::ifstream filex1("3D Model\\x1.txt", std::ios::in);
+                    getline(filex1, filec);
+                    x3d1[p3dnumber] = std::stof(filec);
+                    filex1.close();
+                    std::ifstream filex2("3D Model\\x2.txt", std::ios::in);
+                    getline(filex2, filec);
+                    x3d2[p3dnumber] = std::stof(filec);
+                    filex2.close();
+                    std::ifstream filex3("3D Model\\x3.txt", std::ios::in);
+                    getline(filex3, filec);
+                    x3d3[p3dnumber] = std::stof(filec);
+                    filex3.close();
+                    std::ifstream filey1("3D Model\\y1.txt", std::ios::in);
+                    getline(filey1, filec);
+                    y3d1[p3dnumber] = std::stof(filec);
+                    filey1.close();
+                    std::ifstream filey2("3D Model\\y2.txt", std::ios::in);
+                    getline(filey2, filec);
+                    y3d2[p3dnumber] = std::stof(filec);
+                    filey2.close();
+                    std::ifstream filey3("3D Model\\y3.txt", std::ios::in);
+                    getline(filey3, filec);
+                    y3d3[p3dnumber] = std::stof(filec);
+                    filey3.close();
+                    std::ifstream filez1("3D Model\\z1.txt", std::ios::in);
+                    getline(filez1, filec);
+                    z3d1[p3dnumber] = std::stof(filec);
+                    std::ifstream filez2("3D Model\\z2.txt", std::ios::in);
+                    filez1.close();
+                    getline(filez2, filec);
+                    z3d2[p3dnumber] = std::stof(filec);
+                    filez2.close();
+                    std::ifstream filez3("3D Model\\z3.txt", std::ios::in);
+                    getline(filez3, filec);
+                    z3d3[p3dnumber] = std::stof(filec);
+                    filez3.close();
+                    std::ifstream filer("3D Model\\red.txt", std::ios::in);
+                    getline(filer, filec);
+                    red3d[p3dnumber] = std::stof(filec);
+                    filer.close();
+                    std::ifstream fileg("3D Model\\green.txt", std::ios::in);
+                    getline(fileg, filec);
+                    green3d[p3dnumber] = std::stof(filec);
+                    fileg.close();
+                    std::ifstream fileb("3D Model\\blue.txt", std::ios::in);
+                    getline(fileb, filec);
+                    blue3d[p3dnumber] = std::stof(filec);
+                    fileb.close();
+                    std::ifstream filea("3D Model\\alpha.txt", std::ios::in);
+                    getline(filea, filec);
+                    alpha3d[p3dnumber] = std::stof(filec);
+                    filea.close();
+                    /*
+                    std::ofstream numberf2("3D Model\\tnumber.txt", std::ios::out);
+                    numberf2 << "1";
+                    numberf2.close();
+                    loadmodel3d = 2;
+                    openeditor = 3;
+                }
+                */
+                //p3dnumber = movet; && y3d1[movet] >= -990.0f
+
+                if (movet >= 0 && movet < 19999) {
+                    hidemodel = 0; drawpoint = 0;
+                    p3dnumber = movet;
+
+                    //std::ifstream filex1("3D Model\\x1.txt", std::ios::in);
+                    //getline(filex1, filec);
+                    x3d1[p3dnumber] = tx1;
+                    //filex1.close();
+                    //std::ifstream filex2("3D Model\\x2.txt", std::ios::in);
+                    //getline(filex2, filec);
+                    x3d2[p3dnumber] = tx2;
+                    //filex2.close();
+                    //std::ifstream filex3("3D Model\\x3.txt", std::ios::in);
+                    //getline(filex3, filec);
+                    x3d3[p3dnumber] = tx3;
+                    //filex3.close();
+                    //std::ifstream filey1("3D Model\\y1.txt", std::ios::in);
+                    //getline(filey1, filec);
+                    y3d1[p3dnumber] = ty1;
+                    //filey1.close();
+                    //std::ifstream filey2("3D Model\\y2.txt", std::ios::in);
+                    //getline(filey2, filec);
+                    y3d2[p3dnumber] = ty2;
+                    //filey2.close();
+                    //std::ifstream filey3("3D Model\\y3.txt", std::ios::in);
+                    //getline(filey3, filec);
+                    y3d3[p3dnumber] = ty3;
+                    //filey3.close();
+                    //std::ifstream filez1("3D Model\\z1.txt", std::ios::in);
+                    //getline(filez1, filec);
+                    z3d1[p3dnumber] = tz1;
+                    //std::ifstream filez2("3D Model\\z2.txt", std::ios::in);
+                    //filez1.close();
+                    //getline(filez2, filec);
+                    z3d2[p3dnumber] = tz2;
+                    //filez2.close();
+                    //std::ifstream filez3("3D Model\\z3.txt", std::ios::in);
+                    //getline(filez3, filec);
+                    z3d3[p3dnumber] = tz3;
+                    //filez3.close();
+                    //std::ifstream filer("3D Model\\red.txt", std::ios::in);
+                    //getline(filer, filec);
+                    red3d[p3dnumber] = tred;
+                    //filer.close();
+                    //std::ifstream fileg("3D Model\\green.txt", std::ios::in);
+                    //getline(fileg, filec);
+                    green3d[p3dnumber] = tgreen;
+                    //fileg.close();
+                    //std::ifstream fileb("3D Model\\blue.txt", std::ios::in);
+                    //getline(fileb, filec);
+                    blue3d[p3dnumber] = tblue;
+                    //fileb.close();
+                    //std::ifstream filea("3D Model\\alpha.txt", std::ios::in);
+                    //getline(filea, filec);
+                    alpha3d[p3dnumber] = talpha;
+                    //filea.close();
+
+                    /*
+                    std::ofstream numberf2("3D Model\\tnumber.txt", std::ios::out);
+                    numberf2 << "1";
+                    numberf2.close();*/
+                    //p3dnumber = p3dnumber + 1;
+                    p3dnumber2 = p3dnumber2 + 1;
+                    selecttriangle = 2;
+                }
                 openeditor = 3;
             }
+            if (selecttriangle == 2 && move != 2 && rotate != 2 && hidemodel == 0) {
+                if (right == 2) {
+                    //red13d = red3d[movet]; green13d = green3d[movet]; blue13d = blue3d[movet]; alpha13d = alpha3d[movet];
+                    //red3d[movet] = red13d; green3d[movet] = green13d; blue3d[movet] = blue13d; alpha3d[movet] = 1.0f;
+                    //red13d = red3d[movet]; green13d = green3d[movet]; blue13d = blue3d[movet]; alpha13d = alpha3d[movet];
+                    movet = movet + 1;
+                    ///movet33 = movet;
+                    red3d[movet-1] = red13d; green3d[movet-1] = green13d; blue3d[movet-1] = blue13d; alpha3d[movet-1] = alpha13d; 
+                     right = 3; 
+                }
+                if (left == 2 && movet > 0) {
+                    //red13d = red3d[movet]; green13d = green3d[movet]; blue13d = blue3d[movet]; alpha13d = alpha3d[movet];
+                    //red3d[movet] = red13d; green3d[movet] = green13d; blue3d[movet] = blue13d; alpha3d[movet] = 1.0f;
+                    movet = movet - 1; movet33 = movet;  //movet33 = movet - movet33;
+                    red3d[movet+1] = red13d; green3d[movet+1] = green13d; blue3d[movet+1] = blue13d; alpha3d[movet+1] = alpha13d;
+                     left = 3; 
+                }
+            }
+            x3di = 0.0f; y3di = 0.0f; z3di = 0.0f;
+            if (hidemodel == 1) {
+                if (hidemodel == 1 && drawpoint == 4) {
+                    if (up == 2 && tred < 0.96f) {
+                        tred = tred + 0.05;
+
+                    }
+                    if (down == 2 && tred > 0.04f) {
+                        tred = tred - 0.05;
+
+                    }up = 3; down = 3;
+                }
+                if (hidemodel == 1 && drawpoint == 6) {
+                    if (up == 2 && tblue < 0.96f) {
+                        tblue = tblue + 0.05;
+
+                    }
+                    if (down == 2 && tblue > 0.04f) {
+                        tblue = tblue - 0.05;
+
+                    }up = 3; down = 3;
+                }
+                if (hidemodel == 1 && drawpoint == 5) {
+                    if (up == 2 && tgreen < 0.96f) {
+                        tgreen = tgreen + 0.05;
+
+                    }
+                    if (down == 2 && tgreen > 0.04f) {
+                        tgreen = tgreen - 0.05;
+
+                    }up = 3; down = 3;
+                }
+                if (hidemodel == 1 && drawpoint == 7) {
+                    if (up == 2 && talpha < 0.96f) {
+                        talpha = talpha + 0.05;
+
+                    }
+                    if (down == 2 && talpha > 0.04f) {
+                        talpha = talpha - 0.05;
+
+                    }up = 3; down = 3;
+                }
+            }
+            if (hidemodel == 1 && drawpoint == 1) { //if (hidemodel == 1 && drawpoint == 1) {
+                if (right == 2) {
+                    tx1 = tx1 + (1.0f * modelx);
+                    right = 3;
+                }
+                if (left == 2) {
+                    tx1 = tx1 - (1.0f * modelx);
+                    left = 3;
+                }
+                if (up == 2 && point != 3) {
+                    ty1 = ty1 + (1.0f * modelx);
+                    up = 3;
+                }
+                if (down == 2 && point != 3) {
+                    ty1 = ty1 - (1.0f * modelx);
+                    down = 3;
+                }
+                if (up == 2 && point == 3) {
+                    tz1 = tz1 + (1.0f * modelx);
+                    up = 3;
+                }
+                if (down == 2 && point == 3) {
+                    tz1 = tz1 - (1.0f * modelx);
+                    down = 3;
+                }
+            }
+            if (hidemodel == 1 && drawpoint == 2) {
+                if (right == 2) {
+                    tx2 = tx2 + (1.0f * modelx);
+                    right = 3;
+                }
+                if (left == 2) {
+                    tx2 = tx2 - (1.0f * modelx);
+                    left = 3;
+                }
+                if (up == 2 && point != 3) {
+                    ty2 = ty2 + (1.0f * modelx);
+                    up = 3;
+                }
+                if (down == 2 && point != 3) {
+                    ty2 = ty2 - (1.0f * modelx);
+                    down = 3;
+                }
+                if (up == 2 && point == 3) {
+                    tz2 = tz2 + (1.0f * modelx);
+                    up = 3;
+                }
+                if (down == 2 && point == 3) {
+                    tz2 = tz2 - (1.0f * modelx);
+                    down = 3;
+                }
+            }
+            if (hidemodel == 1 && drawpoint == 3) {
+                if (right == 2) {
+                    tx3 = tx3 + (1.0f * modelx); //(1.0f * cos(ta2) - 0.0f * sin(ta2))* modelx
+                    right = 3;
+                }
+                if (left == 2) {
+                    tx3 = tx3 - (1.0f * modelx);
+                    left = 3;
+                }
+                if (up == 2 && point != 3) {
+                    ty3 = ty3 + (1.0f * modelx);
+                    up = 3;
+                }
+                if (down == 2 && point != 3) {
+                    ty3 = ty3 - (1.0f * modelx);
+                    down = 3;
+                }
+                if (up == 2 && point == 3) {
+                    tz3 = tz3 + (1.0f * modelx);
+                    up = 3;
+                }
+                if (down == 2 && point == 3) {
+                    tz3 = tz3 - (1.0f * modelx);
+                    down = 3;
+                }
+            }
+            if (move == 2 && hidemodel == 0) {
+                /*if (right == 2 && point == 1) {
+                    //x3di = x3di + 1.0f;
+                    right = 3;
+                    array3d = 2;
+                }
+                if (left == 2 && point == 1) {
+                    //x3di = x3di - 1.0f;
+                    left = 3;
+                    array3d = 2;
+                }*/
+                if (up == 2) {
+                    if (modelx > 0.5f) {
+                        modelx = modelx - 0.1f;
+                    }
+                    //z3di = z3di + 1.0f;
+                    up = 3;
+                    array3d = 2;
+                }
+                if (down == 2) {
+                    if (modelx < 200.0f) {
+                        modelx = modelx + 0.1f;
+                    }
+                    //z3di = z3di - 1.0f;
+                    down = 3;
+                    array3d = 2;
+                }
+                if (right == 2 && point == 2) {
+                    //y3di = y3di + 1.0f;
+                    right = 3;
+                    array3d = 2;
+                }
+                if (left == 2 && point == 2) {
+                    //y3di = y3di - 1.0f;
+                    left = 3;
+                    array3d = 2;
+                }
+                if (up == 2 && point == 2) {
+                    //modely = modely + 0.1f;
+                    //z3di = z3di + 1.0f;
+                    up = 3;
+                    array3d = 2;
+                }
+                if (down == 2 && point == 2) {
+                    //modely = modely - 0.1f;
+                    //z3di = z3di - 1.0f;
+                    down = 3;
+                    array3d = 2;
+                }
+                //array3d = 2;
+            }
+            if (angle3d >= 360.0f) {
+                angle3d = 0.0f;
+            }
+            if (angle3d <= -360.0f) {
+                angle3d = 0.0f;
+            }
+            if (rotate == 2 && hidemodel == 0) {
+                if (right == 2 && point == 1 && carrotate <= 360.0f) {
+                    tpoint = 1;
+                    carrotate = carrotate + 1.0f;
+                    //angle3d = angle3d + 1.0f;
+                    //ax = 1.0f;
+                    //ay = 0.0f;
+                    right = 3;
+                }
+                if (left == 2 && point == 1 && carrotate >= -360.0f) {
+                    tpoint = 1;
+                    carrotate = carrotate - 1.0f;
+                    //angle3d = angle3d - 1.0f;
+                    //ax = 1.0f;
+                    //ay = 0.0f;
+                    left = 3;
+                }
+                if (up == 2 && point == 1) {
+                    //angle3d = angle3d + 1.0f;
+                    //ax = 1.0f;
+                    //ay = 0.0f;
+                    up = 3;
+                }
+                if (down == 2 && point == 1) {
+                    //angle3d = angle3d - 1.0f;
+                    //ax = 1.0f;
+                    //ay = 0.0f;
+                    down = 3;
+                }
+                if (right == 2 && point == 2) {
+                    //angle3d = angle3d + 1.0f;
+                    //ax = 0.0f;
+                    //ay = 1.0f;
+                    right = 3;
+                }
+                if (left == 2 && point == 2) {
+                    //angle3d = angle3d - 1.0f;
+                    //ax = 0.0f;
+                    //ay = 1.0f;
+                    left = 3;
+                }
+                if (up == 2 && point == 2) {
+                    //carrotate = carrotate + 1.0f;
+                    //angle3d = angle3d + 1.0f;
+                    //ax = 0.0f;
+                    //ay = 1.0f;
+                    up = 3;
+                }
+                if (down == 2 && point == 2) {
+                    //carrotate = carrotate - 1.0f;
+                    //angle3d = angle3d - 1.0f;
+                    //ax = 0.0f;
+                    //ay = 1.0f;
+                    down = 3;
+                }
+                //array3d = 2;
+            }
+            /*
+            if (loadmodel3d==1) {
+                p3d = 0;
+                while (p3d < 2000) {
+                    red3d[p3d] = red3d[p3d]; green3d[p3d] = green3d[p3d]; blue3d[p3d] = blue3d[p3d]; alpha3d[p3d] = alpha3d[p3d];
+                    x3d1[p3d] = x3d1[p3d] + x3di; y3d1[p3d] = y3d1[p3d] + y3di; z3d1[p3d] = z3d1[p3d] + z3di;
+                    x3d2[p3d] = x3d2[p3d] + x3di; y3d2[p3d] = y3d2[p3d] + y3di; z3d2[p3d] = z3d2[p3d] + z3di;
+                    x3d3[p3d] = x3d3[p3d] + x3di; y3d3[p3d] = y3d3[p3d] + y3di; z3d3[p3d] = z3d3[p3d] + z3di;
+                    p3d = p3d + 1;
+                }
+            }
             */
-            //p3dnumber = movet;
-            if (movet >= 0 && y3d1[movet] <= -990.0f && movet < 1999) {
-                p3dnumber = movet;
-                std::ifstream filex1("3D Model\\x1.txt", std::ios::in);
-                getline(filex1, filec);
-                x3d1[p3dnumber] = std::stof(filec);
-                filex1.close();
-                std::ifstream filex2("3D Model\\x2.txt", std::ios::in);
-                getline(filex2, filec);
-                x3d2[p3dnumber] = std::stof(filec);
-                filex2.close();
-                std::ifstream filex3("3D Model\\x3.txt", std::ios::in);
-                getline(filex3, filec);
-                x3d3[p3dnumber] = std::stof(filec);
-                filex3.close();
-                std::ifstream filey1("3D Model\\y1.txt", std::ios::in);
-                getline(filey1, filec);
-                y3d1[p3dnumber] = std::stof(filec);
-                filey1.close();
-                std::ifstream filey2("3D Model\\y2.txt", std::ios::in);
-                getline(filey2, filec);
-                y3d2[p3dnumber] = std::stof(filec);
-                filey2.close();
-                std::ifstream filey3("3D Model\\y3.txt", std::ios::in);
-                getline(filey3, filec);
-                y3d3[p3dnumber] = std::stof(filec);
-                filey3.close();
-                std::ifstream filez1("3D Model\\z1.txt", std::ios::in);
-                getline(filez1, filec);
-                z3d1[p3dnumber] = std::stof(filec);
-                std::ifstream filez2("3D Model\\z2.txt", std::ios::in);
-                filez1.close();
-                getline(filez2, filec);
-                z3d2[p3dnumber] = std::stof(filec);
-                filez2.close();
-                std::ifstream filez3("3D Model\\z3.txt", std::ios::in);
-                getline(filez3, filec);
-                z3d3[p3dnumber] = std::stof(filec);
-                filez3.close();
-                std::ifstream filer("3D Model\\red.txt", std::ios::in);
-                getline(filer, filec);
-                red3d[p3dnumber] = std::stof(filec);
-                filer.close();
-                std::ifstream fileg("3D Model\\green.txt", std::ios::in);
-                getline(fileg, filec);
-                green3d[p3dnumber] = std::stof(filec);
-                fileg.close();
-                std::ifstream fileb("3D Model\\blue.txt", std::ios::in);
-                getline(fileb, filec);
-                blue3d[p3dnumber] = std::stof(filec);
-                fileb.close();
-                std::ifstream filea("3D Model\\alpha.txt", std::ios::in);
-                getline(filea, filec);
-                alpha3d[p3dnumber] = std::stof(filec);
-                filea.close();
+            if (selecttriangle == 2) {
+                red13d = red3d[movet]; green13d = green3d[movet]; blue13d = blue3d[movet]; alpha13d = alpha3d[movet];
+                //selected triangle orange colour
+                //red13d = 0.98f; green13d = 0.43f; blue13d = 0.0f; alpha13d = 1.0f;
+                red3d[movet] = 0.98f; green3d[movet] = 0.34f; blue3d[movet] = 0.0f; alpha3d[movet] = 1.0f;
+                //std::ofstream fnotdata("3D Model\\triangledata.txt", std::ios::out);
+                //fnotdata << "X1:" << x3d1[movet] << "   Y1:" << y3d1[movet] << "   Z1:" << z3d1[movet] << "   X2:" << x3d2[movet] << "   Y2:" << y3d2[movet] << "   Z2:" << z3d2[movet] << "   X3:" << x3d3[movet] << "   Y3:" << y3d3[movet] << "   Z3:" << z3d3[movet] << "   RED:" << red13d << "   GREEN:" << green13d << "   BLUE:" << blue13d << "   ALPHA:" << alpha13d;
+                //fnotdata.close();
+                tvaluex1 = L"X1: " + std::to_wstring(x3d1[movet]);
+                tvalue2x1 = tvaluex1.c_str();
+                tvaluey1 = L"Y1: " + std::to_wstring(y3d1[movet]);
+                tvalue2y1 = tvaluey1.c_str();
+                tvaluez1 = L"Z1: " + std::to_wstring(z3d1[movet]);
+                tvalue2z1 = tvaluez1.c_str();
+                tvaluex2 = L"X2: " + std::to_wstring(x3d2[movet]);
+                tvalue2x2 = tvaluex2.c_str();
+                tvaluey2 = L"Y2: " + std::to_wstring(y3d2[movet]);
+                tvalue2y2 = tvaluey2.c_str();
+                tvaluez2 = L"Z2: " + std::to_wstring(z3d2[movet]);
+                tvalue2z2 = tvaluez2.c_str();
+                tvaluex3 = L"X3: " + std::to_wstring(x3d3[movet]);
+                tvalue2x3 = tvaluex3.c_str();
+                tvaluey3 = L"Y3: " + std::to_wstring(y3d3[movet]);
+                tvalue2y3 = tvaluey3.c_str();
+                tvaluez3 = L"Z3: " + std::to_wstring(z3d3[movet]);
+                tvalue2z3 = tvaluez3.c_str();
+                tvaluered = L"RED: " + std::to_wstring(red13d);
+                tvalue2red = tvaluered.c_str();
+                tvaluegreen = L"GREEN: " + std::to_wstring(green13d);
+                tvalue2green = tvaluegreen.c_str();
+                tvalueblue = L"BLUE: " + std::to_wstring(blue13d);
+                tvalue2blue = tvalueblue.c_str();
+                tvaluealpha = L"ALPHA: " + std::to_wstring(alpha13d);
+                tvalue2alpha = tvaluealpha.c_str();
+                selecttriangle = 3;
+            }
+            if (selecttriangle == 4) {
+                red3d[movet] = red13d; green3d[movet] = green13d; blue3d[movet] = blue13d; alpha3d[movet] = alpha13d;
+                //red3d[movet] = 0.78f; green3d[movet] = 0.34f; blue3d[movet] = 0.0f; alpha3d[movet] = 1.0f;
+                //selected triangle orange colour
+                //red13d = 0.98f; green13d = 0.43f; blue13d = 0.01f; alpha13d = 1.0f;
+            }
+            if (deletetriangle == 1 && selecttriangle == 3) {
+                x3d1[movet] = -0.0001f; y3d1[movet] = -1000.0f; z3d1[movet] = -0.8f;
+                x3d2[movet] = 0.0f; y3d2[movet] = -1000.1f; z3d2[movet] = -0.8f;
+                x3d3[movet] = 0.0001f; y3d3[movet] = -1000.0f; z3d3[movet] = -0.8f;
+                red3d[movet] = 0.0f; green3d[movet] = 0.0f; blue3d[movet] = 0.0f; alpha3d[movet] = 0.0f; //Use background colour
                 /*
-                std::ofstream numberf2("3D Model\\tnumber.txt", std::ios::out);
-                numberf2 << "1";
-                numberf2.close();*/
-                //p3dnumber = p3dnumber + 1;
-                p3dnumber2 = p3dnumber2 + 1;
-                selecttriangle = 2;
+                p3d = movet;
+                while (p3d < 1999) {
+                    red3d[p3d] = red3d[p3d + 1]; green3d[p3d] = green3d[p3d + 1]; blue3d[p3d] = blue3d[p3d + 1]; alpha3d[p3d] = alpha3d[p3d + 1];
+                    x3d1[p3d] = x3d1[p3d + 1]; y3d1[p3d] = y3d1[p3d + 1]; z3d1[p3d] = z3d1[p3d + 1];
+                    x3d2[p3d] = x3d2[p3d + 1]; y3d2[p3d] = y3d2[p3d + 1]; z3d2[p3d] = z3d2[p3d + 1];
+                    x3d3[p3d] = x3d3[p3d + 1]; y3d3[p3d] = y3d3[p3d + 1]; z3d3[p3d] = z3d3[p3d + 1];
+                    p3d = p3d + 1;
+                }
+                p3d = 0;
+                */
+                //deletetriangle2 = 1;
+                /*
+                if (deletedpoints[p3dnumber3 - 1] != movet && p3dnumber3>0) {
+                    p3dnumber3 = p3dnumber3 + 1;
+                    deletedpoints[p3dnumber3] = movet;
+                }
+                if (p3dnumber3 <= 0) {
+                    p3dnumber3 = p3dnumber3 + 1;
+                    deletedpoints[p3dnumber3] = movet;
+                }
+                */
+                p3dnumber2 = p3dnumber2 - 1;
+                deletetriangle = 2; 
             }
-            openeditor = 3;
-        }
-        if (selecttriangle == 2 && move != 2 && rotate != 2) {
-            if (right == 2) {
-                //red13d = red3d[movet]; green13d = green3d[movet]; blue13d = blue3d[movet]; alpha13d = alpha3d[movet];
-                //red3d[movet] = red13d; green3d[movet] = green13d; blue3d[movet] = blue13d; alpha3d[movet] = 1.0f;
-                //red13d = red3d[movet]; green13d = green3d[movet]; blue13d = blue3d[movet]; alpha13d = alpha3d[movet];
-                movet = movet + 1;
-                red3d[movet - 1] = red13d; green3d[movet - 1] = green13d; blue3d[movet - 1] = blue13d; alpha3d[movet - 1] = alpha13d;
-                right = 3;
+            if (hidemodel ==1 && drawpoint == 0 && loadmodel3d == 16 && y3d1[movet] > -900.0f) {
+
+                tx1 = x3d1[movet]; ty1 = y3d1[movet]; tz1 = z3d1[movet];
+                tx2 = x3d2[movet]; ty2 = y3d2[movet]; tz2 = z3d2[movet];
+                tx3 = x3d3[movet]; ty3 = y3d3[movet]; tz3 = z3d3[movet];
+
+
+                movet = movet;
+                drawpoint = 15;
+                loadmodel3d = 16;
             }
-            if (left == 2 && movet > 0) {
-                //red13d = red3d[movet]; green13d = green3d[movet]; blue13d = blue3d[movet]; alpha13d = alpha3d[movet];
-                //red3d[movet] = red13d; green3d[movet] = green13d; blue3d[movet] = blue13d; alpha3d[movet] = 1.0f;
-                movet = movet - 1;
-                red3d[movet + 1] = red13d; green3d[movet + 1] = green13d; blue3d[movet + 1] = blue13d; alpha3d[movet + 1] = alpha13d;
-                left = 3;
+            if (hidemodel == 1 && drawpoint == 0 && loadmodel3d == 15 && y3d1[movet] > -900.0f) {
+
+                tx1 = x3d1[movet]; ty1 = y3d1[movet]; tz1 = z3d1[movet];
+                tx2 = x3d2[movet]; ty2 = y3d2[movet]; tz2 = z3d2[movet];
+                tx3 = x3d3[movet]; ty3 = y3d3[movet]; tz3 = z3d3[movet];
+                tx1 = 0.0f;  tx2 = 0.0f;  tx3 = 0.0f; ty1 = 0.0f;  ty2 = 0.0f;  ty3 = 0.0f; tz1 = 0.0f;  tz2 = 0.0f;  tz3 = 0.0f;
+                deletetriangle2 = 0; selecttriangle = 4;
+                movet = movet;
+                drawpoint = 15;
+                loadmodel3d = 16; hidemodel = 0;
             }
-        }
-        x3di = 0.0f; y3di = 0.0f; z3di = 0.0f;
-        if (move == 2) {
-            if (right == 2 && point == 1) {
-                x3di = x3di + 1.0f;
-                right = 3;
-                array3d = 2;
+            if (hidemodel == 1 && drawpoint == 0 && loadmodel3d == 0 && y3d1[movet] > -900.0f) {
+                tx1 = x3d1[movet]; ty1 = y3d1[movet]; tz1 = z3d1[movet];
+                tx2 = x3d2[movet]; ty2 = y3d2[movet]; tz2 = z3d2[movet];
+                tx3 = x3d3[movet]; ty3 = y3d3[movet]; tz3 = z3d3[movet];
+
+                drawpoint = 15;
+
             }
-            if (left == 2 && point == 1) {
-                x3di = x3di - 1.0f;
-                left = 3;
-                array3d = 2;
-            }
-            if (up == 2 && point == 1) {
-                z3di = z3di + 1.0f;
-                up = 3;
-                array3d = 2;
-            }
-            if (down == 2 && point == 1) {
-                z3di = z3di - 1.0f;
-                down = 3;
-                array3d = 2;
-            }
-            if (right == 2 && point == 2) {
-                y3di = y3di + 1.0f;
-                right = 3;
-                array3d = 2;
-            }
-            if (left == 2 && point == 2) {
-                y3di = y3di - 1.0f;
-                left = 3;
-                array3d = 2;
-            }
-            if (up == 2 && point == 2) {
-                z3di = z3di + 1.0f;
-                up = 3;
-                array3d = 2;
-            }
-            if (down == 2 && point == 2) {
-                z3di = z3di - 1.0f;
-                down = 3;
-                array3d = 2;
-            }
-            //array3d = 2;
-        }
-        if (angle3d >= 360.0f) {
-            angle3d = 0.0f;
-        }
-        if (angle3d <= -360.0f) {
-            angle3d = 0.0f;
-        }
-        if (rotate == 2) {
-            if (right == 2 && point == 1) {
-                angle3d = angle3d + 1.0f;
-                ax = 1.0f;
-                //ay = 0.0f;
-                right = 3;
-            }
-            if (left == 2 && point == 1) {
-                angle3d = angle3d - 1.0f;
-                ax = 1.0f;
-                //ay = 0.0f;
-                left = 3;
-            }
-            if (up == 2 && point == 1) {
-                angle3d = angle3d + 1.0f;
-                ax = 1.0f;
-                //ay = 0.0f;
-                up = 3;
-            }
-            if (down == 2 && point == 1) {
-                angle3d = angle3d - 1.0f;
-                ax = 1.0f;
-                //ay = 0.0f;
-                down = 3;
-            }
-            if (right == 2 && point == 2) {
-                angle3d = angle3d + 1.0f;
-                //ax = 0.0f;
-                ay = 1.0f;
-                right = 3;
-            }
-            if (left == 2 && point == 2) {
-                angle3d = angle3d - 1.0f;
-                //ax = 0.0f;
-                ay = 1.0f;
-                left = 3;
-            }
-            if (up == 2 && point == 2) {
-                angle3d = angle3d + 1.0f;
-                //ax = 0.0f;
-                ay = 1.0f;
-                up = 3;
-            }
-            if (down == 2 && point == 2) {
-                angle3d = angle3d - 1.0f;
-                //ax = 0.0f;
-                ay = 1.0f;
-                down = 3;
-            }
-            //array3d = 2;
-        }
-        /*
-        if (loadmodel3d==1) {
-            p3d = 0;
-            while (p3d < 2000) {
-                red3d[p3d] = red3d[p3d]; green3d[p3d] = green3d[p3d]; blue3d[p3d] = blue3d[p3d]; alpha3d[p3d] = alpha3d[p3d];
-                x3d1[p3d] = x3d1[p3d] + x3di; y3d1[p3d] = y3d1[p3d] + y3di; z3d1[p3d] = z3d1[p3d] + z3di;
-                x3d2[p3d] = x3d2[p3d] + x3di; y3d2[p3d] = y3d2[p3d] + y3di; z3d2[p3d] = z3d2[p3d] + z3di;
-                x3d3[p3d] = x3d3[p3d] + x3di; y3d3[p3d] = y3d3[p3d] + y3di; z3d3[p3d] = z3d3[p3d] + z3di;
-                p3d = p3d + 1;
-            }
-        }
-        */
-        if (selecttriangle == 2) {
-            red13d = red3d[movet]; green13d = green3d[movet]; blue13d = blue3d[movet]; alpha13d = alpha3d[movet];
-            red3d[movet] = 0.92f; green3d[movet] = 0.23f; blue3d[movet] = 0.23f; alpha3d[movet] = 1.0f;
-            std::ofstream fnotdata("3D Model\\triangledata.txt", std::ios::out);
-            fnotdata << "X1:" << x3d1[movet] << "   Y1:" << y3d1[movet] << "   Z1:" << z3d1[movet] << "   X2:" << x3d2[movet] << "   Y2:" << y3d2[movet] << "   Z2:" << z3d2[movet] << "   X3:" << x3d3[movet] << "   Y3:" << y3d3[movet] << "   Z3:" << z3d3[movet] << "   RED:" << red13d << "   GREEN:" << green13d << "   BLUE:" << blue13d << "   ALPHA:" << alpha13d;
-            fnotdata.close();
-            tvaluex1 = L"X1: " + std::to_wstring(x3d1[movet]);
-            tvalue2x1 = tvaluex1.c_str();
-            tvaluey1 = L"Y1: " + std::to_wstring(y3d1[movet]);
-            tvalue2y1 = tvaluey1.c_str();
-            tvaluez1 = L"Z1: " + std::to_wstring(z3d1[movet]);
-            tvalue2z1 = tvaluez1.c_str();
-            tvaluex2 = L"X2: " + std::to_wstring(x3d2[movet]);
-            tvalue2x2 = tvaluex2.c_str();
-            tvaluey2 = L"Y2: " + std::to_wstring(y3d2[movet]);
-            tvalue2y2 = tvaluey2.c_str();
-            tvaluez2 = L"Z2: " + std::to_wstring(z3d2[movet]);
-            tvalue2z2 = tvaluez2.c_str();
-            tvaluex3 = L"X3: " + std::to_wstring(x3d3[movet]);
-            tvalue2x3 = tvaluex3.c_str();
-            tvaluey3 = L"Y3: " + std::to_wstring(y3d3[movet]);
-            tvalue2y3 = tvaluey3.c_str();
-            tvaluez3 = L"Z3: " + std::to_wstring(z3d3[movet]);
-            tvalue2z3 = tvaluez3.c_str();
-            tvaluered = L"RED: " + std::to_wstring(red13d);
-            tvalue2red = tvaluered.c_str();
-            tvaluegreen = L"GREEN: " + std::to_wstring(green13d);
-            tvalue2green = tvaluegreen.c_str();
-            tvalueblue = L"BLUE: " + std::to_wstring(blue13d);
-            tvalue2blue = tvalueblue.c_str();
-            tvaluealpha = L"ALPHA: " + std::to_wstring(alpha13d);
-            tvalue2alpha = tvaluealpha.c_str();
-            selecttriangle = 3;
-        }
-        if (selecttriangle == 4) {
-            red3d[movet] = red13d; green3d[movet] = green13d; blue3d[movet] = blue13d; alpha3d[movet] = alpha13d;
-        }
-        if (deletetriangle == 1 && selecttriangle == 3) {
-            x3d1[movet] = -0.0001f; y3d1[movet] = -1000.0f; z3d1[movet] = -0.8f;
-            x3d2[movet] = 0.0f; y3d2[movet] = -1000.1f; z3d2[movet] = -0.8f;
-            x3d3[movet] = 0.0001f; y3d3[movet] = -1000.0f; z3d3[movet] = -0.8f;
-            red3d[movet] = 0.0f; green3d[movet] = 0.0f; blue3d[movet] = 0.0f; alpha3d[movet] = 0.0f; //Use background colour
             /*
-            p3d = movet;
-            while (p3d < 1999) {
-                red3d[p3d] = red3d[p3d + 1]; green3d[p3d] = green3d[p3d + 1]; blue3d[p3d] = blue3d[p3d + 1]; alpha3d[p3d] = alpha3d[p3d + 1];
-                x3d1[p3d] = x3d1[p3d + 1]; y3d1[p3d] = y3d1[p3d + 1]; z3d1[p3d] = z3d1[p3d + 1];
-                x3d2[p3d] = x3d2[p3d + 1]; y3d2[p3d] = y3d2[p3d + 1]; z3d2[p3d] = z3d2[p3d + 1];
-                x3d3[p3d] = x3d3[p3d + 1]; y3d3[p3d] = y3d3[p3d + 1]; z3d3[p3d] = z3d3[p3d + 1];
-                p3d = p3d + 1;
+            if (hidemodel == 1 && drawpoint == 0 && loadmodel3d == 16 && y3d1[movet] > -900.0f) {
+
+                tx1 = (x3d1[movet] * cos(ta2) - y3d1[movet] * sin(ta2)) * modelx; ty1 = (x3d1[movet] * sin(ta2) + y3d1[movet] * cos(ta2)) * modelx; tz1 = z3d1[movet] * modelx;
+                tx2 = (x3d2[movet] * cos(ta2) - y3d2[movet] * sin(ta2)) * modelx; ty2 = (x3d2[movet] * sin(ta2) + y3d2[movet] * cos(ta2)) * modelx; tz2 = z3d2[movet] * modelx;
+                tx3 = (x3d3[movet] * cos(ta2) - y3d3[movet] * sin(ta2)) * modelx; ty3 = (x3d3[movet] * sin(ta2) + y3d3[movet] * cos(ta2)) * modelx; tz3 = z3d3[movet] * modelx;
+
+
+                movet = movet;
+                drawpoint = 15;
+                loadmodel3d = 16;
+            }
+            if (hidemodel == 1 && drawpoint == 0 && loadmodel3d == 15 && y3d1[movet] > -900.0f) {
+
+                tx1 = (x3d1[movet] * cos(ta2) - y3d1[movet] * sin(ta2)) * modelx; ty1 = (x3d1[movet] * sin(ta2) + y3d1[movet] * cos(ta2)) * modelx; tz1 = z3d1[movet] * modelx;
+                tx2 = (x3d2[movet] * cos(ta2) - y3d2[movet] * sin(ta2)) * modelx; ty2 = (x3d2[movet] * sin(ta2) + y3d2[movet] * cos(ta2)) * modelx; tz2 = z3d2[movet] * modelx;
+                tx3 = (x3d3[movet] * cos(ta2) - y3d3[movet] * sin(ta2)) * modelx; ty3 = (x3d3[movet] * sin(ta2) + y3d3[movet] * cos(ta2)) * modelx; tz3 = z3d3[movet] * modelx;
+                tx1 = 0.0f;  tx2 = 0.0f;  tx3 = 0.0f; ty1 = 0.0f;  ty2 = 0.0f;  ty3= 0.0f; tz1 = 0.0f;  tz2 = 0.0f;  tz3 = 0.0f;
+                deletetriangle2 = 0; selecttriangle = 4;
+                movet = movet;
+                drawpoint = 15;
+                loadmodel3d = 16; hidemodel = 0;
+            }
+            if (hidemodel == 1 && drawpoint == 0 && loadmodel3d == 0 && y3d1[movet] > -900.0f) {
+                /*tx1 = x3d1[movet]; ty1 = y3d1[movet]; tz1 = z3d1[movet];
+                tx2 = x3d2[movet]; ty2 = y3d2[movet]; tz2 = z3d2[movet];
+                tx3 = x3d3[movet]; ty3 = y3d3[movet]; tz3 = z3d3[movet];
+                tx1 = (x3d1[movet] * cos(ta2) - y3d1[movet] * sin(ta2)) * modelx; ty1 = (x3d1[movet] * sin(ta2) + y3d1[movet] * cos(ta2)) * modelx; tz1 = z3d1[movet] * modelx;
+                tx2 = (x3d2[movet] * cos(ta2) - y3d2[movet] * sin(ta2)) * modelx; ty2 = (x3d2[movet] * sin(ta2) + y3d2[movet] * cos(ta2)) * modelx; tz2 = z3d2[movet] * modelx;
+                tx3 = (x3d3[movet] * cos(ta2) - y3d3[movet] * sin(ta2)) * modelx; ty3 = (x3d3[movet] * sin(ta2) + y3d3[movet] * cos(ta2)) * modelx; tz3 = z3d3[movet] * modelx;
+                drawpoint = 15;
+
+            }*/
+            if (array3d == 2) {
+                p3d = 0;
+
+                while (p3d <20000) {
+                    red3d[p3d] = red3d[p3d]; green3d[p3d] = green3d[p3d]; blue3d[p3d] = blue3d[p3d]; alpha3d[p3d] = alpha3d[p3d];
+                    x3d1[p3d] = x3d1[p3d] + x3di; y3d1[p3d] = y3d1[p3d] + y3di; z3d1[p3d] = z3d1[p3d] + z3di;
+                    x3d2[p3d] = x3d2[p3d] + x3di; y3d2[p3d] = y3d2[p3d] + y3di; z3d2[p3d] = z3d2[p3d] + z3di;
+                    x3d3[p3d] = x3d3[p3d] + x3di; y3d3[p3d] = y3d3[p3d] + y3di; z3d3[p3d] = z3d3[p3d] + z3di;
+                    p3d = p3d + 1;
+                }
+                array3d = 3;
+            }
+            if (savemodel3d == 1) {
+                //std::ofstream x3d11t("3D Model Complete\\deletedtriangles.txt", std::ios::out);
+                std::ofstream x3d11("3D Model Complete\\x3d1.txt", std::ios::out);
+                std::ofstream x3d21("3D Model Complete\\x3d2.txt", std::ios::out);
+                std::ofstream x3d31("3D Model Complete\\x3d3.txt", std::ios::out);
+                std::ofstream y3d11("3D Model Complete\\y3d1.txt", std::ios::out);
+                std::ofstream y3d21("3D Model Complete\\y3d2.txt", std::ios::out);
+                std::ofstream y3d31("3D Model Complete\\y3d3.txt", std::ios::out);
+                std::ofstream z3d11("3D Model Complete\\z3d1.txt", std::ios::out);
+                std::ofstream z3d21("3D Model Complete\\z3d2.txt", std::ios::out);
+                std::ofstream z3d31("3D Model Complete\\z3d3.txt", std::ios::out);
+                std::ofstream red3d1("3D Model Complete\\red3d.txt", std::ios::out);
+                std::ofstream green3d1("3D Model Complete\\green3d.txt", std::ios::out);
+                std::ofstream blue3d1("3D Model Complete\\blue3d.txt", std::ios::out);
+                std::ofstream alpha3d1("3D Model Complete\\alpha3d.txt", std::ios::out);
+                p3d = 0;
+                while (p3d < 20000) {
+                    //x3d11t << deletedpoints[p3d]; x3d11t << ",";
+                    x3d11 << x3d1[p3d]; x3d11 << ",";
+                    x3d21 << x3d2[p3d]; x3d21 << ",";
+                    x3d31 << x3d3[p3d]; x3d31 << ",";
+                    y3d11 << y3d1[p3d]; y3d11 << ",";
+                    y3d21 << y3d2[p3d]; y3d21 << ",";
+                    y3d31 << y3d3[p3d]; y3d31 << ",";
+                    z3d11 << z3d1[p3d]; z3d11 << ",";
+                    z3d21 << z3d2[p3d]; z3d21 << ",";
+                    z3d31 << z3d3[p3d]; z3d31 << ",";
+                    red3d1 << red3d[p3d]; red3d1 << ",";
+                    green3d1 << green3d[p3d]; green3d1 << ",";
+                    blue3d1 << blue3d[p3d]; blue3d1 << ",";
+                    alpha3d1 << alpha3d[p3d]; alpha3d1 << ",";
+                    p3d = p3d + 1;
+                }
+                //std::ofstream fnot("3D Model\\numberoftriangles.txt", std::ios::out);
+                //fnot << p3dnumber2;
+                //fnot.close();
+                x3d11.close(); x3d21.close(); x3d31.close(); y3d11.close(); y3d21.close(); y3d31.close();
+                z3d11.close(); z3d21.close(); z3d31.close(); red3d1.close(); green3d1.close(); blue3d1.close();
+                alpha3d1.close();
+                savemodel3d = 2;
+                hidemodel = 1;
             }
             p3d = 0;
-            */
-            //deletetriangle2 = 1;
-            /*
-            if (deletedpoints[p3dnumber3 - 1] != movet && p3dnumber3>0) {
-                p3dnumber3 = p3dnumber3 + 1;
-                deletedpoints[p3dnumber3] = movet;
+            //glRotatef(angle3d, ax, ay, az);
+            //glEnable(GL_BLEND);
+            //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+            //glDepthMask(GL_FALSE);
+            //glBegin(GL_TRIANGLES);
+            if (point == 3 && hidemodel == 0) {
+                //az = 1.0f;
+                if (up == 2) { angle3d = angle3d + 1.0f; }
+                if (down == 2) { angle3d = angle3d - 1.0f; }
+                up = 3; down = 3;
             }
-            if (p3dnumber3 <= 0) {
-                p3dnumber3 = p3dnumber3 + 1;
-                deletedpoints[p3dnumber3] = movet;
-            }
-            */
-            p3dnumber2 = p3dnumber2 - 1;
-            deletetriangle = 2;
-        }
-        if (array3d == 2) {
-            p3d = 0;
-            while (p3d < 2000) {
-                red3d[p3d] = red3d[p3d]; green3d[p3d] = green3d[p3d]; blue3d[p3d] = blue3d[p3d]; alpha3d[p3d] = alpha3d[p3d];
-                x3d1[p3d] = x3d1[p3d] + x3di; y3d1[p3d] = y3d1[p3d] + y3di; z3d1[p3d] = z3d1[p3d] + z3di;
-                x3d2[p3d] = x3d2[p3d] + x3di; y3d2[p3d] = y3d2[p3d] + y3di; z3d2[p3d] = z3d2[p3d] + z3di;
-                x3d3[p3d] = x3d3[p3d] + x3di; y3d3[p3d] = y3d3[p3d] + y3di; z3d3[p3d] = z3d3[p3d] + z3di;
-                p3d = p3d + 1;
-            }
-            array3d = 3;
-        }
-        if (savemodel3d == 1) {
-            //std::ofstream x3d11t("3D Model Complete\\deletedtriangles.txt", std::ios::out);
-            std::ofstream x3d11("3D Model Complete\\x3d1.txt", std::ios::out);
-            std::ofstream x3d21("3D Model Complete\\x3d2.txt", std::ios::out);
-            std::ofstream x3d31("3D Model Complete\\x3d3.txt", std::ios::out);
-            std::ofstream y3d11("3D Model Complete\\y3d1.txt", std::ios::out);
-            std::ofstream y3d21("3D Model Complete\\y3d2.txt", std::ios::out);
-            std::ofstream y3d31("3D Model Complete\\y3d3.txt", std::ios::out);
-            std::ofstream z3d11("3D Model Complete\\z3d1.txt", std::ios::out);
-            std::ofstream z3d21("3D Model Complete\\z3d2.txt", std::ios::out);
-            std::ofstream z3d31("3D Model Complete\\z3d3.txt", std::ios::out);
-            std::ofstream red3d1("3D Model Complete\\red3d.txt", std::ios::out);
-            std::ofstream green3d1("3D Model Complete\\green3d.txt", std::ios::out);
-            std::ofstream blue3d1("3D Model Complete\\blue3d.txt", std::ios::out);
-            std::ofstream alpha3d1("3D Model Complete\\alpha3d.txt", std::ios::out);
-            p3d = 0;
-            while (p3d < 2000) {
-                //x3d11t << deletedpoints[p3d]; x3d11t << ",";
-                x3d11 << x3d1[p3d]; x3d11 << ",";
-                x3d21 << x3d2[p3d]; x3d21 << ",";
-                x3d31 << x3d3[p3d]; x3d31 << ",";
-                y3d11 << y3d1[p3d]; y3d11 << ",";
-                y3d21 << y3d2[p3d]; y3d21 << ",";
-                y3d31 << y3d3[p3d]; y3d31 << ",";
-                z3d11 << z3d1[p3d]; z3d11 << ",";
-                z3d21 << z3d2[p3d]; z3d21 << ",";
-                z3d31 << z3d3[p3d]; z3d31 << ",";
-                red3d1 << red3d[p3d]; red3d1 << ",";
-                green3d1 << green3d[p3d]; green3d1 << ",";
-                blue3d1 << blue3d[p3d]; blue3d1 << ",";
-                alpha3d1 << alpha3d[p3d]; alpha3d1 << ",";
-                p3d = p3d + 1;
-            }
-            std::ofstream fnot("3D Model\\numberoftriangles.txt", std::ios::out);
-            fnot << p3dnumber2;
-            fnot.close();
-            x3d11.close(); x3d21.close(); x3d31.close(); y3d11.close(); y3d21.close(); y3d31.close();
-            z3d11.close(); z3d21.close(); z3d31.close(); red3d1.close(); green3d1.close(); blue3d1.close();
-            alpha3d1.close();
-            savemodel3d = 2;
-        }
-        p3d = 0;
-        //glRotatef(angle3d, ax, ay, az);
-        //glEnable(GL_BLEND);
-        //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        //glDepthMask(GL_FALSE);
-        //glBegin(GL_TRIANGLES);
-        glTranslatef(0.0f, 0.0f, -30.0f);
-        glRotatef(angle3d, ax, ay, az);
-        glEnable(GL_BLEND);
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        glDepthMask(GL_TRUE);
-        if (e == 1) {
-            glEnable(GL_COLOR_MATERIAL);
-        }
-        while (p3d < 2000) {
-            glPushMatrix();
+            right = 3; left = 3; up = 3; down = 3;
+            ta2 = (carrotate) * (3.14159f / 180.0f);
+            glTranslatef(0.0f, 0.0f, -30.0f);
+            glRotatef(angle3d, ax, ay, az);
+            glEnable(GL_BLEND);
+            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+            glDepthMask(GL_TRUE);
+            /*if (hidemodel == 0 && tpoint == 1) {
+                tx1 = (tx1 * cos(ta2)) - (ty1 * sin(ta2)); ty1 = (tx1 * sin(ta2)) + (ty1 * cos(ta2));
+                tx2 = (tx2 * cos(ta2)) - (ty2 * sin(ta2)); ty2 = (tx2 * sin(ta2)) + (ty2 * cos(ta2));
+                tx3 = (tx3 * cos(ta2)) - (ty3 * sin(ta2)); ty3 = (tx3 * sin(ta2)) + (ty3 * cos(ta2));
+                tpoint = 0;
+            }*/        
+            
             if (e == 1) {
-                glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
+                glEnable(GL_COLOR_MATERIAL);
             }
-            glColor4f(red3d[p3d], green3d[p3d], blue3d[p3d], alpha3d[p3d]);
-            glBegin(GL_TRIANGLES);
-            glVertex3f(x3d1[p3d], y3d1[p3d], z3d1[p3d]);
-            glVertex3f(x3d2[p3d], y3d2[p3d], z3d2[p3d]);
-            glVertex3f(x3d3[p3d], y3d3[p3d], z3d3[p3d]);
-            glEnd();
-            glPopMatrix();
-            p3d = p3d + 1;
+
+            ta2 = (carrotate) * (3.14159f / 180.0f);
+            p3d = 0;
+            /*
+            while (p3d < 10000 && hidemodel==0) {
+                glPushMatrix();
+                if (e == 1) {
+                    glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
+                }
+                if (hidemodel == 0) {
+                    hidex = 0.0f;
+                    ahide = alpha3d[p3d];
+                }
+                if (hidemodel == 1) {
+                    hidex = 0.0f;
+                    ahide = alpha3d[p3d];
+                    ahide = 0.0f;
+                }
+                glColor4f(red3d[p3d], green3d[p3d], blue3d[p3d], ahide);
+                glBegin(GL_TRIANGLES);
+                glVertex3f(((x3d1[p3d] * cos(ta2) - y3d1[p3d] * sin(ta2)) * modelx) - hidex, (x3d1[p3d] * sin(ta2) + y3d1[p3d] * cos(ta2)) * modelx, (z3d1[p3d]) * modelx);
+                glVertex3f(((x3d2[p3d] * cos(ta2) - y3d2[p3d] * sin(ta2)) * modelx) - hidex, (x3d2[p3d] * sin(ta2) + y3d2[p3d] * cos(ta2)) * modelx, (z3d2[p3d]) * modelx);
+                glVertex3f(((x3d3[p3d] * cos(ta2) - y3d3[p3d] * sin(ta2)) * modelx) - hidex, (x3d3[p3d] * sin(ta2) + y3d3[p3d] * cos(ta2)) * modelx, (z3d3[p3d]) * modelx);
+                glEnd();
+                if (lines == 0 ) {
+                    glColor4f(0.0f, 0.0f, 0.0f, ahide);
+                    glLineWidth(4.0f);
+                    glBegin(GL_LINES);
+                    glVertex3f(((x3d1[p3d] * cos(ta2) - y3d1[p3d] * sin(ta2))* modelx) - hidex, (x3d1[p3d] * sin(ta2) + y3d1[p3d] * cos(ta2))* modelx, (z3d1[p3d])* modelx);
+                    glVertex3f(((x3d2[p3d] * cos(ta2) - y3d2[p3d] * sin(ta2))* modelx) - hidex, (x3d2[p3d] * sin(ta2) + y3d2[p3d] * cos(ta2))* modelx, (z3d2[p3d])* modelx);
+                    //glVertex3f(((x3d3[p3d] * cos(ta2) - y3d3[p3d] * sin(ta2))* modelx) - hidex, (x3d3[p3d] * sin(ta2) + y3d3[p3d] * cos(ta2))* modelx, (z3d3[p3d])* modelx);
+                    glLineWidth(4.0f);
+                    glBegin(GL_LINES);
+                    //glVertex3f(((x3d1[p3d] * cos(ta2) - y3d1[p3d] * sin(ta2))* modelx) - hidex, (x3d1[p3d] * sin(ta2) + y3d1[p3d] * cos(ta2))* modelx, (z3d1[p3d])* modelx);
+                    glVertex3f(((x3d2[p3d] * cos(ta2) - y3d2[p3d] * sin(ta2))* modelx) - hidex, (x3d2[p3d] * sin(ta2) + y3d2[p3d] * cos(ta2))* modelx, (z3d2[p3d])* modelx);
+                    glVertex3f(((x3d3[p3d] * cos(ta2) - y3d3[p3d] * sin(ta2))* modelx) - hidex, (x3d3[p3d] * sin(ta2) + y3d3[p3d] * cos(ta2))* modelx, (z3d3[p3d])* modelx);
+                    glLineWidth(4.0f);
+                    glBegin(GL_LINES);
+                    glVertex3f(((x3d1[p3d] * cos(ta2) - y3d1[p3d] * sin(ta2))* modelx) - hidex, (x3d1[p3d] * sin(ta2) + y3d1[p3d] * cos(ta2))* modelx, (z3d1[p3d])* modelx);
+                    //glVertex3f(((x3d2[p3d] * cos(ta2) - y3d2[p3d] * sin(ta2))* modelx) - hidex, (x3d2[p3d] * sin(ta2) + y3d2[p3d] * cos(ta2))* modelx, (z3d2[p3d])* modelx);
+                    glVertex3f(((x3d3[p3d] * cos(ta2) - y3d3[p3d] * sin(ta2))* modelx) - hidex, (x3d3[p3d] * sin(ta2) + y3d3[p3d] * cos(ta2))* modelx, (z3d3[p3d])* modelx);
+                    glEnd();
+                }
+                glPopMatrix();
+                p3d = p3d + 1;
+            }*/
+            if (hidemodel >= 0) {
+                p3d = 0; //glLineWidth(6.0f);
+                while (p3d < 20000) {
+                    if (hidemodel == 0) {
+                        hidex = 0.0f;
+                        ahide = alpha3d[p3d];
+                    }
+                    if (hidemodel == 1) {
+                        hidex = 0.0f;
+                        ahide = alpha3d[p3d];
+                        ahide = 0.0f;
+                    }
+                    if (hidemodel == 0) {
+                        glPushMatrix();
+                        if (e == 1) {
+                            glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
+                        }
+
+                        glColor4f(red3d[p3d], green3d[p3d], blue3d[p3d], ahide);
+                        glBegin(GL_TRIANGLES);
+                        glVertex3f(((x3d1[p3d] * cos(ta2) - y3d1[p3d] * sin(ta2)) * modelx) - hidex, (x3d1[p3d] * sin(ta2) + y3d1[p3d] * cos(ta2)) * modelx, (z3d1[p3d]) * modelx);
+                        glVertex3f(((x3d2[p3d] * cos(ta2) - y3d2[p3d] * sin(ta2)) * modelx) - hidex, (x3d2[p3d] * sin(ta2) + y3d2[p3d] * cos(ta2)) * modelx, (z3d2[p3d]) * modelx);
+                        glVertex3f(((x3d3[p3d] * cos(ta2) - y3d3[p3d] * sin(ta2)) * modelx) - hidex, (x3d3[p3d] * sin(ta2) + y3d3[p3d] * cos(ta2)) * modelx, (z3d3[p3d]) * modelx);
+                        glEnd();
+                        glPopMatrix();
+                    }
+                    if (lines == 0 && y3d1[p3d]>-900.0f && hidemodel == 1) {
+                        glPushMatrix();
+                        glLineWidth(2.0f);
+                        glColor3f(0.0f, 0.0f, 0.0f);
+                       
+                        glBegin(GL_LINES);
+                        glVertex3f(((x3d1[p3d] * cos(ta2) - y3d1[p3d] * sin(ta2)) * modelx) - hidex, (x3d1[p3d] * sin(ta2) + y3d1[p3d] * cos(ta2)) * modelx, (z3d1[p3d]) * modelx);
+                        glVertex3f(((x3d2[p3d] * cos(ta2) - y3d2[p3d] * sin(ta2)) * modelx) - hidex, (x3d2[p3d] * sin(ta2) + y3d2[p3d] * cos(ta2)) * modelx, (z3d2[p3d]) * modelx);
+                        //glVertex3f(((x3d3[p3d] * cos(ta2) - y3d3[p3d] * sin(ta2))* modelx) - hidex, (x3d3[p3d] * sin(ta2) + y3d3[p3d] * cos(ta2))* modelx, (z3d3[p3d])* modelx);
+                        //glLineWidth(4.0f);
+                        glEnd();
+                        glPopMatrix();
+                        glPushMatrix();
+                        glLineWidth(2.0f);
+                        glColor3f(0.0f, 0.0f, 0.0f);
+                     
+                        glBegin(GL_LINES);
+                        //glVertex3f(((x3d1[p3d] * cos(ta2) - y3d1[p3d] * sin(ta2))* modelx) - hidex, (x3d1[p3d] * sin(ta2) + y3d1[p3d] * cos(ta2))* modelx, (z3d1[p3d])* modelx);
+                        glVertex3f(((x3d2[p3d] * cos(ta2) - y3d2[p3d] * sin(ta2)) * modelx) - hidex, (x3d2[p3d] * sin(ta2) + y3d2[p3d] * cos(ta2)) * modelx, (z3d2[p3d]) * modelx);
+                        glVertex3f(((x3d3[p3d] * cos(ta2) - y3d3[p3d] * sin(ta2)) * modelx) - hidex, (x3d3[p3d] * sin(ta2) + y3d3[p3d] * cos(ta2)) * modelx, (z3d3[p3d]) * modelx);
+                        //glLineWidth(4.0f);
+                        glEnd();
+                        glPopMatrix();
+                        glPushMatrix();
+                        glLineWidth(2.0f);
+                        glColor3f(0.0f, 0.0f, 0.0f);
+                   
+                        glBegin(GL_LINES);
+                        glVertex3f(((x3d1[p3d] * cos(ta2) - y3d1[p3d] * sin(ta2)) * modelx) - hidex, (x3d1[p3d] * sin(ta2) + y3d1[p3d] * cos(ta2)) * modelx, (z3d1[p3d]) * modelx);
+                        //glVertex3f(((x3d2[p3d] * cos(ta2) - y3d2[p3d] * sin(ta2))* modelx) - hidex, (x3d2[p3d] * sin(ta2) + y3d2[p3d] * cos(ta2))* modelx, (z3d2[p3d])* modelx);
+                        glVertex3f(((x3d3[p3d] * cos(ta2) - y3d3[p3d] * sin(ta2)) * modelx) - hidex, (x3d3[p3d] * sin(ta2) + y3d3[p3d] * cos(ta2)) * modelx, (z3d3[p3d]) * modelx);
+                        glEnd();
+                        glPopMatrix();
+                    }
+                    //glPopMatrix();
+                    p3d = p3d + 1;
+                }
+            }
+            if (colouroftriangles == 0) {
+                if (hidemodel == 1) {
+                    glPushMatrix();
+                    if (e == 1) {
+                        glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
+                    }
+                    glPointSize(20.0f);
+                    glColor4f(0.9f, 0.8f, 0.1f, 1.0f);
+                    glBegin(GL_POINTS);
+                    glVertex3f((((tx1)*cos(ta2) - (ty1)*sin(ta2)) * modelx) - hidex, (tx1)*sin(ta2) + ((ty1)*cos(ta2) * modelx), (tz1 * modelx));
+                    //glVertex3f((((tx1)*cos(ta2) - (ty1)*sin(ta2)) * modelx) - 0.3f - hidex, (((tx1)*sin(ta2) + (ty1)*cos(ta2)) + 0.6f), (tz1 * modelx));
+                    //glVertex3f((((tx1)*cos(ta2) - (ty1)*sin(ta2)) * modelx) + 0.3f - hidex, (((tx1)*sin(ta2) + (ty1)*cos(ta2)) + 0.6f), (tz1 * modelx));
+                    glEnd();
+                    glPopMatrix();
+                    glPushMatrix();
+                    glLineWidth(4.0f);
+                    glColor3f(0.1f, 0.2f, 0.6f);
+                    glBegin(GL_LINES);
+                    glVertex3f((((tx1)*cos(ta2) - (ty1)*sin(ta2)) * modelx) - hidex, (tx1)*sin(ta2) + ((ty1)*cos(ta2) * modelx), (tz1 * modelx));
+                    glVertex3f((((tx1)*cos(ta2) - (ty1)*sin(ta2)) * modelx) - hidex, (tx1)*sin(ta2) + ((ty1)*cos(ta2) * modelx), (tz1+3.0f * modelx));
+                    glEnd();
+                    glPopMatrix();
+                    glPushMatrix();
+                    glLineWidth(4.0f);
+                    glColor3f(0.9f, 0.2f, 0.0f);
+                    glBegin(GL_LINES);
+                    glVertex3f((((tx1)*cos(ta2) - (ty1)*sin(ta2)) * modelx) - hidex, (tx1)*sin(ta2) + ((ty1)*cos(ta2) * modelx), (tz1 * modelx));
+                    glVertex3f((((tx1+3.0f)*cos(ta2) - (ty1)*sin(ta2)) * modelx) - hidex, (tx1+3.0f)*sin(ta2) + ((ty1)*cos(ta2) * modelx), (tz1 * modelx));
+                    glEnd();
+                    glPopMatrix();
+                    glPushMatrix();
+                    glLineWidth(4.0f);
+                    glColor3f(0.1f, 0.7f, 0.0f);
+                    glBegin(GL_LINES);
+                    glVertex3f((((tx1)*cos(ta2) - (ty1)*sin(ta2)) * modelx) - hidex, (tx1)*sin(ta2) + ((ty1)*cos(ta2) * modelx), (tz1 * modelx));
+                    glVertex3f((((tx1)*cos(ta2) - (ty1 - 3.0f)*sin(ta2))* modelx) - hidex, (tx1)*sin(ta2) + ((ty1 - 3.0f)*cos(ta2) * modelx), (tz1* modelx));
+                    glEnd();
+                    glPopMatrix();
+                }
+                if (hidemodel == 1) {
+                    glPushMatrix();
+                    if (e == 1) {
+                        glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
+                    }
+                    glPointSize(20.0f);
+                    glColor4f(0.1f, 0.9f, 0.0f, 1.0f);
+                    glBegin(GL_POINTS);
+                    //glVertex3f((((tx2)*cos(ta2) - (ty2)*sin(ta2)) * modelx) - hidex, (tx2)*sin(ta2) + (ty2)*cos(ta2), (tz2 * modelx));
+                    glVertex3f((((tx2)*cos(ta2) - (ty2)*sin(ta2)) * modelx)  - hidex, (((tx2)*sin(ta2) + (ty2)*cos(ta2)) * modelx), (tz2 * modelx));
+                    //glVertex3f((((tx2)*cos(ta2) - (ty2)*sin(ta2)) * modelx) + 0.3f - hidex, (((tx2)*sin(ta2) + (ty2)*cos(ta2)) + 0.6f), (tz2 * modelx));
+                    glEnd();
+                    glPopMatrix();
+                    glPushMatrix();
+                    glLineWidth(4.0f);
+                    glColor3f(0.1f, 0.2f, 0.6f);
+                    glBegin(GL_LINES);
+                    glVertex3f((((tx2)*cos(ta2) - (ty2)*sin(ta2))* modelx) - hidex, (tx2)*sin(ta2) + ((ty2)*cos(ta2) * modelx), (tz2* modelx));
+                    glVertex3f((((tx2)*cos(ta2) - (ty2)*sin(ta2))* modelx) - hidex, (tx2)*sin(ta2) + ((ty2)*cos(ta2) * modelx), (tz2 + 3.0f * modelx));
+                    glEnd();
+                    glPopMatrix();
+                    glPushMatrix();
+                    glLineWidth(4.0f);
+                    glColor3f(0.9f, 0.2f, 0.0f);
+                    glBegin(GL_LINES);
+                    glVertex3f((((tx2)*cos(ta2) - (ty2)*sin(ta2))* modelx) - hidex, (tx2)*sin(ta2) + ((ty2)*cos(ta2) * modelx), (tz2* modelx));
+                    glVertex3f((((tx2 + 3.0f)* cos(ta2) - (ty2)*sin(ta2))* modelx) - hidex, (tx2 + 3.0f)* sin(ta2) + ((ty2)*cos(ta2) * modelx), (tz2* modelx));
+                    glEnd();
+                    glPopMatrix();
+                    glPushMatrix();
+                    glLineWidth(4.0f);
+                    glColor3f(0.1f, 0.7f, 0.0f);
+                    glBegin(GL_LINES);
+                    glVertex3f((((tx2)*cos(ta2) - (ty2)*sin(ta2))* modelx) - hidex, (tx2)*sin(ta2) + ((ty2)*cos(ta2) * modelx), (tz2* modelx));
+                    glVertex3f((((tx2)*cos(ta2) - (ty2 - 3.0f) * sin(ta2))* modelx) - hidex, (tx2)*sin(ta2) + ((ty2 - 3.0f) * cos(ta2) * modelx), (tz2* modelx));
+                    glEnd();
+                    glPopMatrix();
+                }
+                if (hidemodel == 1) {
+                    glPushMatrix();
+                    if (e == 1) {
+                        glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
+                    }
+                    glPointSize(20.0f);
+                    glColor4f(0.9f, 0.9f, 0.9f, 1.0f);
+                    glBegin(GL_POINTS);
+                    //glVertex3f((((tx3)*cos(ta2) - (ty3)*sin(ta2)) * modelx) - hidex, ((tx3)*sin(ta2) + (ty3)*cos(ta2)), (tz3 * modelx));
+                    //glVertex3f((((tx3)*cos(ta2) - (ty3)*sin(ta2)) * modelx) - 0.3f - hidex, (((tx3)*sin(ta2) + (ty3)*cos(ta2)) + 0.6f), (tz3 * modelx));
+                    glVertex3f((((tx3)*cos(ta2) - (ty3)*sin(ta2)) * modelx) - hidex, (((tx3)*sin(ta2) + (ty3)*cos(ta2))* modelx), (tz3 * modelx));
+                    glEnd();
+                    glPopMatrix();
+                    glPushMatrix();
+                    glLineWidth(4.0f);
+                    glColor3f(0.1f, 0.2f, 0.6f);
+                    glBegin(GL_LINES);
+                    glVertex3f((((tx3)*cos(ta2) - (ty3)*sin(ta2))* modelx) - hidex, (tx3)*sin(ta2) + ((ty3)*cos(ta2) * modelx), (tz3* modelx));
+                    glVertex3f((((tx3)*cos(ta2) - (ty3)*sin(ta2))* modelx) - hidex, (tx3)*sin(ta2) + ((ty3)*cos(ta2) * modelx), (tz3 + 3.0f * modelx));
+                    glEnd();
+                    glPopMatrix();
+                    glPushMatrix();
+                    glLineWidth(4.0f);
+                    glColor3f(0.9f, 0.2f, 0.0f);
+                    glBegin(GL_LINES);
+                    glVertex3f((((tx3)*cos(ta2) - (ty3)*sin(ta2))* modelx) - hidex, (tx3)*sin(ta2) + ((ty3)*cos(ta2) * modelx), (tz3* modelx));
+                    glVertex3f((((tx3 + 3.0f)* cos(ta2) - (ty3)*sin(ta2))* modelx) - hidex, (tx3 + 3.0f)* sin(ta2) + ((ty3)*cos(ta2) * modelx), (tz3* modelx));
+                    glEnd();
+                    glPopMatrix();
+                    glPushMatrix();
+                    glLineWidth(4.0f);
+                    glColor3f(0.1f, 0.7f, 0.0f);
+                    glBegin(GL_LINES);
+                    glVertex3f((((tx3)*cos(ta2) - (ty3)*sin(ta2))* modelx) - hidex, (tx3)*sin(ta2) + ((ty3)*cos(ta2) * modelx), (tz3* modelx));
+                    glVertex3f((((tx3)*cos(ta2) - (ty3 - 3.0f) * sin(ta2))* modelx) - hidex, (tx3)*sin(ta2) + ((ty3 - 3.0f) * cos(ta2) * modelx), (tz3* modelx));
+                    glEnd();
+                    glPopMatrix();
+                }
+            }
+            if (colouroftriangles == 1) {
+                if (hidemodel == 1) {
+                    glPushMatrix();
+                    if (e == 1) {
+                        glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
+                    }
+                    glPointSize(20.0f);
+                    glColor4f(tred, tgreen, tblue, talpha);
+                    //glColor4f(0.9f, 0.8f, 0.1f, 1.0f);
+                    glBegin(GL_POINTS);
+                    glVertex3f((((tx1)*cos(ta2) - (ty1)*sin(ta2)) * modelx) - hidex, ((tx1)*sin(ta2) + (ty1)*cos(ta2) * modelx), (tz1 * modelx));
+                    //glVertex3f((((tx1)*cos(ta2) - (ty1)*sin(ta2)) * modelx) - 0.3f - hidex, (((tx1)*sin(ta2) + (ty1)*cos(ta2)) + 0.6f), (tz1 * modelx));
+                    //glVertex3f((((tx1)*cos(ta2) - (ty1)*sin(ta2)) * modelx) + 0.3f - hidex, (((tx1)*sin(ta2) + (ty1)*cos(ta2)) + 0.6f), (tz1 * modelx));
+                    glEnd();
+                    glPopMatrix();
+                }
+                if (hidemodel == 1) {
+                    glPushMatrix();
+                    if (e == 1) {
+                        glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
+                    }
+                    glPointSize(20.0f);
+                    glColor4f(tred, tgreen, tblue, talpha);
+                    //glColor4f(0.1f, 0.9f, 0.0f, 1.0f);
+                    glBegin(GL_POINTS);
+                    //glVertex3f((((tx2)*cos(ta2) - (ty2)*sin(ta2)) * modelx) - hidex, (tx2)*sin(ta2) + (ty2)*cos(ta2), (tz2 * modelx));
+                    glVertex3f((((tx2)*cos(ta2) - (ty2)*sin(ta2)) * modelx) - hidex, (((tx2)*sin(ta2) + (ty2)*cos(ta2))* modelx), (tz2 * modelx));
+                    //glVertex3f((((tx2)*cos(ta2) - (ty2)*sin(ta2)) * modelx) + 0.3f - hidex, (((tx2)*sin(ta2) + (ty2)*cos(ta2)) + 0.6f), (tz2 * modelx));
+                    glEnd();
+                    glPopMatrix();
+                }
+                if (hidemodel == 1) {
+                    glPushMatrix();
+                    if (e == 1) {
+                        glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
+                    }
+                    glPointSize(20.0f);
+                    glColor4f(tred, tgreen, tblue, talpha);
+                    //glColor4f(0.9f, 0.9f, 0.9f, 1.0f);
+                    glBegin(GL_POINTS);
+                    //glVertex3f((((tx3)*cos(ta2) - (ty3)*sin(ta2)) * modelx) - hidex, ((tx3)*sin(ta2) + (ty3)*cos(ta2)), (tz3 * modelx));
+                    //glVertex3f((((tx3)*cos(ta2) - (ty3)*sin(ta2)) * modelx) - 0.3f - hidex, (((tx3)*sin(ta2) + (ty3)*cos(ta2)) + 0.6f), (tz3 * modelx));
+                    glVertex3f((((tx3)*cos(ta2) - (ty3)*sin(ta2)) * modelx) - hidex, (((tx3)*sin(ta2) + (ty3)*cos(ta2))* modelx), (tz3 * modelx));
+                    glEnd();
+                    glPopMatrix();
+                }
+            }
+            if (e == 1) {
+                glDisable(GL_COLOR_MATERIAL);
+                glDisable(GL_LIGHT0);
+                glDisable(GL_LIGHTING);
+            }
+            glDisable(GL_BLEND);
+            glDisable(GL_DEPTH_TEST);
+            SwapBuffers(hdc);
         }
-        if (e == 1) {
-            glDisable(GL_COLOR_MATERIAL);
-            glDisable(GL_LIGHT0);
-            glDisable(GL_LIGHTING);
+        if (t2menu == 0 && t2window == 1) {
+            SetForegroundWindow(hWnd);
+            SetFocus(hWnd);
+            SendMessage(hWnd, WM_LBUTTONDOWN, MK_LBUTTON, MAKELPARAM(30, 30));
+            t2window = 2;
         }
-        glDisable(GL_BLEND);
-        glDisable(GL_DEPTH_TEST);
-        SwapBuffers(hdc);
+        std::this_thread::sleep_for(std::chrono::milliseconds(34));
     }
-    SendMessage(hWnd, WM_NULL, 0, 0);
-    auto endtime = std::chrono::steady_clock::now();
-    auto timedifference = endtime - starttime;
-    std::this_thread::sleep_for(std::chrono::milliseconds(31) - timedifference); //std::chrono::milliseconds(31)
-    starttime = endtime;
 }
 
 // Forward declarations of functions included in this code module:
@@ -994,22 +1556,23 @@ LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
-                     _In_opt_ HINSTANCE hPrevInstance,
-                     _In_ LPWSTR    lpCmdLine,
-                     _In_ int       nCmdShow)
+    _In_opt_ HINSTANCE hPrevInstance,
+    _In_ LPWSTR    lpCmdLine,
+    _In_ int       nCmdShow)
 {
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
 
     // TODO: Place code here.
-
+    SetThreadExecutionState(ES_CONTINUOUS | ES_SYSTEM_REQUIRED | ES_DISPLAY_REQUIRED);
+    ShowCursor(FALSE);
     // Initialize global strings
     LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
     LoadStringW(hInstance, IDC_RAJNEET3DMODELMAKER, szWindowClass, MAX_LOADSTRING);
     MyRegisterClass(hInstance);
 
     // Perform application initialization:
-    if (!InitInstance (hInstance, nCmdShow))
+    if (!InitInstance(hInstance, nCmdShow))
     {
         return FALSE;
     }
@@ -1025,6 +1588,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         c = 1;
     }
     while (a == true) {
+        t2controlg = 1;
         if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
         {
 
@@ -1034,12 +1598,13 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                 DispatchMessage(&msg);
             }
         }
+        t2controlg = 2;
         if (d == 0) {
             draw2();
         }
     }
 
-    return (int) msg.wParam;
+    return (int)msg.wParam;
 }
 
 
@@ -1055,17 +1620,17 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
 
     wcex.cbSize = sizeof(WNDCLASSEX);
 
-    wcex.style          = CS_HREDRAW | CS_VREDRAW;
-    wcex.lpfnWndProc    = WndProc;
-    wcex.cbClsExtra     = 0;
-    wcex.cbWndExtra     = 0;
-    wcex.hInstance      = hInstance;
-    wcex.hIcon          = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_RAJNEET3DMODELMAKER));
-    wcex.hCursor        = LoadCursor(nullptr, IDC_ARROW);
-    wcex.hbrBackground  = (HBRUSH)(COLOR_WINDOW+1);
+    wcex.style = CS_HREDRAW | CS_VREDRAW;
+    wcex.lpfnWndProc = WndProc;
+    wcex.cbClsExtra = 0;
+    wcex.cbWndExtra = 0;
+    wcex.hInstance = hInstance;
+    wcex.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_RAJNEET3DMODELMAKER));
+    wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
+    wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
     wcex.lpszMenuName = NULL; //MAKEINTRESOURCEW(IDC_RAJNEET3DMODELMAKER);
-    wcex.lpszClassName  = szWindowClass;
-    wcex.hIconSm        = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
+    wcex.lpszClassName = szWindowClass;
+    wcex.hIconSm = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
 
     return RegisterClassExW(&wcex);
 }
@@ -1082,46 +1647,48 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
 //
 BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
-   hInst = hInstance; // Store instance handle in our global variable
-   
-   hWnd = CreateWindowW(szWindowClass, szTitle, WS_POPUP,
-       0, 0, 1536, 614, nullptr, nullptr, hInstance, nullptr);
-   // Get the device context
-    //hdc = GetDC(hWnd);
-    // Set up the pixel format
-   if (mode == 0) {
-       hdc = GetDC(hWnd);
-       PIXELFORMATDESCRIPTOR pfd;
-       memset(&pfd, 0, sizeof(pfd));
-       pfd.nSize = sizeof(pfd);
-       pfd.nVersion = 1;
-       pfd.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
-       pfd.iPixelType = PFD_TYPE_RGBA;
-       pfd.cColorBits = 24;
-       pfd.cDepthBits = 32;
-       pfd.iLayerType = PFD_MAIN_PLANE;
-       int pf = ChoosePixelFormat(hdc, &pfd);
-       SetPixelFormat(hdc, pf, &pfd);
-       // Create an OpenGL rendering context
-       hrc = wglCreateContext(hdc);
-       wglMakeCurrent(hdc, hrc);
-       // Initialize OpenGL
-       glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-       glViewport(0, 0, 1536, 614); //x=1536 and y=864 will give fullscreen glFrustum(-1.825, 1.825,-0.763,0.763,1.0,1000.0)
-       glMatrixMode(GL_PROJECTION);
-       glLoadIdentity();
-       mode = 3;
-   }
+    hInst = hInstance; // Store instance handle in our global variable
 
-   if (!hWnd)
-   {
-      return FALSE;
-   }
+    hWnd = CreateWindowW(szWindowClass, szTitle, WS_POPUP,
+        0, 0, GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN), nullptr, nullptr, hInstance, nullptr);
 
-   ShowWindow(hWnd, nCmdShow);
-   UpdateWindow(hWnd);
+    // Get the device context
+     //hdc = GetDC(hWnd);
+     // Set up the pixel format
+    if (mode == 0) {
+        hdc = GetDC(hWnd);
+        PIXELFORMATDESCRIPTOR pfd;
+        memset(&pfd, 0, sizeof(pfd));
+        pfd.nSize = sizeof(pfd);
+        pfd.nVersion = 1;
+        pfd.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
+        pfd.iPixelType = PFD_TYPE_RGBA;
+        pfd.cColorBits = 24;
+        pfd.cDepthBits = 32;
+        pfd.iLayerType = PFD_MAIN_PLANE;
+        int pf = ChoosePixelFormat(hdc, &pfd);
+        SetPixelFormat(hdc, pf, &pfd);
+        // Create an OpenGL rendering context
+        hrc = wglCreateContext(hdc);
+        wglMakeCurrent(hdc, hrc);
+        // Initialize OpenGL
+        glClearColor(0.31f, 0.31f, 0.18f, 1.0f);
+        glViewport(0, 0, GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN)); //x=1536 and y=864 will give fullscreen glFrustum(-1.825, 1.825,-0.763,0.763,1.0,1000.0)
+        glMatrixMode(GL_PROJECTION);
+        glLoadIdentity();
+        mode = 3;
 
-   return TRUE;
+    }
+
+    if (!hWnd)
+    {
+        return FALSE;
+    }
+
+    ShowWindow(hWnd, nCmdShow);
+    UpdateWindow(hWnd);
+
+    return TRUE;
 }
 
 //
@@ -1146,10 +1713,20 @@ INT_PTR CALLBACK tdata(HWND hWndDialog, UINT message, WPARAM wParam, LPARAM lPar
         switch (LOWORD(wParam))
         {
         case IDOK2:
+            if (savemodel3d == 2) {
+                savemodel3d = 0;
+            }
+            t2menu = 0; t2window = 1;
+            ShowCursor(FALSE);
             a22 = 0;
             EndDialog(hWndDialog, 0);
             return (INT_PTR)TRUE;
         case IDCANCEL2:
+            if (savemodel3d == 2) {
+                savemodel3d = 0;
+            }
+            t2menu = 0; t2window = 1;
+            ShowCursor(FALSE);
             a22 = 0;
             EndDialog(hWndDialog, 0);
             return (INT_PTR)TRUE;
@@ -1159,6 +1736,11 @@ INT_PTR CALLBACK tdata(HWND hWndDialog, UINT message, WPARAM wParam, LPARAM lPar
         switch (LOWORD(wParam))
         {
         case SC_CLOSE:
+            if (savemodel3d == 2) {
+                savemodel3d = 0;
+            }
+            t2menu = 0; t2window = 1;
+            ShowCursor(FALSE);
             a22 = 0;
             EndDialog(hWndDialog, 0);
             return (INT_PTR)TRUE;
@@ -1177,133 +1759,270 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         switch (wParam)
         {
         case VK_UP:
-            if (point == 1 && move == 2 && rotate == 1) {
-                up = 2;
-            }
-            if (rotate == 2) {
-                up = 2;
-            }
-            if (rotate == 2 && point == 1) {
-                ay = 0.0f;
-            }
-            if (rotate == 2 && point == 2) {
-                ax = 0.0f;
-            }
-            if (point == 2 && move == 2 && rotate == 1) {
-                up = 2;
+            if (t2controlg == 1) {
+                up2 = 30;
+                t2controlg = 2;
             }
             break;
         case VK_DOWN:
-            if (point == 1 && move == 2 && rotate == 1) {
-                down = 2;
-            }
-            if (rotate == 2) {
-                down = 2;
-            }
-            if (rotate == 2 && point == 1) {
-                ay = 0.0f;
-            }
-            if (rotate == 2 && point == 2) {
-                ax = 0.0f;
-            }
-            if (point == 2 && move == 2 && rotate == 1) {
-                down = 2;
+            if (t2controlg == 1) {
+                down2 = 30;
+                t2controlg = 2;
             }
             break;
         case VK_RIGHT:
-            if (point == 1 && move == 2 && rotate == 1) {
-                right = 2;
-            }
-            if (rotate == 2) {
-                right = 2;
-            }
-            if (rotate == 2 && point == 1) {
-                ay = 0.0f;
-            }
-            if (rotate == 2 && point == 2) {
-                ax = 0.0f;
-            }
-            if (point == 2 && move == 2 && rotate == 1) {
-                right = 2;
-            }
-            if (selecttriangle == 2 || selecttriangle == 3) {
-                if (movet < 1999) {
-                    right = 2;
-                    selecttriangle = 2;
-                }
+            if (t2controlg == 1) {
+                right2 = 30;
+                t2controlg = 2;
             }
             break;
         case VK_LEFT:
-            if (point == 1 && move == 2 && rotate == 1) {
-                left = 2;
-            }
-            if (rotate == 2) {
-                left = 2;
-            }
-            if (rotate == 2 && point == 1) {
-                ay = 0.0f;
-            }
-            if (rotate == 2 && point == 2) {
-                ax = 0.0f;
-            }
-            if (point == 2 && move == 2 && rotate == 1) {
-                left = 2;
-            }
-            if (movet > 0) {
-                if (selecttriangle == 2 || selecttriangle == 3) {
-                    left = 2;
-                    selecttriangle = 2;
-                }
+            if (t2controlg == 1) {
+                left2 = 30;
+                t2controlg = 2;
             }
             break;
         case 0x41://a rotate
             //move = 1;
             //rotate = 1;
-            if (selecttriangle == 3) {
-                selecttriangle = 4;
+
+            if (t2controlg == 1) {
+                if (selecttriangle == 3) {
+                    selecttriangle = 4;
+                }
+                t2controlg = 2;
             }
             break;
-        case 0x50://p
-            break;
-        case 0x54://t
-            //loadmodel3d = 1;
-            break;
         case 0x4C://l
-            if (loadmodel3d == 0) {
-                loadmodel3d = 1;
+            if (t2controlg == 1) {
+                if (loadmodel3d == 0 && rx2 == 16) {
+
+                    loadmodel3d = 1;
+                }
+                t2controlg = 2;
             }
             break;
         case 0x58://x
-            point = 1;
+            if (t2controlg == 1) {
+                point = 1;
+                t2controlg = 2;
+            }
             break;
         case 0x59://y
-            point = 2;
+            if (t2controlg == 1) {
+                point = 2;
+                t2controlg = 2;
+            }
             break;
         case 0x5A://z
-            point = 3;
+            if (t2controlg == 1) {
+                point = 3;
+                t2controlg = 2;
+            }
             break;
         case 0x4D://m
-            move = 2;
-            rotate = 1;
-            if (selecttriangle == 3) {
-                selecttriangle = 4;
+            if (t2controlg == 1) {
+                move = 2; createmode = 0; hidemodel = 0;
+                rotate = 1;
+                if (selecttriangle == 3) {
+                    selecttriangle = 4;
+                }
+                t2controlg = 2;
             }
             break;
         case 0x4E://n zoom
-            //originm = 2;
-            //mode = 2;
+            if (t2controlg == 1) {
+                if (colouroftriangles  == 1) {
+                    colouroftriangles = 2;
+                }
+                if (colouroftriangles == 0) {
+                    colouroftriangles = 1;
+                }
+                if (colouroftriangles == 2) {
+                    colouroftriangles = 0;
+                }
+                t2controlg = 2;
+            }
+            break;
+        case 0x49://i zoom
+            if (t2controlg == 1) {
+
+                if (rx2 == 1) {
+
+
+
+                    //point = 3;
+                    if (ix == 1) {
+                        az = 0.0f;
+                        ax = 0.0f;
+                        ay = 1.0f;
+                        angle3d = 270.0f;
+                        ix = 2;
+                    }
+                    if (ix == 0) {
+                        az = 0.0f;
+                        ax = 0.0f;
+                        ay = 1.0f;
+                        angle3d = 90.0f;
+                        ix = 1;
+                    }
+                    if (ix == 2) { ix = 0; }
+                }
+                t2controlg = 2;
+            }
+            break;
+        case 0x4F://o zoom 
+            if (t2controlg == 1) {
+
+                if (rx2 == 1) {
+
+
+                    //point = 3;
+                    if (ox == 1) {
+                        az = 0.0f;
+                        ay = 0.0f;
+                        ax = 1.0f;
+                        angle3d = 0.0f;
+                        ox = 2;
+                    }
+                    if (ox == 0) {
+                        az = 0.0f;
+                        ay = 0.0f;
+                        ax = 1.0f;
+                        angle3d = 180.0f;
+                        ox = 1;
+                    }
+                    if (ox == 2) { ox = 0; }
+                }
+                t2controlg = 2;
+            }
+            break;
+        case 0x50://p zoom
+            if (t2controlg == 1) {
+                if (rx2 == 1) {
+
+                    //point = 3;
+                    if (px == 1) {
+                        az = 0.0f;
+                        ax = 1.0f;
+                        ay = 0.0f;
+                        angle3d = 270.0f;
+                        px = 2;
+                    }
+                    if (px == 0) {
+                        az = 0.0f;
+                        ax = 1.0f;
+                        ay = 0.0f;
+                        angle3d = 90.0f;
+                        px = 1;
+                    }
+                    if (px == 2) { px = 0; }
+                }
+                t2controlg = 2;
+            }
+            break;
+        case 0x38://8 zoom
+
+            break;
+        case 0x39://9 zoom
+            if (t2controlg == 1) {
+                tred = red3d[movet]; tgreen = green3d[movet]; tblue = blue3d[movet]; talpha = alpha3d[movet];
+                t2controlg = 2;
+            }
             break;
         case 0x53://s
-            savemodel3d = 1;
+            if (t2controlg == 1) {
+                savemodel3d = 1;
+                t2controlg = 2;
+            }
             break;
         case 0x43://c
-            colour = 2;
+            if (t2controlg == 1) {
+                colour = 2; move = 15; rotate = 15;
+                createmode = 1; drawpoint = 0;
+                hidemodel = 1; modelx = 1.0f;
+                //modelx = 1.0f;
+                //if (loadmodel3d == 15) {
+                  //  colour = 1; move = 1; rotate = 1;
+                   // createmode = 1; drawpoint = 0;
+                //}
+                rx2 = 15;
+                t2controlg = 2;
+            }
+            break;
+        case 0x30://0
+            if (t2controlg == 1) {
+                if (hidemodel == 1) {
+                    drawpoint = 0;
+                }
+                t2controlg = 2;
+            }
+            break;
+        case 0x31://1
+            if (t2controlg == 1) {
+                if (hidemodel == 1) {
+                    drawpoint = 1;
+                }
+                t2controlg = 2;
+            }
+            break;
+        case 0x32://2
+            if (t2controlg == 1) {
+                if (hidemodel == 1) {
+                    drawpoint = 2;
+                }
+                t2controlg = 2;
+            }
+            break;
+        case 0x33://3
+            if (t2controlg == 1) {
+                if (hidemodel == 1) {
+                    drawpoint = 3;
+                }
+                t2controlg = 2;
+            }
+            break;
+        case 0x34://4
+            if (t2controlg == 1) {
+                if (hidemodel == 1) {
+                    drawpoint = 4;
+                }
+                t2controlg = 2;
+            }
+            break;
+        case 0x35://5
+            if (t2controlg == 1) {
+                if (hidemodel == 1) {
+                    drawpoint = 5;
+                }
+                t2controlg = 2;
+            }
+            break;
+        case 0x36://6
+            if (t2controlg == 1) {
+                if (hidemodel == 1) {
+                    drawpoint = 6;
+                }
+                t2controlg = 2;
+            }
+            break;
+        case 0x37://7
+            if (t2controlg == 1) {
+                if (hidemodel == 1) {
+                    drawpoint = 7;
+                }
+                t2controlg = 2;
+            }
             break;
         case 0x52://r
-            move = 1;
-            rotate = 2;
-            if (selecttriangle == 3) {
-                selecttriangle = 4;
+            if (t2controlg == 1) {
+                if (rx2 == 15) { rx2 = 16; }
+                move = 1; ax = 1.0f; ay = 0.0f; az = 0.0f; //rx2 = 15;
+                rotate = 2; createmode = 0; hidemodel = 0;
+                if (selecttriangle == 3) {
+                    selecttriangle = 4;
+                }
+                t2controlg = 2;
             }
             break;
         case 0x47://g
@@ -1313,84 +2032,127 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                 rotate = 1;
                 selecttriangle = 1;
             }*/
-            if (selecttriangle != 3) {
-                selecttriangle = 2;
+            if (t2controlg == 1) {
+                if (selecttriangle != 3) {
+                    selecttriangle = 2;
+                }
+                if (selecttriangle == 3) {
+                    selecttriangle = 4;
+                }
+                move = 1; hidemodel = 0; drawpoint = 0;
+                rotate = 1;
+                t2controlg = 2;
             }
-            if (selecttriangle == 3) {
-                selecttriangle = 4;
-            }
-            move = 1;
-            rotate = 1;
             break;
         case 0x48://h
-            if (e == 2 && l == 0) {
-                e = 0;
-            }
-            if (e == 1 && l == 1) {
-                l = 0;
-                e = 2;
-            }
-            if (e == 0 && l == 0) {
-                e = 1;
-                l = 1;
+            if (t2controlg == 1) {
+                if (e == 2 && l == 0) {
+                    e = 0;
+                }
+                if (e == 1 && l == 1) {
+                    l = 0;
+                    e = 2;
+                }
+                if (e == 0 && l == 0) {
+                    e = 1;
+                    l = 1;
+                }
+                t2controlg = 2;
             }
             //mode = 3;
             break;
         case 0x42://b
-            if (a22 == 0) {
-                //SetDlgItemTextW(hWndDialog, IDC_STATIC_TEXT, L"X1:");
-                SetDlgItemTextW(hWndDialog, IDC_STATIC_TEXT, tvalue2x1);
-                //SetDlgItemTextW(hWndDialog, IDC_STATIC_TEXT2, L"Y1:");
-                SetDlgItemTextW(hWndDialog, IDC_STATIC_TEXT2, tvalue2y1);
-                //SetDlgItemTextW(hWndDialog, IDC_STATIC_TEXT3, L"Z1:");
-                SetDlgItemTextW(hWndDialog, IDC_STATIC_TEXT3, tvalue2z1);
-                //SetDlgItemTextW(hWndDialog, IDC_STATIC_TEXT4, L"X2:");
-                SetDlgItemTextW(hWndDialog, IDC_STATIC_TEXT4, tvalue2x2);
-                //SetDlgItemTextW(hWndDialog, IDC_STATIC_TEXT5, L"Y2:");
-                SetDlgItemTextW(hWndDialog, IDC_STATIC_TEXT5, tvalue2y2);
-                //SetDlgItemTextW(hWndDialog, IDC_STATIC_TEXT6, L"Z2:");
-                SetDlgItemTextW(hWndDialog, IDC_STATIC_TEXT6, tvalue2z2);
-                //SetDlgItemTextW(hWndDialog, IDC_STATIC_TEXT7, L"X3:");
-                SetDlgItemTextW(hWndDialog, IDC_STATIC_TEXT7, tvalue2x3);
-                //SetDlgItemTextW(hWndDialog, IDC_STATIC_TEXT8, L"Y3:");
-                SetDlgItemTextW(hWndDialog, IDC_STATIC_TEXT8, tvalue2y3);
-                //SetDlgItemTextW(hWndDialog, IDC_STATIC_TEXT9, L"Z3:");
-                SetDlgItemTextW(hWndDialog, IDC_STATIC_TEXT9, tvalue2z3);
-                //SetDlgItemTextW(hWndDialog, IDC_STATIC_TEXT10, L"RED:");
-                SetDlgItemTextW(hWndDialog, IDC_STATIC_TEXT10, tvalue2red);
-                //SetDlgItemTextW(hWndDialog, IDC_STATIC_TEXT11, L"GREEN:");
-                SetDlgItemTextW(hWndDialog, IDC_STATIC_TEXT11, tvalue2green);
-                //SetDlgItemTextW(hWndDialog, IDC_STATIC_TEXT12, L"BLUE:");
-                SetDlgItemTextW(hWndDialog, IDC_STATIC_TEXT12, tvalue2blue);
-                //SetDlgItemTextW(hWndDialog, IDC_STATIC_TEXT13, L"ALPHA:");
-                SetDlgItemTextW(hWndDialog, IDC_STATIC_TEXT13, tvalue2alpha);
-                ShowWindow(hWndDialog, SW_SHOW);
-                a22 = 1;
+            if (t2controlg == 1) {
+                if (t2menu == 0) {
+                    ShowCursor(TRUE);
+                    if (a22 == 0) {
+                        //SetDlgItemTextW(hWndDialog, IDC_STATIC_TEXT, L"X1:");
+                        SetDlgItemTextW(hWndDialog, IDC_STATIC_TEXT, tvalue2x1);
+                        //SetDlgItemTextW(hWndDialog, IDC_STATIC_TEXT2, L"Y1:");
+                        SetDlgItemTextW(hWndDialog, IDC_STATIC_TEXT2, tvalue2y1);
+                        //SetDlgItemTextW(hWndDialog, IDC_STATIC_TEXT3, L"Z1:");
+                        SetDlgItemTextW(hWndDialog, IDC_STATIC_TEXT3, tvalue2z1);
+                        //SetDlgItemTextW(hWndDialog, IDC_STATIC_TEXT4, L"X2:");
+                        SetDlgItemTextW(hWndDialog, IDC_STATIC_TEXT4, tvalue2x2);
+                        //SetDlgItemTextW(hWndDialog, IDC_STATIC_TEXT5, L"Y2:");
+                        SetDlgItemTextW(hWndDialog, IDC_STATIC_TEXT5, tvalue2y2);
+                        //SetDlgItemTextW(hWndDialog, IDC_STATIC_TEXT6, L"Z2:");
+                        SetDlgItemTextW(hWndDialog, IDC_STATIC_TEXT6, tvalue2z2);
+                        //SetDlgItemTextW(hWndDialog, IDC_STATIC_TEXT7, L"X3:");
+                        SetDlgItemTextW(hWndDialog, IDC_STATIC_TEXT7, tvalue2x3);
+                        //SetDlgItemTextW(hWndDialog, IDC_STATIC_TEXT8, L"Y3:");
+                        SetDlgItemTextW(hWndDialog, IDC_STATIC_TEXT8, tvalue2y3);
+                        //SetDlgItemTextW(hWndDialog, IDC_STATIC_TEXT9, L"Z3:");
+                        SetDlgItemTextW(hWndDialog, IDC_STATIC_TEXT9, tvalue2z3);
+                        //SetDlgItemTextW(hWndDialog, IDC_STATIC_TEXT10, L"RED:");
+                        SetDlgItemTextW(hWndDialog, IDC_STATIC_TEXT10, tvalue2red);
+                        //SetDlgItemTextW(hWndDialog, IDC_STATIC_TEXT11, L"GREEN:");
+                        SetDlgItemTextW(hWndDialog, IDC_STATIC_TEXT11, tvalue2green);
+                        //SetDlgItemTextW(hWndDialog, IDC_STATIC_TEXT12, L"BLUE:");
+                        SetDlgItemTextW(hWndDialog, IDC_STATIC_TEXT12, tvalue2blue);
+                        //SetDlgItemTextW(hWndDialog, IDC_STATIC_TEXT13, L"ALPHA:");
+                        SetDlgItemTextW(hWndDialog, IDC_STATIC_TEXT13, tvalue2alpha);
+                        ShowWindow(hWndDialog, SW_SHOW);
+                        a22 = 1;
+                        t2menu = 1;
+                    }
+                }
+                t2controlg = 2;
             }
             break;
         case 0x44://d
-            if (selecttriangle == 3) {
-                deletetriangle = 1;
+            if (t2controlg == 1) {
+                if (selecttriangle == 3) {
+                    deletetriangle = 1;
+                }
+                t2controlg = 2;
+            }
+            break;
+        case 0x4B://k
+            if (t2controlg == 1) {
+                if (lines == 1) {
+                    lines = 2;
+                }
+                if (lines == 0) {
+                    lines = 1;
+                }
+                if (lines == 2) {
+                    lines = 0;
+                }
+                t2controlg = 2;
             }
             break;
         case VK_RETURN:
             //if (selecttriangle == 0 || selecttriangle == 4)
-            openeditor = 1;
+            if (t2controlg == 1) {
+                if (hidemodel == 1) {
+                    openeditor = 1;
+                }
+                t2controlg = 2;
+            }
             break;
         case VK_BACK:
+
+            if (t2controlg == 1) {
+                angle3d = 0.0;
+                carrotate = 0.0f;
+                //modelx = 1.0f;
+                t2controlg = 2;
+            }
             //openeditor = 15;
             break;
-        case VK_ESCAPE:
+        case 0x1B:
             if (closeprogram2 == 1) {
                 closeprogram2 = 2;
                 a = false;
                 d = 1;
+                SetThreadExecutionState(ES_CONTINUOUS);
                 if (hWndDialog != NULL) {
                     EndDialog(hWndDialog, 0);
                 }
-                ReleaseDC(hWnd, hdc);
                 wglMakeCurrent(NULL, NULL);
                 wglDeleteContext(hrc);
+                ReleaseDC(hWnd, hdc);
                 DestroyWindow(hWnd);
             }
             break;
@@ -1406,12 +2168,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             closeprogram2 = 2;
             a = false;
             d = 1;
+            SetThreadExecutionState(ES_CONTINUOUS);
             if (hWndDialog != NULL) {
                 EndDialog(hWndDialog, 0);
             }
-            ReleaseDC(hWnd, hdc);
             wglMakeCurrent(NULL, NULL);
             wglDeleteContext(hrc);
+            ReleaseDC(hWnd, hdc);
             DestroyWindow(hWnd);
         }
         break;
