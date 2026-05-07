@@ -7,9 +7,9 @@ The program is available at https://github.com/rajneetsinghghuman/Rajneet-Singh-
 
 RAJNEET SINGH GHUMAN MODEL AND GAME DEVELOPMENT
 
-Rajneet Singh Ghuman L Game Development.exe
+Rajneet 3D Model Maker.exe
 
-Rajneet Singh Ghuman Game Development.exe is a program made for Microsoft Windows 11 with Microsoft Visual Studio 2022.
+Rajneet 3D Model Maker.exe is a program made for Microsoft Windows 11 with Microsoft Visual Studio 2026.
 The program is made for the screen resolution 1920 x 1080 pixels and minimum 60 fps.
 This is the minimum screen resolution required for the program.
 This program is used for making 3D models and viewing them.
@@ -17,66 +17,61 @@ The 3D model is made with coloured triangles.
 The program is open source.
 So, the program can be modified.
 The program can also be used for making games by changing the code.
-2000 triangles can be made.
+20000 triangles can be made.
 
-Notepad Controls-
+Rajneet 3D Model Maker Instructions-
 
-Open the files in Notepad program.
-Open the text files x1.txt, y1.txt, z1.txt, x2.txt, y2.txt, z2.txt, x3.txt, y3.txt, z3.txt, red.txt, green.txt, blue.txt and alpha.txt which are in the 3D Model folder.
-Put the value of the first point which is X co-ordinate value, Y co-ordinate and Z co-ordinate in the files x1.txt, y1.txt and z1.txt respectively.
-Put the value of the second point which is X co-ordinate value, Y co-ordinate and Z co-ordinate in the files x2.txt, y2.txt and z2.txt respectively.
-Put the value of the third point which is X co-ordinate value, Y co-ordinate and Z co-ordinate in the files x3.txt, y3.txt and z3.txt respectively.
-Put the colour value for the triangle which is in the form of red value, green value and blue value in the files red.txt, green.txt and blue.txt respectively.
-The values for this are between 0.0 and 1.0. Example value- 0.15
-Put the transparency value of the triangle which is in the form of alpha value in the file alpha.txt.
-The values for this are between 0.0 and 1.0. Example value- 1.0 for no transparency. The lesser the value then the triangle is more transparent.
-Example value-0.15. Save all the text files. Go in the triangle selection mode by pressing the G key.
-Always move by one on the right side after making a triangle.
-After doing all this click on the program Rajneet Singh Ghuman L Game Development to make it the current program being used and press the Enter key to show the result which
-is a triangle with the provided values.
-Click on the notepad program again to provide the values for the next triangle to make the 3D model.
-Resize and position the notepad window make it work with the program Rajneet Singh Ghuman Game Development.
-In the selection mode the file triangledata.txt can be opened and used which is in the 3D Model folder.
-This file gives the data of the selected triangle.
-Close the file triangledata.txt before selecting a new triangle.
-Then the file triangledata.txt can be opened again after selecting a new triangle.
+Rajneet 3D Model Maker is a program to create very basic 3D models for Windows 11 PC with 64 bit architecture.
+20000 coloured triangles can be made for making a 3D model.
+
+C key to go into triangle creation mode for making a 3D model.
+Z is blue, X is red and Y is green.
+1 key to select the first point of the triangle.
+2 key to select the second point of the triangle.
+3 key to select the third point of the triangle.
+Press the X key to move on x axis using the arrow keys.
+Press the Y key to move on y axis using the arrow keys.
+Press the Z key to move on z axis using the arrow keys.
+N key to change to colour of the triangle in creation mode.
+K key to switch on and off the wireframe in creation mode.
+4 key to change the colour of the triangle using the red component.
+5 key to change the colour of the triangle using the green component.
+6 key to change the colour of the triangle using the blue component.
+7 key to change the colour of the triangle using the alpha component.
+Use the Up arrow key and down arrow key to change the value of the colour components of the triangle.
+Press the Enter key to create the triangle.
+Press the R key to go into 3D model rotation mode.
+In rotation mode press the Z key to rotate on x plane. Use the arrow keys to rotate.
+In rotation mode press the X key to rotate on z plane. Use the arrow keys to rotate.
+Use the Backspace key to reset the z plane and any errors in the program working.
+Press the M key to go into 3D model scale mode.
+In scale mode press the X key to scale the 3D model. Use the arrow keys to increase or decrease the size of the 3D model.
+Press the G key to select the triangle in rotation mode or scale mode. The selected triangle is becomes red in colour.
+Press the Left arrow key or Right arrow key to move to the next position to create a new triangle in triangle selection mode.
+Press the B key to see the information about the selected triangle in triangle selection mode.
+A selected triangle can be deleted pressing the D key.
+Press the 9 key to use the colour of a selected triangle after deselecting that triangle.
+Go to creation mode to create new triangle for the 3D model.
+Press the H key to switch the light on and off.
+
+Press the S key to save the created 3D model. This should be done in the rotation mode or scale mode.
+The 3D model will be saved according to the scale value, so, keep the 3D model within the screen boundaries when saving it.
+The 3D model will be saved in the 3D Model Complete folder. This folder can be copied to another location and can be renamed for identifying the 3D Model.
+
+Use the Model maker mirror.exe to get the x co-ordinate mirrored values. After getting these values delete the extra values in all the 3D model text files
+and paste the mirrored values after the original values. Use the indication of -1000 in the saved 3D model y co-ordinate file to get the extra values.
+Also other 3D model files have unique values as extra values.
+
+Press the L key to load the created 3D model after pressing the C key and R key after opening the program.
+The 3D model folder saved has to be renamed to 3D Model Complete and has to be placed in the same folder of the program to load it.
+Loading the 3D model can only be done once.
+
+The program does not have shadows so each triangle made should be given a unique colour easy use.
+
+Press the Escape Key to exit the program.
+
+Thank you for using Rajneet 3D model Maker.
 
 
-Rajneet Singh Ghuman L Game Development.exe Controls-
 
-Press the M key to move the 3D model after pressing X key or Y key.
-After pressing the M key and the X key, press the Left arrow key or Right arrow key to move the 3D model in the direction of the X axis. This is X mode.
-After pressing the M key and the Y key, press the Left arrow key or Right arrow key to move the 3D model in the direction of the Y axis. This is Y mode.
-Use the Up arrow key or Down arrow key to move the 3D model in the direction of the Z axis after pressing the M key and later X key or Y key. This means when in X mode or Y mode.
-Press the R key to rotate the 3D model after pressing X key or Y key.
-After pressing the R key and the X key, press the Left arrow key or Right arrow key to rotate the 3D model in the direction of the X axis. This is X mode.
-The Up arrow key and Down arrow key an also be used to rotate the 3D model when in X mode.
-After pressing the R key and the Y key, press the Left arrow key or Right arrow key to rotate the 3D model in the direction of the Y axis. This is Y mode.
-The Up and Down arrow key an also be used to rotate the 3D model when in Y mode.
-Press the G key to go in triangle selection mode. After pressing the G key a triangle will be selected in red colour.
-Use the Left arrow key or Right arrow key the select different triangles. If the selection goes more and the red triangle is not seen
-then use the Left arrow key to bring back the selection.
-Press the D key to delete the selected triangle.
-In the selection mode the file triangledata.txt can be opened and used which is in the 3D Model folder.
-This file gives the data of the selected triangle.
-Close the file triangledata.txt before selecting a new triangle.
-Then the file triangledata.txt can be opened again after selecting a new triangle.
-Press the B key to open a dialog box having the data of the selected triangle.
-This is for faster use. Close the dialog box using OK or Cancel button.
-Click on the 3D model window to make it the current window being used.
-Press the G key to go in and out of the triangle selection mode.
-Press the H key to go in and out of light mode.
-Press the L key to load the 3D model at the start.
-Press the S key to save the 3D model in the end.
 
-Press the Escape key to close the program.
-
-When making a new 3D model always put 0 as the value in numberoftriangles.txt which is in the 3D Model folder.
-The value in numberoftriangles.txt should be 0 or always positive.
-The saved 3D model will be in the 3D model complete folder in the from of text files.
-The folder can be renamed to save the 3D model for future use.
-To start a new project put 0 in numberoftriangles.txt file for knowing the number of triangles made.
-Do not intersect the triangles. The deleted triangles are also counted in the triangle selection mode, so, the red
-triangle will not be shown in all the moves.
-
-Thank you.
