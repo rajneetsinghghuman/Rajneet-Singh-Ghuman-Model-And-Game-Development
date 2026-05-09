@@ -1,0 +1,138 @@
+import bpy
+import json
+
+def export_to_json():
+    a=1
+    b=1
+    # Get the active object
+    obj = bpy.context.active_object
+
+    # Get the mesh data
+    mesh = obj.data
+
+    # Create a dictionary to store the mesh data
+    
+    mesh_data = {
+        "verticesx1": [],
+        "verticesy1": [],
+        "verticesz1": [],
+        "verticesx2": [],
+        "verticesy2": [],
+        "verticesz2": [],
+        "verticesx3": [],
+        "verticesy3": [],
+        "verticesz3": [],
+        "colorsr": [],
+        "colorsg": [],
+        "colorsb": [],
+        "colors": []
+    }
+    #mesh_data["verticesx1"].insert(0, "a")
+    # Loop through the faces
+    for face in mesh.polygons:
+        for loop_index in range(face.loop_start,face.loop_start+face.loop_total):
+            loop=mesh.loops[loop_index]
+            vertex_index=loop.vertex_index
+            vertex = mesh.vertices[vertex_index]
+            if a==1:
+                 mesh_data["verticesx1"].extend([vertex.co.x])
+                 mesh_data["verticesy1"].extend([vertex.co.y])
+                 mesh_data["verticesz1"].extend([vertex.co.z])
+            if a==2:
+                 mesh_data["verticesx2"].extend([vertex.co.x])
+                 mesh_data["verticesy2"].extend([vertex.co.y])
+                 mesh_data["verticesz2"].extend([vertex.co.z])
+            if a==3:    
+                 mesh_data["verticesx3"].extend([vertex.co.x])
+                 mesh_data["verticesy3"].extend([vertex.co.y])
+                 mesh_data["verticesz3"].extend([vertex.co.z])
+            
+            # Get the vertex color (assuming one color layer)
+            if mesh.vertex_colors:
+                color_layer = mesh.vertex_colors[0]
+                if b==1:
+                     mesh_data["colorsr"].extend([color_layer.data[loop_index].color[0]])
+                     mesh_data["colorsg"].extend([color_layer.data[loop_index].color[1]])
+                     mesh_data["colorsb"].extend([color_layer.data[loop_index].color[2]])
+                
+            else:
+                mesh_data["colors"].extend([1.0, 1.0, 1.0]) # Default to white
+            a=a+1
+            b=b+1
+            if b==4:
+                 b=1
+            if a==4:
+                 a=1
+    # Export the mesh data to JSON
+    with open("C:/Users/sony9/Documents/Work/Games/Random Circuit Racers/Assets/x3d1.txt", "w") as f:
+        f.write("a")
+        json.dump(mesh_data["verticesx1"], f)
+        f.write(";")
+
+    print("Model exported successfully.")
+
+    with open("C:/Users/sony9/Documents/Work/Games/Random Circuit Racers/Assets/y3d1.txt", "w") as f:
+        json.dump(mesh_data["verticesy1"], f)
+
+    print("Model exported successfully.")
+
+
+    with open("C:/Users/sony9/Documents/Work/Games/Random Circuit Racers/Assets/z3d1.txt", "w") as f:
+        json.dump(mesh_data["verticesz1"], f)
+
+    print("Model exported successfully.")
+
+    with open("C:/Users/sony9/Documents/Work/Games/Random Circuit Racers/Assets/x3d2.txt", "w") as f:
+        json.dump(mesh_data["verticesx2"], f)
+
+    print("Model exported successfully.")
+
+
+    with open("C:/Users/sony9/Documents/Work/Games/Random Circuit Racers/Assets/y3d2.txt", "w") as f:
+        json.dump(mesh_data["verticesy2"], f)
+
+    print("Model exported successfully.")
+
+
+    with open("C:/Users/sony9/Documents/Work/Games/Random Circuit Racers/Assets/z3d2.txt", "w") as f:
+        json.dump(mesh_data["verticesz2"], f)
+
+    print("Model exported successfully.")
+
+    with open("C:/Users/sony9/Documents/Work/Games/Random Circuit Racers/Assets/x3d3.txt", "w") as f:
+        json.dump(mesh_data["verticesx3"], f)
+
+    print("Model exported successfully.")
+
+
+    with open("C:/Users/sony9/Documents/Work/Games/Random Circuit Racers/Assets/y3d3.txt", "w") as f:
+        json.dump(mesh_data["verticesy3"], f)
+
+    print("Model exported successfully.")
+
+
+    with open("C:/Users/sony9/Documents/Work/Games/Random Circuit Racers/Assets/z3d3.txt", "w") as f:
+        json.dump(mesh_data["verticesz3"], f)
+
+    print("Model exported successfully.")
+
+
+    with open("C:/Users/sony9/Documents/Work/Games/Random Circuit Racers/Assets/red3d.txt", "w") as f:
+        json.dump(mesh_data["colorsr"], f)
+
+    print("Model exported successfully.")
+
+
+    with open("C:/Users/sony9/Documents/Work/Games/Random Circuit Racers/Assets/green3d.txt", "w") as f:
+        json.dump(mesh_data["colorsg"], f)
+
+    print("Model exported successfully.")
+
+
+    with open("C:/Users/sony9/Documents/Work/Games/Random Circuit Racers/Assets/blue3d.txt", "w") as f:
+        json.dump(mesh_data["colorsb"], f)
+
+    print("Model exported successfully.")
+
+if __name__ == "__main__":
+    export_to_json()

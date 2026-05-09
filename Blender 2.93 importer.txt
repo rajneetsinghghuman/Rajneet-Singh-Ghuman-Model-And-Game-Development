@@ -1,0 +1,77 @@
+import bpy
+import bmesh
+import os
+
+# 1. Update this to the folder containing your 13 text files
+# Use forward slashes / even on Windows
+folder_path = "C:/Users/sony9/Documents/Work/Games/Random Circuit Racers/"
+
+file_names = [
+    'x3d1.txt', 'y3d1.txt', 'z3d1.txt',
+    'x3d2.txt', 'y3d2.txt', 'z3d2.txt',
+    'x3d3.txt', 'y3d3.txt', 'z3d3.txt',
+    'red3d.txt', 'green3d.txt', 'blue3d.txt', 'alpha3d.txt'
+]
+
+def build_model():
+    # Clear old object
+    if "DataObject" in bpy.data.objects:
+        bpy.data.objects.remove(bpy.data.objects["DataObject"], do_unlink=True)
+
+    all_data = []
+    for f_name in file_names:
+        path = os.path.join(folder_path, f_name)
+        with open(path, 'r') as f:
+            # Read and split by comma
+            raw = f.read().replace('\n', '').strip()
+            all_data.append([float(x) for x in raw.split(',') if x.strip()])
+
+    mesh = bpy.data.meshes.new("DataMesh")
+    obj = bpy.data.objects.new("DataObject", mesh)
+    bpy.context.collection.objects.link(obj)
+   
+    bm = bmesh.new()
+    color_layer = bm.loops.layers.color.new("RGBA_Data")
+
+    # Build the triangles
+    for i in range(len(all_data[0])):
+        # Coords
+        coords = [
+            (all_data[0][i], all_data[1][i], all_data[2][i]),
+            (all_data[3][i], all_data[4][i], all_data[5][i]),
+            (all_data[6][i], all_data[7][i], all_data[8][i])
+        ]
+       
+        # Create vertices
+        verts = [bm.verts.new(c) for c in coords]
+       
+        try:
+            face = bm.faces.new(verts)
+            rgba = (all_data[9][i], all_data[10][i], all_data[11][i], all_data[12][i])
+            for loop in face.loops:
+                loop[color_layer] = rgba
+        except Exception as e:
+            print(f"Skipped triangle {i}: {e}")
+
+    bm.to_mesh(mesh)
+    bm.free()
+
+    # Material Setup
+    mat = bpy.data.materials.new("DataMat")
+    mat.use_nodes = True
+    mat.blend_method = 'BLEND'
+    mat.use_backface_culling = False
+   
+    nodes = mat.node_tree.nodes
+    links = mat.node_tree.links
+    attr = nodes.new(type='ShaderNodeAttribute')
+    attr.attribute_name = "RGBA_Data"
+    bsdf = nodes.get("Principled BSDF")
+   
+    links.new(attr.outputs['Color'], bsdf.inputs['Base Color'])
+    links.new(attr.outputs['Alpha'], bsdf.inputs['Alpha'])
+   
+    obj.data.materials.append(mat)
+    print("FINISHED: Check Viewport.")
+
+build_model()
